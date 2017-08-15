@@ -27,7 +27,9 @@ initializeSkript <-  function(datatable_lines = 2,datatable_nrow_allshow = 10,da
   # initiate time measuring
   time0 <<- Sys.time()
 
-  message('setting options for data.table( warnPartialMatchAttr = T ) and options ( warnPartialMatchDollar = T )')
+  message('setting options for data.table( datatable.prettyprint.char = ',datatable_colwidth,'\n)',
+          'setting options for data.table( datatable.print.topn = ',datatable_lines,'\n)',
+'setting options for data.table( datatable.print.nrows = ',datatable_nrow_allshow,'\n)')
 
   options(datatable.prettyprint.char= datatable_colwidth )
   options(datatable.print.topn=datatable_lines)
@@ -35,7 +37,7 @@ initializeSkript <-  function(datatable_lines = 2,datatable_nrow_allshow = 10,da
 
 
     # define where packages are found
-  if(add_libpath) .libPaths(unique(c(paste0(lib_location,computer)), .libPaths())) else .libPaths(paste0(lib_location,computer))
+  if(add_libpath) .libPaths(unique(c(paste0(lib_location,computer), .libPaths()))) else .libPaths(paste0(lib_location,computer))
   message("using libpath: ", paste(.libPaths(), collapse = "\n"))
 
 }

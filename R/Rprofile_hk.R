@@ -1,5 +1,5 @@
 #' @export
-initializeSkript <-  function(computer="amanMRO",add_libpath = T,  lib_location = "/mnt/ifs1_projekte/genstat/07_programme/rpackages/"){
+initializeSkript <-  function(datatable_lines = 2,datatable_nrow_allshow = 10,datatable_colwidth = 8L, computer="amanMRO",add_libpath = T,  lib_location = "/mnt/ifs1_projekte/genstat/07_programme/rpackages/"){
   #clear memory cache
 
   gc()
@@ -27,7 +27,14 @@ initializeSkript <-  function(computer="amanMRO",add_libpath = T,  lib_location 
   # initiate time measuring
   time0 <<- Sys.time()
 
-  # define where packages are found
+  message('setting options for data.table( warnPartialMatchAttr = T ) and options ( warnPartialMatchDollar = T )')
+
+  options(datatable.prettyprint.char= datatable_colwidth )
+  options(datatable.print.topn=datatable_lines)
+  options(datatable.print.nrows =datatable_nrow_allshow)
+
+
+    # define where packages are found
   if(add_libpath) .libPaths(unique(c(paste0(lib_location,computer)), .libPaths())) else .libPaths(paste0(lib_location,computer))
   message("using libpath: ", paste(.libPaths(), collapse = "\n"))
 

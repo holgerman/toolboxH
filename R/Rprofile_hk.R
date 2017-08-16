@@ -647,10 +647,14 @@ hypertest2 <- function(besondere,gezogene,hintergrund, more=T, unique=T){   #bes
   mymatrix =  matrix(c(aa,bb,cc,dd),nrow = 2)
   or = fisher.test(mymatrix)
   pvalfisher  = or$p.value
-  message(paste(in_gezogen,"% vs. ", in_bk,"% Enrichment:",  enr ,"OR (95%CI) =", signif(or$estimate,3), paste0("(", signif(or$conf.int[1],3), "-", signif(or$conf.int[2]), ")"), sep=" "))
-  message(paste("p hypergeomtrisch=", signif(pval,3), 'p fisher', signif(pvalfisher,3)))
-  message(paste(aa, "in", aa+cc, "gezogenen vs.", aa+bb, "in", aa+bb+cc+dd, "(grundgesamtheit)", sep=" "))
-  res = list(in_gezogen = in_gezogen, in_bk = in_bk, enrichment = enr, pval = pval, or = or$estimate, or_lower = or$conf.int[1], or_upper = or$conf.int[2], matrix = mymatrix)
+  message1 = paste(in_gezogen,"% vs. ", in_bk,"% Enrichment:",  enr ,"OR (95%CI) =", signif(or$estimate,3), paste0("(", signif(or$conf.int[1],3), "-", signif(or$conf.int[2]), ")"), sep=" ")
+    message2 = paste("p hypergeomtrisch=", signif(pval,3), 'p fisher', signif(pvalfisher,3))
+    message3 = paste(aa, "in", aa+cc, "gezogenen vs.", aa+bb, "in", aa+bb+cc+dd, "(grundgesamtheit)", sep=" ")
+  message(message1)
+  message(message2)
+  message(message3)
+  res = list(in_gezogen = in_gezogen, in_bk = in_bk, enrichment = enr, pval = pval, pval_fisher = pvalfisher, or = or$estimate, or_lower = or$conf.int[1], or_upper = or$conf.int[2], matrix = mymatrix, messages = c(message1, message2, message3), compactresult = data.frame(in_gezogen = in_gezogen, in_bk = in_bk, enrichment = enr, pval = pval, pval_fisher = pvalfisher, or = or$estimate, or_lower = or$conf.int[1], or_upper = or$conf.int[2], matrix = paste(mymatrix, collapse = ", ")))
+  res
 }
 
 

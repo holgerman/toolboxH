@@ -650,7 +650,7 @@ hypertest2 <- function(besondere,gezogene,hintergrund, more=T, unique=T){   #bes
   message(paste(in_gezogen,"% vs. ", in_bk,"% Enrichment:",  enr ,"OR (95%CI) =", signif(or$estimate,3), paste0("(", signif(or$conf.int[1],3), "-", signif(or$conf.int[2]), ")"), sep=" "))
   message(paste("p hypergeomtrisch=", signif(pval,3), 'p fisher', signif(pvalfisher,3)))
   message(paste(aa, "in", aa+cc, "gezogenen vs.", aa+bb, "in", aa+bb+cc+dd, "(grundgesamtheit)", sep=" "))
-  res = list(in_gezogen = in_gezogen, in_bk = in_bk, enrichment = enr, pval = pval, or = or$estimate, or_lower = or$conf.int[1], or_upper = or$conf.int[2], matrix = mymatrix)
+  res = list(in_gezogen = in_gezogen, in_bk = in_bk, enrichment = enr, pval = pval, pval_fisher = pvalfisher, or = or$estimate, or_lower = or$conf.int[1], or_upper = or$conf.int[2], matrix = mymatrix)
 }
 
 

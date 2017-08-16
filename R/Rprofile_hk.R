@@ -648,14 +648,15 @@ hypertest2 <- function(besondere,gezogene,hintergrund, more=T, unique=T){   #bes
   or = fisher.test(mymatrix)
   pvalfisher  = or$p.value
   message1 = paste(in_gezogen,"% vs. ", in_bk,"% Enrichment:",  enr ,"OR (95%CI) =", signif(or$estimate,3), paste0("(", signif(or$conf.int[1],3), "-", signif(or$conf.int[2]), ")"), sep=" ")
-    message2 = paste("p hypergeomtrisch=", signif(pval,3), 'p fisher', signif(pvalfisher,3))
-    message3 = paste(aa, "in", aa+cc, "gezogenen vs.", aa+bb, "in", aa+bb+cc+dd, "(grundgesamtheit)", sep=" ")
+  message2 = paste("p hypergeomtrisch=", signif(pval,3), 'p fisher', signif(pvalfisher,3))
+  message3 = paste(aa, "in", aa+cc, "gezogenen vs.", aa+bb, "in", aa+bb+cc+dd, "(grundgesamtheit)", sep=" ")
   message(message1)
   message(message2)
   message(message3)
-  res = list(in_gezogen = in_gezogen, in_bk = in_bk, enrichment = enr, pval = pval, pval_fisher = pvalfisher, or = or$estimate, or_lower = or$conf.int[1], or_upper = or$conf.int[2], matrix = mymatrix, messages = c(message1, message2, message3), compactresult = data.frame(in_gezogen = in_gezogen, in_bk = in_bk, enrichment = enr, pval = pval, pval_fisher = pvalfisher, or = or$estimate, or_lower = or$conf.int[1], or_upper = or$conf.int[2], matrix = paste(mymatrix, collapse = ", ")))
+  res = list(in_gezogen = in_gezogen, in_bk = in_bk, enrichment = enr, pval = pval, pval_fisher = pvalfisher, or = or$estimate, or_lower = or$conf.int[1], or_upper = or$conf.int[2], matrix = mymatrix, messages = c(message1, message2, message3), compactresult = data.frame(in_gezogen = in_gezogen, in_bk = in_bk, enrichment = enr, pval = pval, pval_fisher = pvalfisher, or = or$estimate, or_lower = or$conf.int[1], or_upper = or$conf.int[2], gezogen = mymatrix[1], nicht_gezogen = mymatrix[3],in_background = mymatrix[2], nicht_in_background = mymatrix[4], matrix = paste(mymatrix, collapse = ", ")))
   res
 }
+
 
 
 ### confidence intervalls to p values see http://www.bmj.com/content/343/bmj.d2304

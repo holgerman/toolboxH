@@ -373,7 +373,7 @@ getHaeufigkeit = function(var){
 ##..................................................................................
 
 ## Returns a logical vector TRUE for elements of X not in Y
-"%nin%" <- function(x, y) !(x %in% y)
+`%nin%` <- function(x, y) !(x %in% y)
 
 
 ### Aus mehrfacheintraegen einzelne zeilen machen

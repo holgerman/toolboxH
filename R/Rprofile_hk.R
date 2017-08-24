@@ -1125,6 +1125,42 @@ theme_peter = function(beschriftungszahlengroesse = 20, relfak = 2) {
 }
 
 ### nice correlation plots
+
+nicepairs = function (x, punktcol = rgb(0, 0, 0, 0.6), punktform = 4, cortype = "spearman", ...)
+{
+  panel.cor = function(x, y, digits = 2, prefix = "") {
+    usr <- par("usr")
+    on.exit(par(usr))
+    par(usr = c(0, 1, 0, 1))
+    isna <- is.na(x) == F & is.na(y) == F
+    r <- cor(x[isna], y[isna], method = cortype)
+    pval = cor.test(x[isna], y[isna], method = cortype)$p.value
+    pvalstars = showStars(pval)
+    txt <- format(c(r, 0.123456789), digits = digits)[1]
+    txt <- paste(prefix, txt, pvalstars, sep = "")
+    cex_todo = 1 + abs(r)
+    colorrule = data.frame(myvalue = seq(0, 1, 0.125), mycolor = mypalette <- RColorBrewer::brewer.pal(9,
+                                                                                         "YlOrRd"))
+    bg = colorrule[abs(r) > colorrule$myvalue & abs(r) <=
+                     (colorrule$myvalue + 0.125), "mycolor"]
+    ll <- par("usr")
+    rect(ll[1], ll[3], ll[2], ll[4], col =  as.character(bg))
+    text(0.5, 0.5, txt, cex = cex_todo, col = ifelse(r <
+                                                       0, "dodgerblue4", "black"))
+  }
+  panel.smooth2 = function(x, y, bg = NA, pch = punktform,
+                           cex = 1, col = punktcol, col.smooth = "red", span = 2/3,
+                           iter = 3, ...) {
+    points(x, y, pch = pch, col = col, bg = bg, cex = cex,
+           ...)
+    ok <- is.finite(x) & is.finite(y)
+    if (any(ok))
+      lines(stats::lowess(x[ok], y[ok], f = span, iter = iter),
+            col = col.smooth)
+  }
+  pairs(x, lower.panel = panel.cor, upper.panel = panel.smooth2)
+}
+
 nicepairs = function(x, punktcol = rgb(0,0,0,0.6), punktform = 4,cortype = "spearman", ...)  {
   ##19/1/16
   library(RColorBrewer)

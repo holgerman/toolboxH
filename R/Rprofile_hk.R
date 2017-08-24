@@ -1106,7 +1106,7 @@ qq_conf = function(x, df=1, x.max = "auto",
 norm_plot2 <- function(vektor,  x_lim=c(min(vektor)-min(vektor)*.5, max(vektor)+max(vektor)*.1), titelgroesse = 1, mybreaks = NULL,vektorname = NULL , ...) {
   #27.8.15 parameter vektorname
   par(mfrow=c(1,2))
-  if(is.null(mybreaks)) mybreaks = as.integer(length(vektor)/5)
+  if(is.null(mybreaks)) mybreaks = min(c(as.integer(length(vektor)/5), 20))
   # print(mybreaks)
   varname <- ifelse(length(vektorname)==0, deparse(substitute(vektor)),vektorname)
   hist(vektor,freq=T, breaks=mybreaks, labels=T, col="antiquewhite", xlim=x_lim, main = paste0("Histogram of ", varname), cex.main = titelgroesse, ...)
@@ -1125,40 +1125,42 @@ theme_peter = function(beschriftungszahlengroesse = 20, relfak = 2) {
 }
 
 ### nice correlation plots
-nicepairs = function(x, punktcol = rgb(0,0,0,0.6), punktform = 4,cortype = "spearman", ...)  {
-  ##19/1/16
-  library(RColorBrewer)
-  #
-  panel.cor = function(x, y, digits=2, prefix="")
-  {
-    usr <- par("usr"); on.exit(par(usr))
+
+nicepairs = function (x, punktcol = rgb(0, 0, 0, 0.6), punktform = 4, cortype = "spearman", ...)
+{
+  panel.cor = function(x, y, digits = 2, prefix = "") {
+    usr <- par("usr")
+    on.exit(par(usr))
     par(usr = c(0, 1, 0, 1))
-    isna <- is.na(x)==F & is.na(y)==F
+    isna <- is.na(x) == F & is.na(y) == F
     r <- cor(x[isna], y[isna], method = cortype)
     pval = cor.test(x[isna], y[isna], method = cortype)$p.value
     pvalstars = showStars(pval)
-    txt <- format(c(r, 0.123456789), digits=digits)[1]
-    txt <- paste(prefix, txt, pvalstars, sep="")
-    cex_todo = 1+abs(r)
-
-    colorrule = data.frame(myvalue  =seq(0,1,0.125), mycolor = mypalette<-brewer.pal(9,"YlOrRd"))
-    bg = colorrule[ abs(r)>colorrule$myvalue & abs(r) <= (colorrule$myvalue +0.125), "mycolor"]
+    txt <- format(c(r, 0.123456789), digits = digits)[1]
+    txt <- paste(prefix, txt, pvalstars, sep = "")
+    cex_todo = 1 + abs(r)
+    colorrule = data.frame(myvalue = seq(0, 1, 0.125), mycolor = mypalette <- RColorBrewer::brewer.pal(9,
+                                                                                         "YlOrRd"))
+    bg = colorrule[abs(r) > colorrule$myvalue & abs(r) <=
+                     (colorrule$myvalue + 0.125), "mycolor"]
     ll <- par("usr")
-    rect(ll[1], ll[3], ll[2], ll[4], col=bg)
-
-    text(0.5, 0.5, txt, cex = cex_todo,  col = ifelse(r <0, "red", "black"))
+    rect(ll[1], ll[3], ll[2], ll[4], col =  as.character(bg))
+    text(0.5, 0.5, txt, cex = cex_todo, col = ifelse(r <
+                                                       0, "dodgerblue4", "black"))
   }
-  panel.smooth2 = function (x, y,  bg = NA, pch =punktform,
-                            cex = 1, col = punktcol, col.smooth = "red", span = 2/3, iter = 3, ...)
-  {
-    points(x, y, pch = pch, col = col, bg = bg, cex = cex, ...)
+  panel.smooth2 = function(x, y, bg = NA, pch = punktform,
+                           cex = 1, col = punktcol, col.smooth = "red", span = 2/3,
+                           iter = 3, ...) {
+    points(x, y, pch = pch, col = col, bg = bg, cex = cex,
+           ...)
     ok <- is.finite(x) & is.finite(y)
     if (any(ok))
       lines(stats::lowess(x[ok], y[ok], f = span, iter = iter),
             col = col.smooth)
   }
-  pairs(x,lower.panel=panel.cor, upper.panel=panel.smooth2)
+  pairs(x, lower.panel = panel.cor, upper.panel = panel.smooth2)
 }
+
 
 
 

@@ -1127,6 +1127,7 @@ theme_peter = function(beschriftungszahlengroesse = 20, relfak = 2) {
 ### nice correlation plots
 
 nicepairs = function (x, punktcol = rgb(0, 0, 0, 0.3), punktform = 4, cortype = "spearman",smoothness = 0.8, ...)
+
 {
   panel.cor = function(x, y, digits = 2, prefix = "") {
     usr <- par("usr")

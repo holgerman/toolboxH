@@ -1,5 +1,5 @@
 #' @export
-initializeSkript <-  function(datatable_lines = 2,datatable_nrow_allshow = 10,datatable_colwidth = 8L, computer="amanMRO",add_libpath = T,  lib_location = "/mnt/ifs1_projekte/genstat/07_programme/rpackages/"){
+initializeSkript <-  function(datatable_lines = 2,datatable_nrow_allshow = 10,datatable_colwidth = 24L, computer="amanMRO",add_libpath = T,  lib_location = "/mnt/ifs1_projekte/genstat/07_programme/rpackages/"){
   #clear memory cache
 
   gc()

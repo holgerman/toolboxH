@@ -1,5 +1,5 @@
 #' @export
-initializeSkript <-  function(datatable_lines = 2,datatable_nrow_allshow = 10,datatable_colwidth = 24L, computer="amanMRO",add_libpath = T,  lib_location = "/mnt/ifs1_projekte/genstat/07_programme/rpackages/"){
+initializeSkript <-  function(datatable_lines = 2,datatable_nrow_allshow = 10,datatable_colwidth = 40L, computer="amanMRO",add_libpath = T,  lib_location = "/mnt/ifs1_projekte/genstat/07_programme/rpackages/"){
   #clear memory cache
 
   gc()
@@ -224,8 +224,8 @@ mytable = function (x, mydigits = 1, doprint = T, do_science_output = F) {
   names(res$output) = c("category" , "freq")
   res$output$percent = res$num /sum(res$num)
   res$output$observed = paste0(format(res$output$freq, big.mark=",", scientific=do_science_output), " (", round(res$output$percent*100,mydigits), "%)")
-  library(stringr)
-  res$output$observed = str_trim(res$output$observed)
+
+  if('stringr' %in% installed.packages()[,"Package"]) res$output$observed = stringr::str_trim(res$output$observed)
   zeilennamen = as.character(res$output$category)
   zeilennamen[is.na(zeilennamen)] = "NA"
   rownames(res$output) = zeilennamen
@@ -1797,5 +1797,5 @@ fdr_matrixEQTL <- function(p, N) {
 ##..................................................................................
 
 
-message( "\n******************************\nSuccessfully loaded toolboxH version 0.1.6")
+message( "\n******************************\nSuccessfully loaded toolboxH version 0.1.7")
 # Inspired from http://gettinggeneticsdone.blogspot.com/2013/06/customize-rprofile.html

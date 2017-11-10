@@ -200,13 +200,13 @@ xtabs_hk = function(...) xtabs(... , exclude = NULL, na.action= "na.pass") # 12.
 
 
 ### show NAs within a data.frame
-showNA <- function(x, showAllNoNA = F) {
+showNA <- function(x, showAllNoNA = T) {
   ## 15.6.15 als data.frame
   ## 7.7.15 apply statt sapply damit auch mit matrix funzend
   resi = apply(x,2, function(y) sum(is.na(y)))
   resi2 = data.frame(var = names(resi), NAs = as.vector(resi), vals = nrow(x)-as.vector(resi))
-  rowsNoNA = sum(apply(x, 1, function(x) all(is.na(x)==F)))
-  resi2 = rbind(resi2, data.frame(var = 'ROWS_NO_NAs', NAs = nrow(x)-rowsNoNA, vals = rowsNoNA))
+  if(showAllNoNA) rowsNoNA = sum(apply(x, 1, function(x) all(is.na(x)==F)))
+  if(showAllNoNA) resi2 = rbind(resi2, data.frame(var = 'ROWS_NO_NAs', NAs = nrow(x)-rowsNoNA, vals = rowsNoNA))
   resi2
   # if(is.data.table(x)) {
     # setDT(resi2)

@@ -1,5 +1,5 @@
 #' @export
-initializeSkript <-  function(datatable_lines = 2,datatable_nrow_allshow = 10,datatable_colwidth = 40L, computer="amanMRO",add_libpath = T,  lib_location = "/mnt/ifs1_projekte/genstat/07_programme/rpackages/"){
+initializeSkript <-  function(datatable_lines = 3,datatable_nrow_allshow = 10,datatable_colwidth = 40L, computer="amanMRO",add_libpath = T,  lib_location = "/mnt/ifs1_projekte/genstat/07_programme/rpackages/", myfilename =NULL){
   #clear memory cache
 
   gc()
@@ -200,11 +200,13 @@ xtabs_hk = function(...) xtabs(... , exclude = NULL, na.action= "na.pass") # 12.
 
 
 ### show NAs within a data.frame
-showNA <- function(x) {
+showNA <- function(x, showAllNoNA = F) {
   ## 15.6.15 als data.frame
   ## 7.7.15 apply statt sapply damit auch mit matrix funzend
   resi = apply(x,2, function(y) sum(is.na(y)))
   resi2 = data.frame(var = names(resi), NAs = as.vector(resi), vals = nrow(x)-as.vector(resi))
+  rowsNoNA = sum(apply(x, 1, function(x) all(is.na(x)==F)))
+  resi2 = rbind(resi2, data.frame(var = 'ROWS_NO_NAs', NAs = nrow(x)-rowsNoNA, vals = rowsNoNA))
   resi2
   # if(is.data.table(x)) {
     # setDT(resi2)
@@ -268,7 +270,7 @@ doBasicCheck = function(df) {
   numerisch = sapply(df,is.numeric)
 
 
-  laenge = {library(stringr); sapply(df[,numerisch ==F , drop = F], str_length)}
+  laenge = {sapply(df[,numerisch ==F , drop = F], stringr::str_length)}
 
   message("Berechne minima maxima...\n")
   maxl = apply(laenge,2,function(xx) max(xx, na.rm=T))
@@ -447,9 +449,9 @@ fastermultipleEntries2multipleRows = function(dfori,idToSplit,separator) {
 
 ### remove duplicated columns
 removeDuplicatedColumns <- function (mydf) {
-  library(stringr)
+
   namesdf= data.frame(original = names(mydf))
-  namesdf$final = sapply(str_split(namesdf$original, pattern='\\.x\\.*[0-9]*$|\\.y\\.*[0-9]*$'), "[",1)
+  namesdf$final = sapply(stringr::str_split(namesdf$original, pattern='\\.x\\.*[0-9]*$|\\.y\\.*[0-9]*$'), "[",1)
   tab = table(namesdf$final)
   namesdf$num_categ = tab[ match_hk(namesdf$final, names(tab))]
   finalnames = namesdf$final[duplicated(namesdf$final)==F]
@@ -551,7 +553,7 @@ match_hk = function(x, y, testunique =T, makeunique = F,importcol = NULL, ...) {
 ### read all files from dir
 getFilenamesInFolder <- function (erkennungsstring = "\\.txt$", on_server = Sys.info()['sysname']=="Linux", wd = getwd()) {
   # 10.6 zerhacken bei unix bei tab
-  library(stringr)
+
   initial_wd = getwd()
   setwd(wd)
   if(on_server) {system("dir > verzeichnisinfo");system("rm verzeichnisinfo");system("dir > verzeichnisinfo")}
@@ -565,19 +567,19 @@ getFilenamesInFolder <- function (erkennungsstring = "\\.txt$", on_server = Sys.
 
   if(on_server == F){
     files <- files[grep(erkennungsstring, x=files)]
-    viertes = sapply(str_split(files, " +"), "[", 4)
-    mystart <- str_locate(files, pattern=viertes)[,"start"]
-    myend <- str_length(files)
+    viertes = sapply(stringr::str_split(files, " +"), "[", 4)
+    mystart <- stringr::str_locate(files, pattern=viertes)[,"start"]
+    myend <- stringr::str_length(files)
 
-    files <- str_sub(string=files, start=mystart, end=myend)
+    files <- stringr::str_sub(string=files, start=mystart, end=myend)
     files <- files[grep(erkennungsstring, x=files)]
     setwd(initial_wd)
     return(files)
   }
   if(on_server ){
-    files <- unlist(str_split(files,"\t"))
+    files <- unlist(stringr::str_split(files,"\t"))
     files <- files[grep(erkennungsstring, x=files)]
-    files = str_replace_all(files, "\\\\", "")
+    files = stringr::str_replace_all(files, "\\\\", "")
     setwd(initial_wd)
     return(files)
   }
@@ -1446,7 +1448,7 @@ scatterplot_tooltip = function(xx,yy,tooltip, mycolor = "",mysize=5,  tooltippre
   #   tooltip = paste0("label", 1:1000)
   # library(data.table)
   library(metricsgraphics)
-  library(stringr)
+
   dat = data.frame(xx,yy,tooltip, mycolor,mysize)
   names(dat) = c("myxx", 'myyy', 'mytooltip', 'mycolor', 'mysize')
 
@@ -1454,7 +1456,7 @@ scatterplot_tooltip = function(xx,yy,tooltip, mycolor = "",mysize=5,  tooltippre
   $('{{ID}} svg .mg-active-datapoint')
   .text('custom text : ' + d.point.mytooltip );
 }"
-  mystring = str_replace(mystring, "custom text :", tooltipprefix)
+  mystring = stringr::str_replace(mystring, "custom text :", tooltipprefix)
 
 
   dat %>%
@@ -1538,7 +1540,7 @@ reverseGCTA = function(x) {
   }
 
 ### im Text als potenz schreiben, so dass es von knitr umgewandelt werden kann
-potenzFormate = function(x, showdigits=1) {library(stringr);paste0(str_replace(formatC(x, digits=showdigits, format = "e"), "e", "x10^"),"^")}
+potenzFormate = function(x, showdigits=1) {paste0(stringr::str_replace(formatC(x, digits=showdigits, format = "e"), "e", "x10^"),"^")}
 
 ### numbers as nice strings
 huebsch = function(x, stellen =1) format(round(x,stellen), big.mark = ",")
@@ -1647,9 +1649,9 @@ write.delim = function(x, y, writeColnames=T,writeRownames = F, createDir = F, .
   ## create Dir option hinyugefuegt
   # 8.2. rownameparameter hinzugefuegt
   if(createDir ==T ){
-    library(stringr)
+
     oldwd = getwd()
-    pathname = unlist(str_split(y, pattern="/"))
+    pathname = unlist(stringr::str_split(y, pattern="/"))
     pathname = paste(pathname[1:(length(pathname)-1)], collapse="/")
     vortest = try(setwd(pathname), silent=T)
     test = identical(vortest , oldwd)
@@ -1723,7 +1725,7 @@ pdf_from_png = function(myplot, pdf_filename, temp_pngfile = tempfile(), resolut
 ### schlaue html table
 dt_html <- function (df2, zeileninitial=20, maxstringlength = 25) {
   library(DT)
-  library(stringr)
+
   if(sum(showNA(df2)) ==0){
     datatable((df2),
               class =  'cell-border stripe',
@@ -1737,8 +1739,8 @@ dt_html <- function (df2, zeileninitial=20, maxstringlength = 25) {
                   targets = 1:ncol(df2),
                   render = JS(
                     "function(data, type, row, meta) {",
-                    str_replace("return type === 'display' && data.length > maxstringlength ?","maxstringlength", maxstringlength) ,
-                    str_replace("'<span title=\"' + data + '\">' + data.substr(0, maxstringlength) + '...</span>' : data;","maxstringlength", maxstringlength) ,
+                    stringr::str_replace("return type === 'display' && data.length > maxstringlength ?","maxstringlength", maxstringlength) ,
+                    stringr::str_replace("'<span title=\"' + data + '\">' + data.substr(0, maxstringlength) + '...</span>' : data;","maxstringlength", maxstringlength) ,
                     "}")
                 )),
                 scrollY = 1000,
@@ -1756,8 +1758,8 @@ dt_html <- function (df2, zeileninitial=20, maxstringlength = 25) {
                 columnDefs = list(list(
                   render = JS(
                     "function(data, type, row, meta) {",
-                    str_replace("return type === 'display' && data.length > maxstringlength ?","maxstringlength", maxstringlength) ,
-                    str_replace("'<span title=\"' + data + '\">' + data.substr(0, maxstringlength) + '...</span>' : data;","maxstringlength", maxstringlength) ,
+                    stringr::str_replace("return type === 'display' && data.length > maxstringlength ?","maxstringlength", maxstringlength) ,
+                    stringr::str_replace("'<span title=\"' + data + '\">' + data.substr(0, maxstringlength) + '...</span>' : data;","maxstringlength", maxstringlength) ,
                     "}")
                 ))
               ),
@@ -1797,5 +1799,5 @@ fdr_matrixEQTL <- function(p, N) {
 ##..................................................................................
 
 
-message( "\n******************************\nSuccessfully loaded toolboxH version 0.1.7")
+message( "\n******************************\nSuccessfully loaded toolboxH version 0.1.8")
 # Inspired from http://gettinggeneticsdone.blogspot.com/2013/06/customize-rprofile.html

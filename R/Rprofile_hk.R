@@ -911,7 +911,7 @@ qq.ggd = function ( pvector ,maxx = NULL, maxy = NULL, ... ) {
   abline ( 0 , 1 , col = "red" )
 }
 
-
+### QQPLOT von j morrison
 qq_conf = function(x, df=1, x.max = "auto",
                         main="QQ plot",plotType="pval",
                         sub=paste(""),
@@ -1102,7 +1102,61 @@ qq_conf = function(x, df=1, x.max = "auto",
 
 }
 
+## qq plot fuer minimum p
+qqPlotMinP <- function(x, number_of_tests = 3, xlab = expression(Expected ~ ~-log[10](italic(p[min]))), ylab = expression(Observed ~ ~-log[10](italic(p[min]))), main=deparse(substitute(x)), las=par("las"), subtitle = paste0("(Considering minimum of ",number_of_tests," independent p-value-series)"), envelope=.95,
+                       col=palette()[1], col.lines=palette()[2], lwd=2, pch=1, cex=par("cex"),
 
+                       labels = if(!is.null(names(x))) names(x) else seq(along=x),
+                       id.method = "y",
+                       id.n = if(id.method[1]=="identify") Inf else 0,
+                       id.cex=1, id.col=palette()[1], id.location="lr", grid=TRUE)
+{
+  ## adapted from car::qqPlot
+
+  line <- "identity"
+
+  good <- !is.na(x)
+  ord <- order(x[good])
+  if (length(col) == length(x)) col <- col[good][ord]
+  if (length(pch) == length(x)) pch <- pch[good][ord]
+  if (length(cex) == length(x)) cex <- cex[good][ord]
+  ord.x <- x[good][ord]
+  ord.lab <- labels[good][ord]
+  n <- length(ord.x)
+  P <- ppoints(n)
+  z <- qbeta(P,shape1 = 1, shape2 = number_of_tests)
+
+  z_plot = -log10(z)
+  ord.x_plot = -log10(ord.x)
+  plot(z_plot, ord.x_plot, type="n", xlab=xlab, ylab=ylab, main=main, las=las)
+  if(grid){
+    grid(lty=1, equilogs=F )
+    box()}
+  points(z_plot, ord.x_plot, col=col, pch=pch, cex=cex)
+  mtext(subtitle)
+  if (line=="identity") {
+    a = 0
+    b = 1
+    abline(0,1, col=col.lines, lwd=lwd)
+  }
+
+
+  conf <- if (envelope == FALSE) .95 else envelope
+  zz <- qnorm(1 - (1 - conf)/2)  # q wert der einseitigen signifikanz z score
+  SE <- (b/dbeta(z,shape1 = 1, shape2 = number_of_tests))*sqrt(P*(1 - P)/n)
+  # SE <- (b/d.function(z, shape1 =1, shape2 = 3))*sqrt(P*(1 - P)/n)
+  fit.value <- a + b*z
+  upper <- fit.value + zz*SE
+  lower <- fit.value - zz*SE
+  lowergr0 = lower>0
+  if (envelope != FALSE) {
+    lines(z_plot, -log10(upper), lty=2, lwd=lwd, col=col.lines)
+    lines(z_plot[lowergr0], -log10(lower[lowergr0]), lty=2, lwd=lwd, col=col.lines)
+  }
+  car:::showLabels(z, ord.x, labels=ord.lab,
+                   id.method = id.method, id.n = id.n, id.cex=id.cex, id.col=id.col, id.location=id.location)
+  invisible(data.table::data.table(z, ord.x, upper, lower))
+}
 
 ### normality check
 norm_plot2 <- function(vektor,  x_lim=c(min(vektor)-min(vektor)*.5, max(vektor)+max(vektor)*.1), titelgroesse = 1, mybreaks = NULL,vektorname = NULL , ...) {
@@ -1799,5 +1853,5 @@ fdr_matrixEQTL <- function(p, N) {
 ##..................................................................................
 
 
-message( "\n******************************\nSuccessfully loaded toolboxH version 0.1.8")
+message( "\n******************************\nSuccessfully loaded toolboxH version 0.1.9")
 # Inspired from http://gettinggeneticsdone.blogspot.com/2013/06/customize-rprofile.html

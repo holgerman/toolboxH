@@ -187,12 +187,17 @@ readPlinkBim = function(x, useData.table=T, clever = NULL)
 ### quickly-find-class-of-dataframe
 showClassDF <- function(x) {
   ## 12.6.15 als data.frame
-  resi = unlist(lapply(unclass(x),class))
-  resi = data.frame(column = names(resi), class = as.vector(resi))
-  resi$column[is.na(resi$column)] = "NA"
-  rownames(resi) = as.character(resi$column)
-  resi$column = NULL
-  resi
+  ## 21.11. collapsing
+
+    tmp = lapply(unclass(x), class)
+    tmp = lapply(tmp, function(x) paste(x, collapse = ", "))
+    resi = unlist(tmp)
+    resi = data.frame(column = names(resi), class = as.vector(resi))
+    if(any(is.na(resi$column))) resi$column[is.na(resi$column)] = "NA"
+    rownames(resi) = as.character(resi$column)
+    resi$column = NULL
+    resi
+
 }                         #http://gettinggeneticsdone.blogspot.com/2010/08/quickly-find-class-of-dataframe-vectors.html
 
 ### show allwahys NA when using xtabs

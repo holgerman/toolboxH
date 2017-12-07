@@ -186,7 +186,7 @@ readPlinkBim = function(x, useData.table=T, clever = NULL)
 
 ## read an excel file automatically getting the right coltype
 
-read_excel2 = function(fn, sheet = 1, ...) {
+read_excel2 = function(fn, sheet = 1, skip =0, na = "", ...) {
   ## inspired by the idea of data.table::fread to automatically switch to text if a column is not as expected to be numeric, logical etc.
 
   sheetnames = readxl:::xlsx_sheets(fn)
@@ -195,13 +195,13 @@ read_excel2 = function(fn, sheet = 1, ...) {
 
   # myfile_list = tryCatch(read_excel(fn,sheet = sheet, ...),warning=function(w) return(list(read_excel(fn,sheet = sheet, ...),w))) ## leider nur eine warning, bruache aber alle
   ## better this: https://stackoverflow.com/questions/3903157/how-can-i-check-whether-a-function-call-results-in-a-warning
-  withWarnings <- function(fn,sheet = sheet, ...) {
+  withWarnings <- function(fn,sheet = sheet) {
     myWarnings <- NULL
     wHandler <- function(w) {
       myWarnings <<- c(myWarnings, list(w))
       invokeRestart("muffleWarning")
     }
-    val <- withCallingHandlers(readxl::read_excel(fn,sheet , ...), warning = wHandler)
+    val <- withCallingHandlers(readxl::read_excel(fn,sheet , skip =skip, na = na,...), warning = wHandler)
     list(value = val, warnings = myWarnings)
   }
 
@@ -221,7 +221,7 @@ read_excel2 = function(fn, sheet = 1, ...) {
     # print(names(myfile))
     col_types[cols2text] <- 'text'
     # print(col_types)
-    myfile = readxl::read_excel(fn,sheet = sheet, col_type=col_types, ...)
+    myfile = readxl::read_excel(fn,sheet = sheet, col_type=col_types,skip =skip, na = na, ...)
   } else myfile = myfile_list$value
   data.table::setDT(myfile)
 
@@ -1926,5 +1926,5 @@ fdr_matrixEQTL <- function(p, N) {
 ##..................................................................................
 
 
-message( "\n******************************\nSuccessfully loaded toolboxH version 0.1.13")
+message( "\n******************************\nSuccessfully loaded toolboxH version 0.1.14")
 # Inspired from http://gettinggeneticsdone.blogspot.com/2013/06/customize-rprofile.html

@@ -59,13 +59,21 @@ showStartcode = function(os = "unix", pathwd = getwd(), myfilename = filename){
 }
 
 
-parallelisiere = function(proc=3, on_server = Sys.info()['sysname']=="Linux") {
+parallelisiere = function(proc=3, on_server = Sys.info()['sysname']=="Linux", mkl_threads = 1) {
+  # mkl_threads: Revolution R aka MRO uses internal multithreading via Intel Math Kernel Libraries. This sometimes seames to conflict with parallizing by foreach
   if(on_server ==T) {
     for(i in c( "doMC", "foreach")) {
       suppressPackageStartupMessages(library(i, character.only = TRUE))
     }
 
     registerDoMC(cores=proc)
+    if("RevoUtilsMath" %in% installed.packages()) {
+      RevoUtilsMath::setMKLthreads(1)
+      message("MKL threads set to ", RevoUtilsMath::getMKLthreads())
+    }
+
+
+
 
   }
 
@@ -75,6 +83,11 @@ parallelisiere = function(proc=3, on_server = Sys.info()['sysname']=="Linux") {
     }
 
     registerDoSNOW(makeCluster(proc, type = "SOCK"))
+    if("RevoUtilsMath" %in% installed.packages()) {
+      RevoUtilsMath::setMKLthreads(1)
+      message("MKL threads set to ", RevoUtilsMath::getMKLthreads())
+    }
+
   }
   message("Parallel backbone initiated for ",proc, " parallel processes....")
 
@@ -95,6 +108,34 @@ bauePlinkCall = function(on_server = Sys.info()['sysname'], showMessage1 = T, sh
   if(showMessage2) message("`callPlink20` will call plink from here: ", callPlink20)
 
 }
+
+detachAllPackages <- function() {
+  message("not yet the desired replace for restarting R for fully solving related problems of incompatible packages frequently found on computeservers... in work")
+
+  basic.packages <- c("package:stats","package:graphics","package:grDevices","package:utils","package:datasets","package:methods","package:base")
+
+  package.list <- search()[ifelse(unlist(gregexpr("package:",search()))==1,TRUE,FALSE)]
+
+  package.list <- setdiff(package.list,basic.packages)
+
+  if (length(package.list)>0)  for (package in package.list) detach(package, character.only=TRUE)
+
+  a = sessionInfo()
+  loadedonly = setdiff(names(a[["loadedOnly"]]), c('compiler', 'tools',    'yaml', 'grid'))
+
+  while(length(loadedonly)>0) {
+    message("Packages attached via namespace still to unload : ", length(loadedonly))
+    try(unloadNamespace(sample(loadedonly, 1)),silent = T)
+    a = sessionInfo()
+    loadedonly = setdiff(names(a[["loadedOnly"]]), c('compiler' ,'tools',    'yaml', 'grid'))
+  }
+
+  print(sessionInfo())
+
+}
+
+
+
 
 
 
@@ -649,7 +690,7 @@ getFilenamesInFolder <- function (erkennungsstring = "\\.txt$", on_server = Sys.
 
 }
 
-getDosematrixFromImpute = function(snps,chr,  geno_fn, sample_fn, n_threads = 1, createPlinkCommandOnly = F, additionallyTransposeFile = T, outfile = tempfile(),   snps_fn = tempfile()) {
+getDosematrixFromImpute = function(snps,chr,  geno_fn, sample_fn, n_threads = 1, createPlinkCommandOnly = F, additionallyTransposeFile = T, outfile = tempfile(),   snps_fn = tempfile(), use_ids = 'id2') {
 
   stopifnot(all(is.character(snps)))
   stopifnot(all(is.na(snps))==F)
@@ -665,6 +706,7 @@ getDosematrixFromImpute = function(snps,chr,  geno_fn, sample_fn, n_threads = 1,
 
   snps = unique(snps)
 
+  stopifnot(use_ids %in% c('id2', 'id1', 'id1_2'))
 
   toolboxH::write.delim(snps, snps_fn,writeColnames = F)
   if(exists('callPlink20')==F) toolboxH::bauePlinkCall(showMessage1 = F)
@@ -696,9 +738,15 @@ getDosematrixFromImpute = function(snps,chr,  geno_fn, sample_fn, n_threads = 1,
 
   syscall = system(mycall)
 
-
   additiveFile = fread(paste0(outfile, ".traw"), colClasses=list(character=c("COUNTED","ALT")))
   # hh(additiveFile,11)
+
+  ids = data.table(id_combined = names(additiveFile)[-1:-6])
+  ids[,id1 := sapply(stringr::str_split(id_combined, "_"), "[", 1)]
+  ids[,id2 := stringr::str_replace(id_combined, paste0("^",id1,"_"), "")]
+
+  if(use_ids=="id2") setnames(additiveFile, ids$id_combined, ids$id2)
+  if(use_ids=="id1") setnames(additiveFile, ids$id_combined, ids$id1)
 
   if(additionallyTransposeFile == T) {
     additiveFile_t = data.table(id = names(additiveFile)[-1:-6], data.table::transpose(additiveFile[,-c("CHR","SNP", "(C)M", "POS", "COUNTED", "ALT"), with = F]))
@@ -712,12 +760,7 @@ getDosematrixFromImpute = function(snps,chr,  geno_fn, sample_fn, n_threads = 1,
   res$additiveFile =additiveFile
   res$additiveFile_t =additiveFile_t
   res
-
-
-
-
-
-}
+  }
 
 
 ##..................................................................................
@@ -802,8 +845,18 @@ ci2p <- function (Est,u,l) {
   P
 }
 
+## interaction test see http://www.bmj.com/content/326/7382/219.long
+interactionTest  = function(mean1, se1, mean2, se2) {
+  meandiff_se = sqrt(se1^2 + se2^2)
+  meandiff = mean2 - mean1
+  meandiff_cilow = meandiff - 1.96*meandiff_se
+  meandiff_cihigh = meandiff + 1.96*meandiff_se
+  meandiff_z = meandiff/meandiff_se
+  meandiff_p = pnorm(abs(meandiff_z), lower.tail = F)*2
+  if(meandiff_p>1) meandiff_p = 1
+  data.table::data.table(mean1, se1, mean2, se2, meandiff, meandiff_se, meandiff_cilow, meandiff_cihigh, meandiff_z, meandiff_p)
 
-
+}
 
 ##..................................................................................
 ## data plotting
@@ -2361,5 +2414,5 @@ fdr_matrixEQTL <- function(p, N) {
 ##..................................................................................
 
 
-message( "\n******************************\nSuccessfully loaded toolboxH version 0.1.16")
+message( "\n******************************\nSuccessfully loaded toolboxH version 0.1.17")
 # Inspired from http://gettinggeneticsdone.blogspot.com/2013/06/customize-rprofile.html

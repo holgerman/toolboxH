@@ -1,5 +1,5 @@
 #' @export
-initializeSkript <-  function(datatable_lines = 3,datatable_nrow_allshow = 10,datatable_colwidth = 40L, computer="amanMRO",add_libpath = T,  lib_location = "/mnt/ifs1_projekte/genstat/07_programme/rpackages/", myfilename =NULL){
+initializeSkript <-  function(datatable_lines = 3,datatable_nrow_allshow = 10,datatable_colwidth = 40L, computer="amanMRO",add_libpath = T,  lib_location = "/net/ifs1/san_projekte/projekte/genstat/07_programme/rpackages/", myfilename =NULL){
   #clear memory cache
 
   gc()
@@ -93,15 +93,16 @@ parallelisiere = function(proc=3, on_server = Sys.info()['sysname']=="Linux", mk
 
 }
 
-bauePlinkCall = function(on_server = Sys.info()['sysname'], showMessage1 = T, showMessage2 = T){
-  if(on_server =="Linux") {
-    basicpath = "/mnt/ifs1_projekte/genstat/"
-    callPlink19 <<-  paste0(basicpath, "07_programme/plink1.9/vs180103_stable_beta_51/unix64/plink" )
-    callPlink20 <<-  paste0(basicpath, "07_programme/plink2.0/20180103/unix64/plink2" )
-  } else {
+bauePlinkCall = function(on_server = as.character(Sys.info()['sysname']) =="Linux", showMessage1 = T, showMessage2 = T){
+  if(on_server==F) {
     basicpath = "R:/genstat/"
     callPlink19 <<-  paste0(basicpath, "07_programme/plink1.9/vs180103_stable_beta_51/win64/plink.exe" )
     callPlink20 <<-  paste0(basicpath, "07_programme/plink2.0/20180103/win64/plink2.exe" )
+
+  } else {
+    basicpath = "/net/ifs1/san_projekte/projekte/genstat/"
+    callPlink19 <<-  paste0(basicpath, "07_programme/plink1.9/vs180103_stable_beta_51/unix64/plink" )
+    callPlink20 <<-  paste0(basicpath, "07_programme/plink2.0/20180103/unix64/plink2" )
   }
 
   if(showMessage1) message("`callPlink19` will call plink from here: ", callPlink19)
@@ -1486,6 +1487,11 @@ qq_conf = function(x, df=1, x.max = "auto",
   # 9.3.15 myxlim auf auto umgestellt, damit per default alles geplottet
   #   # output as data.frame to improve behaviour in schleifen
   # 25.4.15 coloring and pch option included (point_col, point_pch..) and inflation from mean changed to median
+
+  # 2.2.18 umgestellt lambda auf median chi mit 1 df analog GenABEL::estlambda(p, plot= F, method = "median", filter = F) auch analog http://genometoolbox.blogspot.de/2014/08/how-to-calculate-genomic-inflation.html  um classische lambda definition zu haben
+
+x_ori = x
+
   if(x.max == "auto") x.max = max(-log10(x))+2
   if(any(is.na(x))) stop("Please remove NA from p val vector....")
 
@@ -1639,7 +1645,16 @@ qq_conf = function(x, df=1, x.max = "auto",
 
   #    if (!is.null(key))
   #       legend(0, top*scale, legend=txt, lty=key, bty="n")
-  data.frame(N=N, omitted=N-Np, lambda=lambda)
+
+  lambda_coxlab = lambda
+
+  chisq_blog <- qchisq(1-x_ori,1) # http://genometoolbox.blogspot.de/2014/08/how-to-calculate-genomic-inflation.html
+
+  lambda_blog = median(chisq_blog)/qchisq(0.5,1)
+  lambda_blog
+
+
+  data.frame(N=N, omitted=N-Np, lambda=lambda_blog, lambda_coxlab=lambda_coxlab)
 
 }
 
@@ -2184,7 +2199,7 @@ knitrHelper <- function(myfilename=filename, mypathwd=pathwd, computer = "amanMR
   message('options(encoding="WINDOWS-1252")')
   message('options(encoding="UTF-8")')
 
-  message('.libPaths("/mnt/ifs1_projekte/genstat/07_programme/rpackages/',computer,'")')
+  message('.libPaths("/net/ifs1/san_projekte/projekte/genstat/07_programme/rpackages/',computer,'")')
   message('require(knitr)')
   message('sessionInfo()')
   message(paste0("knit('",myfilename, ".Rmd')"))
@@ -2195,7 +2210,7 @@ knitrHelper <- function(myfilename=filename, mypathwd=pathwd, computer = "amanMR
   message(paste0("cd  ",mypathwd, ""))
 
   if(computer %in% c("forostar", "amanMRO", "dunhargRRO")) {
-    pandoc_call = paste0("/usr/lib/rstudio-server/bin/pandoc/pandoc ",myfilename,".md --to html --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output ",myfilename,".html --smart --email-obfuscation none --self-contained --standalone --section-divs --table-of-contents --toc-depth 3 --template /mnt/ifs1_projekte/genstat/07_programme/rpackages/",computer,"/rmarkdown/rmd/h/default.html --number-sections --css custom.css --variable 'theme:bootstrap' --mathjax --variable 'mathjax-url:https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --no-highlight --variable highlightjs=/mnt/ifs1_projekte/genstat/07_programme/rpackages/",computer,"/rmarkdown/rmd/h/highlight")
+    pandoc_call = paste0("/usr/lib/rstudio-server/bin/pandoc/pandoc ",myfilename,".md --to html --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output ",myfilename,".html --smart --email-obfuscation none --self-contained --standalone --section-divs --table-of-contents --toc-depth 3 --template /net/ifs1/san_projekte/projekte/genstat/07_programme/rpackages/",computer,"/rmarkdown/rmd/h/default.html --number-sections --css custom.css --variable 'theme:bootstrap' --mathjax --variable 'mathjax-url:https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --no-highlight --variable highlightjs=/net/ifs1/san_projekte/projekte/genstat/07_programme/rpackages/",computer,"/rmarkdown/rmd/h/highlight")
   } else {
 
     if(computer == "windows") {
@@ -2224,7 +2239,7 @@ finalizeSkript <- function(myfilename=filename, saveTheImage=F, dostr=F,mypathwd
   message("==================================================================================")
   message("\n\nWarnings found so far:\n\n")
 
-  print(warnings() )
+  print(table(names(warnings() )))
 
   message("==================================================================================")
   message("\n\nSession Info::\n\n")
@@ -2414,5 +2429,5 @@ fdr_matrixEQTL <- function(p, N) {
 ##..................................................................................
 
 
-message( "\n******************************\nSuccessfully loaded toolboxH version 0.1.17")
+message( "\n******************************\nSuccessfully loaded toolboxH version 0.1.18")
 # Inspired from http://gettinggeneticsdone.blogspot.com/2013/06/customize-rprofile.html

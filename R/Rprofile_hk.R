@@ -158,15 +158,21 @@ cleverLoadinGlobalEnv = function(name, path, myenvir = .GlobalEnv, ...) {
   if(exists(name)==F)  load(path, envir = myenvir, ...) else message("using object '", name, "' from workspace, saving loading-time :)")
   return(name)
 }
-## load object number with numberin new environment to allow that it does not overwrite something with the same name
-load_obj <- function(f, number = 1)
+## load object number_or_name with numberin new environment to allow that it does not overwrite something with the same name
+load_obj <- function(f, number_or_name = 1)
 {
   envextra <- new.env()
 
   nm <- load(f, envextra)
   message("found following objects:\n", paste(nm, collapse = "\n"))
-  message("\nimported object ", nm[number])
-  envextra[[nm[number]]]
+
+  if(is.numeric (number_or_name)) {
+  message("\nimported object ", nm[number_or_name])
+  return(envextra[[nm[number_or_name]]])
+  } else  if(is.character (number_or_name)) {
+    message("\nimported object ", nm[which(nm)== number_or_name])
+    return(envextra[nm[which(nm)== number_or_name]])
+  }
 }
 
 
@@ -2337,10 +2343,10 @@ system_verbose = function(...) {
 
 ### pdf file as graphical png in order to avoid long startup time if 100 of thousends points are included
 
-pdf_from_png = function(myplot, pdf_filename, temp_pngfile = tempfile(), resolution = 300, weite = 7, laenge = 7, einheiten = "cm", as1file = T, ... ){
-  library(png)
-  png(temp_pngfile, weite, laenge, units = einheiten, res = resolution)
-  plot(myplot)
+pdf_from_png = function(code2parseOrPlot, pdf_filename, temp_pngfile = tempfile(), resolution = 300, weite = 13, laenge = 13, einheiten = "cm", as1file = T, ... ){
+
+  png::png(temp_pngfile, weite, laenge, units = einheiten, res = resolution)
+  if(is.character(code2parseOrPlot)) eval(parse(text = code2parse)) else plot(code2parseOrPlot)
   dev.off()
 
 
@@ -2351,6 +2357,7 @@ pdf_from_png = function(myplot, pdf_filename, temp_pngfile = tempfile(), resolut
   rasterImage(plotPNG,0,0,1,1)
   dev.off()
 }
+
 
 ### schlaue html table
 dt_html <- function (df2, zeileninitial=20, maxstringlength = 25) {
@@ -2429,5 +2436,5 @@ fdr_matrixEQTL <- function(p, N) {
 ##..................................................................................
 
 
-message( "\n******************************\nSuccessfully loaded toolboxH version 0.1.18")
+message( "\n******************************\nSuccessfully loaded toolboxH version 0.1.19")
 # Inspired from http://gettinggeneticsdone.blogspot.com/2013/06/customize-rprofile.html

@@ -723,6 +723,17 @@ getDosematrixFromImpute = function(snps,chr,  geno_fn, sample_fn, n_threads = 1,
   ## checke .sample sex column to be if existent type 'D'.
   samples = data.table::fread(sample_fn, colClasses = "character")
   samples
+
+  if(all(c("ID_1", "ID_2") %nin% names(samples)) & all(c("ID1", "ID2") %in% names(samples))) {
+    sample_fntemp = tempfile()
+    myvartypes = unlist(samples[1])
+    setnames(samples, names(samples)[1:2], c("ID_1", "ID_2"))
+    toolboxH::writeSnptestSamplefile(filename = sample_fntemp,
+                                     samplefile = samples[-1], vartypes = myvartypes)
+    sample_fn = sample_fntemp
+
+  }
+
   if("sex" %in%names(samples)) {
     sex_code = samples[1,sex]
     if(sex_code != "D") {
@@ -769,7 +780,66 @@ getDosematrixFromImpute = function(snps,chr,  geno_fn, sample_fn, n_threads = 1,
   res
   }
 
+  getPlinkFromImpute = function (snps, chr, geno_fn, sample_fn, outfile, n_threads = 1, createPlinkCommandOnly = F,  snps_fn = tempfile(),use_ids = "id2")
+  {
 
+    # snps = myinfo$markername
+    # chr = unique(myinfo$chr)
+    # geno_fn = myinfo[,unique(geno_fn)]
+    # sample_fn =  myinfo[,unique(sample_fn)]
+    # outfile = "/net/ifs1/san_projekte/projekte/genstat/09_nutzer/holger/___owncloud2/imise/DissFelix_SHARED/07_publikation/1606_berechnungen/03_pipeline_candGene/s214_1_plink_alle_genessnps"
+
+
+    stopifnot(all(is.character(snps)))
+    stopifnot(all(is.na(snps)) == F)
+    stopifnot(length(geno_fn) == 1)
+    stopifnot(file.exists(geno_fn))
+    stopifnot(length(sample_fn) == 1)
+    stopifnot(file.exists(sample_fn))
+    stopifnot(length(chr) == 1)
+    stopifnot(chr %in% 1:25)
+    snps = unique(snps)
+    stopifnot(use_ids %in% c("id2", "id1", "id1_2"))
+    toolboxH::write.delim(snps, snps_fn, writeColnames = F)
+    if (exists("callPlink20") == F)
+      toolboxH::bauePlinkCall(showMessage1 = F) else message("Using plink ", callPlink20)
+    samples = data.table::fread(sample_fn, colClasses = "character")
+    samples
+
+    if(all(c("ID_1", "ID_2") %nin% names(samples)) & all(c("ID1", "ID2") %in% names(samples))) {
+      sample_fntemp = tempfile()
+      myvartypes = unlist(samples[1])
+      setnames(samples, names(samples)[1:2], c("ID_1", "ID_2"))
+      toolboxH::writeSnptestSamplefile(filename = sample_fntemp,
+                                       samplefile = samples[-1], vartypes = myvartypes)
+      sample_fn = sample_fntemp
+
+    }
+
+    if ("sex" %in% names(samples)) {
+      sex_code = samples[1, sex]
+      if (sex_code != "D") {
+        message("Found sex code ", sex_code, " but D is expected from plink. Recoding in temporary file")
+        sample_fntemp = tempfile()
+        myvartypes = unlist(samples[1])
+        myvartypes["sex"] = "D"
+        toolboxH::writeSnptestSamplefile(filename = sample_fntemp,
+                                         samplefile = samples[-1], vartypes = myvartypes)
+        sample_fn = sample_fntemp
+      }
+    }
+    mycall = paste(callPlink20, "--make-bed --extract ",
+                   snps_fn, "--gen ", geno_fn, "--out ", outfile, "--oxford-single-chr ",
+                   chr, "--sample ", sample_fn, "--threads ", n_threads)
+    if (createPlinkCommandOnly == T)
+      return(mycall)
+    message("running plink via\n", mycall)
+    syscall = system(mycall)
+
+    if(syscall==0) {message("Successfully created \n", paste(paste0(outfile, c(".bed", ".bim", ".fam")), collapse = "\n"))} else message("Plink file creation failed....")
+    outfile
+
+  }
 ##..................................................................................
 ## data analysis
 ##..................................................................................
@@ -862,6 +932,78 @@ interactionTest  = function(mean1, se1, mean2, se2) {
   meandiff_p = pnorm(abs(meandiff_z), lower.tail = F)*2
   if(meandiff_p>1) meandiff_p = 1
   data.table::data.table(mean1, se1, mean2, se2, meandiff, meandiff_se, meandiff_cilow, meandiff_cihigh, meandiff_z, meandiff_p)
+
+}
+
+
+addHierarchFDR <- function(pvalues, categs, fdr2control = 0.05) {
+
+  # pvalues = assoc$`p-value__3`
+  # pvalues = assoc$`p-value__1`
+  # categs = assoc$GeneIDFelix
+  #
+
+  stopifnot(all(is.numeric(pvalues)))
+  stopifnot(is.vector(categs))
+  stopifnot(length(categs)==length(pvalues))
+  stopifnot(length(categs)>0)
+
+  data = data.table::data.table(p = pvalues, cats = categs)
+
+  data[,fdr_level1 := p.adjust(p), by = cats] #  &
+
+  level2 = data[ ,.(min_level1 = min(fdr_level1)), by = cats]
+  level2
+
+  level2[,fdr_level2 := p.adjust(min_level1)]
+  level2
+
+  data[,fdr_level2 := level2[toolboxH::match_hk(data$cats, level2$cats),fdr_level2]]
+
+  global_fdr5_level_table = level2[fdr_level2 <= fdr2control]
+
+  if(nrow(global_fdr5_level_table)==0)  {
+    hierarch_fdrspalte_name = paste0('hierarch_fdr', 100*fdr2control, "proz")
+    data[,(hierarch_fdrspalte_name):=FALSE]
+    setnames(data, "cats", "category")
+    stopifnot(identical(data$p, pvalues))
+    stopifnot(identical(data$category, categs))
+    return(data)
+
+  } else {
+
+    global_fdr5_level = global_fdr5_level_table[, max(min_level1)]
+    global_fdr5_level
+
+
+    message("less significant accepted group (fdr_level2 should be close to ",fdr2control," ):")
+    zeile1 = level2[min_level1==global_fdr5_level]
+    print(zeile1)
+    message("most significant non-accepted group (fdr_level2 should be also close to ",fdr2control," ):")
+
+    zeile2 = level2[min_level1 >global_fdr5_level][min_level1==min(min_level1)]
+    print(zeile2)
+    if(nrow(zeile2)==0) warning("All groups were significant at the chosen level. Think about it -Is this expected?", immediate. = TRUE)
+    if( zeile1$fdr_level2 < fdr2control*0.9 ) warning("No FDR close to desired global cut-off found (FDR cut-off: ",fdr2control, " vs. level2 - FDR corresponding as closest as possible to this globally threshold of 0.05: ",zeile1$fdr_level2, " ). This might be if only few but strong groups are present. FDR is only reliable on group - level, and too conservative on association level 1")
+
+    good_categ = level2[fdr_level2 <= fdr2control, unique(cats)]
+    # message('A total of ', huebsch(length(unique(good_categ))), " / ",huebsch(n_total_categs) ," (", proz(length(unique(good_categ))/n_total_categs),") categories fullfill FDR criterium...")
+
+
+    data[ , fdr5proz := cats %in% good_categ & fdr_level1 <= global_fdr5_level]
+
+    data[ , fdr5proz := ifelse(is.na(fdr5proz), F, fdr5proz)] # weil ohnehin kleiner als global_fdr5_level. daher check vorher dass dem auch so ist
+    data
+
+    ## fertigmachen
+    hierarch_fdrspalte_name = paste0('hierarch_fdr', 100*fdr2control, "proz")
+
+    setnames(data, "fdr5proz", hierarch_fdrspalte_name)
+    setnames(data, "cats", "category")
+    stopifnot(identical(data$p, pvalues))
+    stopifnot(identical(data$category, categs))
+    return(data)
+  }
 
 }
 

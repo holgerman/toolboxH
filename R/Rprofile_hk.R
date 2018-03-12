@@ -2578,5 +2578,5 @@ fdr_matrixEQTL <- function(p, N) {
 ##..................................................................................
 
 
-message( "\n******************************\nSuccessfully loaded toolboxH version 0.1.19")
+message( "\n******************************\nSuccessfully loaded toolboxH version 0.1.21")
 # Inspired from http://gettinggeneticsdone.blogspot.com/2013/06/customize-rprofile.html

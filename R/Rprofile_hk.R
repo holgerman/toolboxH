@@ -2176,15 +2176,17 @@ plotCorMatrix <- function (m_psy, relaxissize = 2,rellabelsize = 15,textangle = 
 
 ## faerbe die zahlen einer gegebenen matrix nach ihrem oder einem externen WErt im 2 color schemewert
 
-colplotLikeExcel = function(plotdat, mycolors = c("dodgerblue2", "white", "red"),lowest_colorval = "minimum", middle_colorval = "median", highest_colorval = "maximum", xlabel = "", ylabel = "", x_axis_pos = "top", myround = 0, userdefined_labels = NULL){
+colplotLikeExcel = function(plotdat, mycolors = c("dodgerblue2", "white", "red"),lowest_colorval = "minimum", middle_colorval = "median", highest_colorval = "maximum", xlabel = "", ylabel = "", x_axis_pos = "top", myround = 0, userdefined_labels = NULL, row_names = NULL){
 
   # mycolors = c("dodgerblue2", "white", "red");lowest_colorval = "minimum"; middle_colorval = "median"; highest_colorval = "maximum"; xlabel = ""; ylabel = ""; x_axis_pos = "top"; myround = 0; userdefined_labels = NULL
 
-  plotdat_ori = plotdat
+  plotdat_ori = data.frame(copy(plotdat))
+  if(is.null(row_names)==F ) rownames(plotdat_ori) = row_names
   hh(plotdat_ori,9)
-  plotdat = as.matrix(plotdat)
+  plotdat = as.matrix(plotdat_ori)
+
   # plotdat = plotdat[rev(rownames(plotdat)),]
-  hh(plotdat)
+  # print(hh(plotdat))
   plotdat_m = reshape2::melt(plotdat)
   # ht(plotdat_m)
   if (is.null(rownames(plotdat_ori))) plotdat_m$Var1 = factor(plotdat_m$Var1) else plotdat_m$Var1 = factor(plotdat_m$Var1, levels = rev(unique(rownames(plotdat_ori))))
@@ -2214,8 +2216,6 @@ colplotLikeExcel = function(plotdat, mycolors = c("dodgerblue2", "white", "red")
   }
   plot1 +  theme(axis.text.x = element_text(angle = 90, hjust = 0))
 }
-
-
 
 
 ## scatterplot mit tooltip

@@ -30,14 +30,14 @@ initializeSkript <-  function(datatable_lines = 3,datatable_nrow_allshow = 10,da
 
   message('setting options for data.table( datatable.prettyprint.char = ',datatable_colwidth,'\n)',
           'setting options for data.table( datatable.print.topn = ',datatable_lines,'\n)',
-'setting options for data.table( datatable.print.nrows = ',datatable_nrow_allshow,'\n)')
+          'setting options for data.table( datatable.print.nrows = ',datatable_nrow_allshow,'\n)')
 
   options(datatable.prettyprint.char= datatable_colwidth )
   options(datatable.print.topn=datatable_lines)
   options(datatable.print.nrows =datatable_nrow_allshow)
 
 
-    # define where packages are found
+  # define where packages are found
   if(add_libpath) .libPaths(unique(c(paste0(lib_location,computer), .libPaths()))) else .libPaths(paste0(lib_location,computer))
   message("using libpath: ", paste(.libPaths(), collapse = "\n"))
 
@@ -167,8 +167,8 @@ load_obj <- function(f, number_or_name = 1)
   message("found following objects:\n", paste(nm, collapse = "\n"))
 
   if(is.numeric (number_or_name)) {
-  message("\nimported object ", nm[number_or_name])
-  return(envextra[[nm[number_or_name]]])
+    message("\nimported object ", nm[number_or_name])
+    return(envextra[[nm[number_or_name]]])
   } else  if(is.character (number_or_name)) {
     message("\nimported object ", nm[which(nm)== number_or_name])
     return(envextra[nm[which(nm)== number_or_name]])
@@ -295,14 +295,14 @@ showClassDF <- function(x) {
   ## 12.6.15 als data.frame
   ## 21.11. collapsing
 
-    tmp = lapply(unclass(x), class)
-    tmp = lapply(tmp, function(x) paste(x, collapse = ", "))
-    resi = unlist(tmp)
-    resi = data.frame(column = names(resi), class = as.vector(resi))
-    if(any(is.na(resi$column))) resi$column[is.na(resi$column)] = "NA"
-    rownames(resi) = as.character(resi$column)
-    resi$column = NULL
-    resi
+  tmp = lapply(unclass(x), class)
+  tmp = lapply(tmp, function(x) paste(x, collapse = ", "))
+  resi = unlist(tmp)
+  resi = data.frame(column = names(resi), class = as.vector(resi))
+  if(any(is.na(resi$column))) resi$column[is.na(resi$column)] = "NA"
+  rownames(resi) = as.character(resi$column)
+  resi$column = NULL
+  resi
 
 }                         #http://gettinggeneticsdone.blogspot.com/2010/08/quickly-find-class-of-dataframe-vectors.html
 
@@ -320,8 +320,8 @@ showNA <- function(x, showAllNoNA = T) {
   if(showAllNoNA) resi2 = rbind(resi2, data.frame(var = 'ROWS_NO_NAs', NAs = nrow(x)-rowsNoNA, vals = rowsNoNA))
   resi2
   # if(is.data.table(x)) {
-    # setDT(resi2)
-    # return(resi2)} else return(resi2)
+  # setDT(resi2)
+  # return(resi2)} else return(resi2)
 
 }
 
@@ -453,7 +453,7 @@ allDuplicatedEntries <- function (vektor) {
   ## 150303 umgestellt auf datatable
   if(length(vektor)==0) return(0)
   library(data.table)
-#   library(reshape2)
+  #   library(reshape2)
   vektab = data.table(myvektor = vektor, num = 1:length(vektor))
   duplicated_vals = vektab[duplicated(myvektor),myvektor]
   duplicated_entries = vektab[ myvektor %in% duplicated_vals]
@@ -778,68 +778,68 @@ getDosematrixFromImpute = function(snps,chr,  geno_fn, sample_fn, n_threads = 1,
   res$additiveFile =additiveFile
   res$additiveFile_t =additiveFile_t
   res
+}
+
+getPlinkFromImpute = function (snps, chr, geno_fn, sample_fn, outfile, n_threads = 1, createPlinkCommandOnly = F,  snps_fn = tempfile(),use_ids = "id2")
+{
+
+  # snps = myinfo$markername
+  # chr = unique(myinfo$chr)
+  # geno_fn = myinfo[,unique(geno_fn)]
+  # sample_fn =  myinfo[,unique(sample_fn)]
+  # outfile = "/net/ifs1/san_projekte/projekte/genstat/09_nutzer/holger/___owncloud2/imise/DissFelix_SHARED/07_publikation/1606_berechnungen/03_pipeline_candGene/s214_1_plink_alle_genessnps"
+
+
+  stopifnot(all(is.character(snps)))
+  stopifnot(all(is.na(snps)) == F)
+  stopifnot(length(geno_fn) == 1)
+  stopifnot(file.exists(geno_fn))
+  stopifnot(length(sample_fn) == 1)
+  stopifnot(file.exists(sample_fn))
+  stopifnot(length(chr) == 1)
+  stopifnot(chr %in% 1:25)
+  snps = unique(snps)
+  stopifnot(use_ids %in% c("id2", "id1", "id1_2"))
+  toolboxH::write.delim(snps, snps_fn, writeColnames = F)
+  if (exists("callPlink20") == F)
+    toolboxH::bauePlinkCall(showMessage1 = F) else message("Using plink ", callPlink20)
+  samples = data.table::fread(sample_fn, colClasses = "character")
+  samples
+
+  if(all(c("ID_1", "ID_2") %nin% names(samples)) & all(c("ID1", "ID2") %in% names(samples))) {
+    sample_fntemp = tempfile()
+    myvartypes = unlist(samples[1])
+    setnames(samples, names(samples)[1:2], c("ID_1", "ID_2"))
+    toolboxH::writeSnptestSamplefile(filename = sample_fntemp,
+                                     samplefile = samples[-1], vartypes = myvartypes)
+    sample_fn = sample_fntemp
+
   }
 
-  getPlinkFromImpute = function (snps, chr, geno_fn, sample_fn, outfile, n_threads = 1, createPlinkCommandOnly = F,  snps_fn = tempfile(),use_ids = "id2")
-  {
-
-    # snps = myinfo$markername
-    # chr = unique(myinfo$chr)
-    # geno_fn = myinfo[,unique(geno_fn)]
-    # sample_fn =  myinfo[,unique(sample_fn)]
-    # outfile = "/net/ifs1/san_projekte/projekte/genstat/09_nutzer/holger/___owncloud2/imise/DissFelix_SHARED/07_publikation/1606_berechnungen/03_pipeline_candGene/s214_1_plink_alle_genessnps"
-
-
-    stopifnot(all(is.character(snps)))
-    stopifnot(all(is.na(snps)) == F)
-    stopifnot(length(geno_fn) == 1)
-    stopifnot(file.exists(geno_fn))
-    stopifnot(length(sample_fn) == 1)
-    stopifnot(file.exists(sample_fn))
-    stopifnot(length(chr) == 1)
-    stopifnot(chr %in% 1:25)
-    snps = unique(snps)
-    stopifnot(use_ids %in% c("id2", "id1", "id1_2"))
-    toolboxH::write.delim(snps, snps_fn, writeColnames = F)
-    if (exists("callPlink20") == F)
-      toolboxH::bauePlinkCall(showMessage1 = F) else message("Using plink ", callPlink20)
-    samples = data.table::fread(sample_fn, colClasses = "character")
-    samples
-
-    if(all(c("ID_1", "ID_2") %nin% names(samples)) & all(c("ID1", "ID2") %in% names(samples))) {
+  if ("sex" %in% names(samples)) {
+    sex_code = samples[1, sex]
+    if (sex_code != "D") {
+      message("Found sex code ", sex_code, " but D is expected from plink. Recoding in temporary file")
       sample_fntemp = tempfile()
       myvartypes = unlist(samples[1])
-      setnames(samples, names(samples)[1:2], c("ID_1", "ID_2"))
+      myvartypes["sex"] = "D"
       toolboxH::writeSnptestSamplefile(filename = sample_fntemp,
                                        samplefile = samples[-1], vartypes = myvartypes)
       sample_fn = sample_fntemp
-
     }
-
-    if ("sex" %in% names(samples)) {
-      sex_code = samples[1, sex]
-      if (sex_code != "D") {
-        message("Found sex code ", sex_code, " but D is expected from plink. Recoding in temporary file")
-        sample_fntemp = tempfile()
-        myvartypes = unlist(samples[1])
-        myvartypes["sex"] = "D"
-        toolboxH::writeSnptestSamplefile(filename = sample_fntemp,
-                                         samplefile = samples[-1], vartypes = myvartypes)
-        sample_fn = sample_fntemp
-      }
-    }
-    mycall = paste(callPlink20, "--make-bed --extract ",
-                   snps_fn, "--gen ", geno_fn, "--out ", outfile, "--oxford-single-chr ",
-                   chr, "--sample ", sample_fn, "--threads ", n_threads)
-    if (createPlinkCommandOnly == T)
-      return(mycall)
-    message("running plink via\n", mycall)
-    syscall = system(mycall)
-
-    if(syscall==0) {message("Successfully created \n", paste(paste0(outfile, c(".bed", ".bim", ".fam")), collapse = "\n"))} else message("Plink file creation failed....")
-    outfile
-
   }
+  mycall = paste(callPlink20, "--make-bed --extract ",
+                 snps_fn, "--gen ", geno_fn, "--out ", outfile, "--oxford-single-chr ",
+                 chr, "--sample ", sample_fn, "--threads ", n_threads)
+  if (createPlinkCommandOnly == T)
+    return(mycall)
+  message("running plink via\n", mycall)
+  syscall = system(mycall)
+
+  if(syscall==0) {message("Successfully created \n", paste(paste0(outfile, c(".bed", ".bim", ".fam")), collapse = "\n"))} else message("Plink file creation failed....")
+  outfile
+
+}
 ##..................................................................................
 ## data analysis
 ##..................................................................................
@@ -935,13 +935,23 @@ interactionTest  = function(mean1, se1, mean2, se2) {
 
 }
 
+addKorbinianFDR = function(pvals, mystatistic = "pvalue", showplot=F){
 
-addHierarchFDR <- function(pvalues, categs, fdr2control = 0.05) {
+  tempres =fdrtool::fdrtool(pvals, statistic = mystatistic, plot = showplot)
+  stopifnot(identical(pvals, tempres$pval))
+  tempres$qval
+}
 
-  # pvalues = assoc$`p-value__3`
-  # pvalues = assoc$`p-value__1`
-  # categs = assoc$GeneIDFelix
+
+addHierarchFDR <- function(pvalues, categs, fdr2control = 0.05, fdrmethod_level1 = "BH", fdrmethod_level2 = "BH", correctionLevel1 = "BB", quiet=FALSE ) {
+
+  # correctionLevel1 == "BB" means  from http://bioinformatics.org/treeqtl/Peterson_GenEpi_2016.pdf citing  Benjamini and Bogomolov  [2014] doing  q2 × Number families with FDR level2 <= fdr2control / Number of all families ("appropriate adjustment for the selection bias introduced in Stage 1" page 5) or
+  # correctionLevel1 == "listlookup" using "the locally adjusted minimum p-value corresponding to the globally adjusted p-value threshold of 0.05." as decribed in https://www.biorxiv.org/content/biorxiv/early/2017/10/25/209171.full.pdf
+
+  # pvalues = c(runif(500, 0,1 ), runif(500, 0,1 )/100)
+  # categs = sort(rep(letters[1:10], 100))
   #
+
 
   stopifnot(all(is.numeric(pvalues)))
   stopifnot(is.vector(categs))
@@ -950,12 +960,12 @@ addHierarchFDR <- function(pvalues, categs, fdr2control = 0.05) {
 
   data = data.table::data.table(p = pvalues, cats = categs)
 
-  data[,fdr_level1 := p.adjust(p), by = cats] #  &
+  data[,fdr_level1 := p.adjust(p,method =fdrmethod_level1), by = cats] #  &
 
   level2 = data[ ,.(min_level1 = min(fdr_level1)), by = cats]
   level2
 
-  level2[,fdr_level2 := p.adjust(min_level1)]
+  level2[,fdr_level2 := p.adjust(min_level1,method =fdrmethod_level2)]
   level2
 
   data[,fdr_level2 := level2[toolboxH::match_hk(data$cats, level2$cats),fdr_level2]]
@@ -972,19 +982,33 @@ addHierarchFDR <- function(pvalues, categs, fdr2control = 0.05) {
 
   } else {
 
-    global_fdr5_level = global_fdr5_level_table[, max(min_level1)]
-    global_fdr5_level
+    if( correctionLevel1 == "BB") {
+      if(quiet==F) message("using for level 1 ",fdrmethod_level1,"; using for level 2 ",fdrmethod_level2, "; adjustment of multiple testing level of intersection hypotheses acc. to n Benjamini and Bogomolov [2014]...")
+      n_families_surviving_multipletesting = global_fdr5_level_table[,uniqueN(cats)]
+      n_families_all = data[,uniqueN(cats)]
+      global_fdr5_level = fdr2control * n_families_surviving_multipletesting/n_families_all
+      global_fdr5_level
+
+    } else   if( correctionLevel1 == "listlookup") {
+      if(quiet==F) message("using for level 1 ",fdrmethod_level1," using for level 2 ",fdrmethod_level2, " adjustment of multiple testing level of intersection hypotheses acc. to Huang 2017 https://www.biorxiv.org/content/biorxiv/early/2017/10/25/209171.full.pdf...")
+      global_fdr5_level = global_fdr5_level_table[, max(min_level1)]
 
 
-    message("less significant accepted group (fdr_level2 should be close to ",fdr2control," ):")
-    zeile1 = level2[min_level1==global_fdr5_level]
-    print(zeile1)
-    message("most significant non-accepted group (fdr_level2 should be also close to ",fdr2control," ):")
 
-    zeile2 = level2[min_level1 >global_fdr5_level][min_level1==min(min_level1)]
-    print(zeile2)
-    if(nrow(zeile2)==0) warning("All groups were significant at the chosen level. Think about it -Is this expected?", immediate. = TRUE)
-    if( zeile1$fdr_level2 < fdr2control*0.9 ) warning("No FDR close to desired global cut-off found (FDR cut-off: ",fdr2control, " vs. level2 - FDR corresponding as closest as possible to this globally threshold of 0.05: ",zeile1$fdr_level2, " ). This might be if only few but strong groups are present. FDR is only reliable on group - level, and too conservative on association level 1")
+      if(quiet==F) message("less significant accepted group (fdr_level2 should be close to ",fdr2control," ):")
+      zeile1 = level2[min_level1==global_fdr5_level]
+      if(quiet==F) print(zeile1)
+      if(quiet==F) message("most significant non-accepted group (fdr_level2 should be also close to ",fdr2control," ):")
+
+      zeile2 = level2[min_level1 >global_fdr5_level][min_level1==min(min_level1)]
+      if(quiet==F) print(zeile2)
+      if(nrow(zeile2)==0) warning("All groups were significant at the chosen level. Think about it -Is this expected?", immediate. = TRUE)
+      if( zeile1$fdr_level2 < fdr2control*0.9 ) warning("No FDR close to desired global cut-off found (FDR cut-off: ",fdr2control, " vs. level2 - FDR corresponding as closest as possible to this globally threshold of 0.05: ",zeile1$fdr_level2, " ). This might be if only few but strong groups are present. FDR is only reliable on group - level, and too conservative on association level 1")
+
+
+    } else stop('parameter `correctionLevel1` must be either "BB" or "listlookup"')
+
+    if(quiet==F) message("Using as adjustment of multiple testing level of intersection hypotheses FDR ", global_fdr5_level, " instead of ", fdr2control)
 
     good_categ = level2[fdr_level2 <= fdr2control, unique(cats)]
     # message('A total of ', huebsch(length(unique(good_categ))), " / ",huebsch(n_total_categs) ," (", proz(length(unique(good_categ))/n_total_categs),") categories fullfill FDR criterium...")
@@ -1089,7 +1113,7 @@ grayplot_na <-
            pch=21, bg="lightblue", col="black",
            force=c("none", "x", "y", "both"), ...)
   {
-# from https://github.com/kbroman/broman/blob/master/R/grayplot_na.R
+    # from https://github.com/kbroman/broman/blob/master/R/grayplot_na.R
     #' Scatterplot with missing values indicated
     #'
     #' Scatterplot with a gray background and with points with missing
@@ -1603,13 +1627,13 @@ qq.ggd = function ( pvector ,maxx = NULL, maxy = NULL, ... ) {
 
 ### QQPLOT von j morrison
 qq_conf = function(x, df=1, x.max = "auto",
-                        main="QQ plot",plotType="pval",
-                        sub=paste(""),
-                        xlab="Expected", ylab="Observed",
-                        conc=c(0.025, 0.975), overdisp=FALSE, trim=0.5,
-                        slope.one=T, slope.lambda=FALSE,
-                        thin=c(0.25,100), oor.pch=24, col.shade="gray", ofname="qqchi.pdf",
-                        h=6,w=6,printpdf=F,myxlim="auto",point_cex=0.5,point_col = 1, point_pch = 1,...) {
+                   main="QQ plot",plotType="pval",
+                   sub=paste(""),
+                   xlab="Expected", ylab="Observed",
+                   conc=c(0.025, 0.975), overdisp=FALSE, trim=0.5,
+                   slope.one=T, slope.lambda=FALSE,
+                   thin=c(0.25,100), oor.pch=24, col.shade="gray", ofname="qqchi.pdf",
+                   h=6,w=6,printpdf=F,myxlim="auto",point_cex=0.5,point_col = 1, point_pch = 1,...) {
   # From
   #   Jean Morrison[SMTP:MORRISON.JEANV@GMAIL.COM]
   #   Gesendet: Montag, 13. Dezember 2010 19:26:20
@@ -1638,7 +1662,7 @@ qq_conf = function(x, df=1, x.max = "auto",
 
   # 2.2.18 umgestellt lambda auf median chi mit 1 df analog GenABEL::estlambda(p, plot= F, method = "median", filter = F) auch analog http://genometoolbox.blogspot.de/2014/08/how-to-calculate-genomic-inflation.html  um classische lambda definition zu haben
 
-x_ori = x
+  x_ori = x
 
   if(x.max == "auto") x.max = max(-log10(x))+2
   if(any(is.na(x))) stop("Please remove NA from p val vector....")
@@ -1808,15 +1832,15 @@ x_ori = x
 
 ## qq plot fuer minimum p
 qqPlotMinP = function (x, number_of_tests = 3, xlab = expression(Expected ~
-                                                                                ~-log[10](italic(p[min]))), ylab = expression(Observed ~
-                                                                                                                                ~-log[10](italic(p[min]))), main = deparse(substitute(x)),
-                                    las = par("las"), subtitle = paste0("(Considering minimum of ",
-                                                                        number_of_tests, " independent p-value-series)"), envelope = 0.95,
-                                    col = palette()[1], col.lines = palette()[2], lwd = 2, pch = 16,
-                                    cex = par("cex"), labels = if (!is.null(names(x))) names(x) else seq(along = x),
-                                    id.method = "y", id.n = if (id.method[1] == "identify") Inf else 0,
-                                    id.cex = 1, id.col = palette()[1], id.location = "lr", grid = TRUE,
-                                    ...)
+                                                                   ~-log[10](italic(p[min]))), ylab = expression(Observed ~
+                                                                                                                   ~-log[10](italic(p[min]))), main = deparse(substitute(x)),
+                       las = par("las"), subtitle = paste0("(Considering minimum of ",
+                                                           number_of_tests, " independent p-value-series)"), envelope = 0.95,
+                       col = palette()[1], col.lines = palette()[2], lwd = 2, pch = 16,
+                       cex = par("cex"), labels = if (!is.null(names(x))) names(x) else seq(along = x),
+                       id.method = "y", id.n = if (id.method[1] == "identify") Inf else 0,
+                       id.cex = 1, id.col = palette()[1], id.location = "lr", grid = TRUE,
+                       ...)
 {
   #  inspired by car::qqPlot and qq_conf
 
@@ -2620,7 +2644,7 @@ reverseGCTA = function(x) {
   # print(x)
   y = ifelse(x =="A", "T", ifelse(x=="C", "G", ifelse(x=="G", "C", ifelse(x=="T", "A",NA)))) #  stop("alle must be any of a c g t A C G T")
   y
-  }
+}
 
 ### im Text als potenz schreiben, so dass es von knitr umgewandelt werden kann
 potenzFormate = function(x, showdigits=1) {paste0(stringr::str_replace(formatC(x, digits=showdigits, format = "e"), "e", "x10^"),"^")}
@@ -2753,16 +2777,16 @@ write.delim = function(x, y, writeColnames=T,writeRownames = F, createDir = F, .
 ### write so that snptest accepts the file
 ###
 writeSnptestSamplefile <- function (filename, samplefile, vartypes) {
-    stopifnot(dim(samplefile)[2] == length(vartypes))
-    stopifnot(identical(as.character(vartypes[1:3]),as.character(c(0,0,0))))
-    stopifnot(all(vartypes %in% c("0", "C", "D", "B", "P")))
-    stopifnot(identical(names(samplefile)[1:3],c("ID1","ID2","missing")) | identical(names(samplefile)[1:3],c("ID_1","ID_2","missing") ))
-    f <- file(filename, open="wb")
-    write.table(t(names(samplefile)),file=f,col.names=FALSE,row.names=FALSE,quote=FALSE,sep=" ")
-    write.table(t(as.character(vartypes)),file=f,col.names=FALSE,row.names=FALSE,quote=FALSE,sep=" ")
-    write.table(samplefile,file=f,col.names=FALSE,row.names=FALSE,quote=FALSE,sep=" ")
-    close(f)
-  }
+  stopifnot(dim(samplefile)[2] == length(vartypes))
+  stopifnot(identical(as.character(vartypes[1:3]),as.character(c(0,0,0))))
+  stopifnot(all(vartypes %in% c("0", "C", "D", "B", "P")))
+  stopifnot(identical(names(samplefile)[1:3],c("ID1","ID2","missing")) | identical(names(samplefile)[1:3],c("ID_1","ID_2","missing") ))
+  f <- file(filename, open="wb")
+  write.table(t(names(samplefile)),file=f,col.names=FALSE,row.names=FALSE,quote=FALSE,sep=" ")
+  write.table(t(as.character(vartypes)),file=f,col.names=FALSE,row.names=FALSE,quote=FALSE,sep=" ")
+  write.table(samplefile,file=f,col.names=FALSE,row.names=FALSE,quote=FALSE,sep=" ")
+  close(f)
+}
 
 
 ### write xlsx with better defaults
@@ -2883,5 +2907,5 @@ fdr_matrixEQTL <- function(p, N) {
 ##..................................................................................
 
 
-message( "\n******************************\nSuccessfully loaded toolboxH version 0.1.21")
+message( "\n******************************\nSuccessfully loaded toolboxH version 0.1.23")
 # Inspired from http://gettinggeneticsdone.blogspot.com/2013/06/customize-rprofile.html

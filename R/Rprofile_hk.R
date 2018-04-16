@@ -154,12 +154,25 @@ cleverFread = function(name, path, myenvir = .GlobalEnv, ...) {
   return(get(name))
 }
 
-cleverLoadinGlobalEnv = function(name, path, myenvir = .GlobalEnv, ...) {
-  if(exists(name)==F)  load(path, envir = myenvir, ...) else message("using object '", name, "' from workspace, saving loading-time :)")
+cleverLoadinGlobalEnv = function(name, path, myenvir = .GlobalEnv, number_or_name = NULL,...) {
+
+  if(is.null(number_or_name)) {
+    if(exists(name)==F) {
+      loadedname = load(path, envir = myenvir, ...)
+      if(identical(loadedname, name)==F) stop("When loading, found object named `", loadedname, "`` instead of `", name, "`")
+      return(loadedname)
+    } else message("using object '", name, "' from workspace, saving loading-time :)") # fix 16.4.18
+    return(name)
+  }
+
+  if(exists(name)==F)  assign(name, load_obj(path, number_or_name = number_or_name), envir = .GlobalEnv) else message("using object '", name, "' from workspace, saving loading-time :)")
+  message("assigning ", name, " to loaded object...")
   return(name)
+
 }
-## load object number_or_name with numberin new environment to allow that it does not overwrite something with the same name
-load_obj <- function(f, number_or_name = 1)
+
+
+load_obj <- function(f, number_or_name = 1) ## load object number_or_name with numberin new environment to allow that it does not overwrite something with the same name
 {
   envextra <- new.env()
 
@@ -170,7 +183,9 @@ load_obj <- function(f, number_or_name = 1)
     message("\nimported object ", nm[number_or_name])
     return(envextra[[nm[number_or_name]]])
   } else  if(is.character (number_or_name)) {
-    message("\nimported object ", nm[which(nm)== number_or_name])
+    obj_number = which(nm== number_or_name)
+    if(length(obj_number)==0) stop(paste("did not found object named ", number_or_name))
+    message("\nimported object ", nm[which(nm== number_or_name)])
     return(envextra[nm[which(nm)== number_or_name]])
   }
 }
@@ -935,9 +950,9 @@ interactionTest  = function(mean1, se1, mean2, se2) {
 
 }
 
-addKorbinianFDR = function(pvals, mystatistic = "pvalue", showplot=F){
+addKorbinianFDR = function(pvals, mystatistic = "pvalue", showplot=F, ...){
 
-  tempres =fdrtool::fdrtool(pvals, statistic = mystatistic, plot = showplot)
+  tempres =fdrtool::fdrtool(pvals, statistic = mystatistic, plot = showplot, ...)
   stopifnot(identical(pvals, tempres$pval))
   tempres$qval
 }
@@ -2907,5 +2922,5 @@ fdr_matrixEQTL <- function(p, N) {
 ##..................................................................................
 
 
-message( "\n******************************\nSuccessfully loaded toolboxH version 0.1.23")
+message( "\n******************************\nSuccessfully loaded toolboxH version 0.1.24")
 # Inspired from http://gettinggeneticsdone.blogspot.com/2013/06/customize-rprofile.html

@@ -186,7 +186,7 @@ load_obj <- function(f, number_or_name = 1) ## load object number_or_name with n
     obj_number = which(nm== number_or_name)
     if(length(obj_number)==0) stop(paste("did not found object named ", number_or_name))
     message("\nimported object ", nm[which(nm== number_or_name)])
-    return(envextra[nm[which(nm)== number_or_name]])
+    return(envextra[nm[which(nm == number_or_name)]])
   }
 }
 
@@ -2922,5 +2922,5 @@ fdr_matrixEQTL <- function(p, N) {
 ##..................................................................................
 
 
-message( "\n******************************\nSuccessfully loaded toolboxH version 0.1.24")
+message( "\n******************************\nSuccessfully loaded toolboxH version 0.1.25")
 # Inspired from http://gettinggeneticsdone.blogspot.com/2013/06/customize-rprofile.html

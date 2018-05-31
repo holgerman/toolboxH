@@ -187,7 +187,7 @@ load_obj <- function(f, number_or_name = 1) ## load object number_or_name with n
       stop(paste("did not found object named ", number_or_name))
     message("\nimported object ", nm[which(nm == number_or_name)])
     return(envextra[[nm[obj_number]]])
-  } else stop("number or name must be either a valid number or a valid character naming one of the objects above")
+  } else stop("number or name must be either a valid number or a valid character naming one of the objects above" )
 }
 
 
@@ -326,19 +326,30 @@ xtabs_hk = function(...) xtabs(... , exclude = NULL, na.action= "na.pass") # 12.
 
 
 ### show NAs within a data.frame
-showNA <- function(x, showAllNoNA = T) {
+showNA <- function(x, showAllNoNA = T, returnAsDataTable = T) {
   ## 15.6.15 als data.frame
   ## 7.7.15 apply statt sapply damit auch mit matrix funzend
-  resi = apply(x,2, function(y) sum(is.na(y)))
-  resi2 = data.frame(var = names(resi), NAs = as.vector(resi), vals = nrow(x)-as.vector(resi))
-  if(showAllNoNA) rowsNoNA = sum(apply(x, 1, function(x) all(is.na(x)==F)))
-  if(showAllNoNA) resi2 = rbind(resi2, data.frame(var = 'ROWS_NO_NAs', NAs = nrow(x)-rowsNoNA, vals = rowsNoNA))
-  resi2
-  # if(is.data.table(x)) {
-  # setDT(resi2)
-  # return(resi2)} else return(resi2)
+  ## 24.7.18 as data.table version
+  # is_data.table = data.table::is.data.table(x)
+  data.table::setDT(x)
+  # resi = apply(x,2, function(y) sum(is.na(y)))
+  resi = unlist(x[,lapply(.SD, function(y) sum(is.na(y)))])
+  resi2 = data.table(var = names(resi), NAs = as.vector(resi), vals = nrow(x)-as.vector(resi))
+  if(showAllNoNA) {
+    x[,myrownum123 := 1:.N]
+    rowsNoNA = x[,.(NoNA =  all(is.na(.SD)==F)), by = myrownum123][,sum(NoNA)]
+    resi2 = rbind(resi2, data.frame(var = 'ROWS_NO_NAs', NAs = nrow(x)-rowsNoNA, vals = rowsNoNA))
+    }
+
+  if(returnAsDataTable==F) data.table::setDF(resi2)
+
+  return(resi2)
 
 }
+
+
+
+
 
 
 
@@ -384,7 +395,7 @@ doBasicCheck = function(df) {
   message("berechne laenge und NAs...\n")
 
   zeilen = dim(df)
-  NAs = showNA(df)
+  NAs = showNA(df)$NAs
   NAs_proz = NAs/zeilen
   Vals = zeilen - NAs
   Vals_proz = Vals/zeilen
@@ -607,12 +618,17 @@ removeNAcolumns = function(df) {
 }
 
 removeEmptyRow = function(df) {
-  leerrows = apply(df,1, function(x) sum(x =="") == dim(df)[2])
+  nrow1 = nrow(df)
+
+  leerrows = apply(df,1, function(x) sum(x =="",na.rm = T ) + sum(is.na(x)) == dim(df)[2])
+  message('Removed ',sum(leerrows), '  rows where entries are only NA or ""...')
   df[leerrows ==F,]
 }
 
 removeEmptyCols = function(df) {
-  leercols = apply(df,2, function(x) sum(x =="") == dim(df)[1])
+
+  leercols = apply(df,2, function(x) sum(x =="",na.rm = T ) + sum(is.na(x)) == dim(df)[1])
+  message('Removed ',sum(leercols), '  columns where entries are only NA or ""...')
   if("data.table" %in% class(df)) return(df[,leercols ==F, with = F]) else return(df[,leercols ==F])
 }
 
@@ -632,12 +648,13 @@ moveColFront <- function ( d = dataframe , colname = "colname" ) {
 
 
 ### matching und dabeiaufpassen, dass matchvariable unique ist
-match_hk = function(x, y, testunique =T, makeunique = F,importcol = NULL, ...) {
+match_hk = function(x, y, testunique =T, makeunique = F,importcol = NULL,showMessages = T, ...) {
   ##150122 makeunique = F statt T, na.omit bei duplicated y, fehlenden ok fall includiert
   ##160328 check auf gleiche laenge x und improtcol
   ##160616 match hk zeigt die duplikated zeilen statt mytabl falls ein Fehler kommt
   #   x = transkripte_eqtl$nuid
   #   y = ilmnAnnot013$nuid
+  ##180530 data.table aware
 
   yname = deparse(substitute(y))
 
@@ -647,7 +664,7 @@ match_hk = function(x, y, testunique =T, makeunique = F,importcol = NULL, ...) {
     if(identical(check, 0)) return(match(x, y, incomparables=c(NA, NaN),...))
 
     if(identical(check, 0)==F  & makeunique == F) {
-      print(y[duplicated(y)])
+      if(showMessages ==T) message("Duplicated entries:\n", paste(y[duplicated(y)], collapse = "\n"))
       stop(paste(yname ,"ist nicht unique"))
     }
 
@@ -657,15 +674,29 @@ match_hk = function(x, y, testunique =T, makeunique = F,importcol = NULL, ...) {
       if(is.null(importcol)) stop("When asking for make unique, please provide vector with values to be imported")
       if(length(importcol) != length(y)) stop("When asking for make unique, please provide vector with values to be imported")
 
-      matcher = unique(data.frame(index = y, importcol = importcol))
-      matcher = matcher[ matcher$index %in% x,]
-      matchercheck = as.numeric(sum(duplicated(na.omit(matcher$index))))
-      if(identical(matchercheck, 0)==F  ) {
-        print(matcher[allDuplicatedEntries(matcher$index),])
-        stop(paste(yname ,"ist nicht unique after trying to make index and importcol unique..."))
+      datatable_da = "data.table" %in%  rownames(installed.packages())
+      datatable_da
+      if(datatable_da) {
+        matcher = unique(data.table(index = y, importcol = importcol))
+        matcher = matcher[ index %in% x]
+        matchercheck = matcher[,as.numeric(sum(duplicated(na.omit(index))))]
+        if(identical(matchercheck, 0)==F  ) {
+          if(showMessages ==T) print(matcher[allDuplicatedEntries(matcher$index)])
+          stop(paste(yname ,"ist nicht unique after trying to make index and importcol unique..."))
+        }
+      }
+
+      if(datatable_da==F) {
+        matcher = unique(data.frame(index = y, importcol = importcol))
+        matcher = matcher[ matcher$index %in% x,]
+        matchercheck = as.numeric(sum(duplicated(na.omit(matcher$index))))
+        if(identical(matchercheck, 0)==F  ) {
+          if(showMessages ==T) print(matcher[allDuplicatedEntries(matcher$index),])
+          stop(paste(yname ,"ist nicht unique after trying to make index and importcol unique..."))
+        }
       }
       return(match(x, y, incomparables=c(NA, NaN),...))
-      indinfo[match(x, y, incomparables=c(NA, NaN)),id_prepro_ge1]
+
 
     }
 
@@ -1529,15 +1560,15 @@ marginal_plot = function(x, y, group = NULL, data = NULL, lm_formula = y ~ x, bw
 
 ### nice 3d plot interactive
 
-plotte3D <- function (x, y,z, tocolor, dataframe, mylabels, mysize= 1.5) {
+plotte3D = function (x, y, z, farbe, mylabels="", mysize = 0.6)
+{
   require(threejs)
-  require(data.table)
-  setDT(dataframe)
-  farbe = dataframe[, factor(get(tocolor))]
   farbentopf = rainbow(length(unique(farbe)))
-  farbe = as.character(factor(farbe, labels = farbentopf) )
-  try(scatterplot3js(dataframe[,c(x, y, z), with  = F], color=farbe, labels=mylabels, size=mysize, renderer="canvas" ))
+  farbe = as.character(factor(farbe, labels = farbentopf))
+  try(scatterplot3js(cbind(x, y, z), color = farbe,
+                     labels = mylabels, size = mysize, renderer = "auto"))
 }
+
 
 
 ### Function for arranging ggplots. example:   multiplot(p1, p2, p3, p4, cols=2). It can take any number of plot objects as arguments, or if it can take a list of plot objects passed to plotlist.
@@ -1945,28 +1976,31 @@ theme_peter = function(beschriftungszahlengroesse = 20, relfak = 2) {
 
 ### nice correlation plots
 
-nicepairs = function (x, punktcol = rgb(0, 0, 0, 0.3), punktform = 4, cortype = "spearman",smoothness = 0.8, ...)
-
+nicepairs = function (x, punktcol = rgb(0, 0, 0, 0.3), punktform = 4, cortype = "spearman",smoothness = 0.95, ...)
 {
+  #24.7.18 can handle single values with lots NA
   panel.cor = function(x, y, digits = 2, prefix = "") {
     usr <- par("usr")
     on.exit(par(usr))
     par(usr = c(0, 1, 0, 1))
     isna <- is.na(x) == F & is.na(y) == F
     r <- cor(x[isna], y[isna], method = cortype)
-    pval = cor.test(x[isna], y[isna], method = cortype)$p.value
-    pvalstars = showStars(pval)
+
+
+    pval = try(cor.test(x[isna], y[isna], method = cortype)$p.value, silent = T)
+    if("try-error" %in% class(pval)) {pval = NA}
+    if(is.na(r)==F) pvalstars = showStars(pval) else  pvalstars =""
     txt <- format(c(r, 0.123456789), digits = digits)[1]
     txt <- paste(prefix, txt, pvalstars, sep = "")
-    cex_todo = 1 + abs(r)
+    if(is.na(r)==F) cex_todo = 1 + abs(r)  else  cex_todo = 1
     colorrule = data.frame(myvalue = seq(0, 1, 0.125), mycolor = mypalette <- RColorBrewer::brewer.pal(9,
                                                                                                        "YlOrRd"))
-    bg = colorrule[abs(r) > colorrule$myvalue & abs(r) <=
-                     (colorrule$myvalue + 0.125), "mycolor"]
+    if(is.na(r)==F) bg = colorrule[abs(r) > colorrule$myvalue & abs(r) <=
+                                     (colorrule$myvalue + 0.125), "mycolor"] else bg = "grey55"
     ll <- par("usr")
     rect(ll[1], ll[3], ll[2], ll[4], col =  as.character(bg))
-    text(0.5, 0.5, txt, cex = cex_todo, col = ifelse(r <
-                                                       0, "dodgerblue4", "black"))
+    text(0.5, 0.5, txt, cex = cex_todo, col = ifelse(is.na(r), "grey99", ifelse(r <
+                                                                                  0, "dodgerblue4", "black")))
   }
   panel.smooth2 = function(x, y, bg = NA, pch = punktform,
                            cex = 1, col = punktcol, col.smooth = "red", span = smoothness,
@@ -1977,8 +2011,10 @@ nicepairs = function (x, punktcol = rgb(0, 0, 0, 0.3), punktform = 4, cortype = 
       lines(stats::lowess(x[ok], y[ok], f = span, iter = iter),
             col = col.smooth)
   }
+  # pairs(x, lower.panel = panel.cor, upper.panel = panel.smooth2)
   pairs(x, lower.panel = panel.cor, upper.panel = panel.smooth2, ...)
 }
+
 
 
 
@@ -2849,11 +2885,11 @@ pdf_from_png = function(code2parseOrPlot, pdf_filename, temp_pngfile = tempfile(
 dt_html <- function (df2, zeileninitial=20, maxstringlength = 25) {
   library(DT)
 
-  if(sum(showNA(df2)) ==0){
+  if(sum(showNA(df2)$NAs) ==0){
     datatable((df2),
               class =  'cell-border stripe',
               filter = 'bottom',
-              extensions = c("ColVis", "ColReorder", 'KeyTable','Scroller'),
+              extensions = c( "ColReorder", 'KeyTable','Scroller'),
               options = list(
                 pageLength = zeileninitial,
                 autoWidth = TRUE,
@@ -2862,27 +2898,25 @@ dt_html <- function (df2, zeileninitial=20, maxstringlength = 25) {
                   targets = 1:ncol(df2),
                   render = JS(
                     "function(data, type, row, meta) {",
-                    stringr::str_replace("return type === 'display' && data.length > maxstringlength ?","maxstringlength", maxstringlength) ,
-                    stringr::str_replace("'<span title=\"' + data + '\">' + data.substr(0, maxstringlength) + '...</span>' : data;","maxstringlength", maxstringlength) ,
+                    stringr::str_replace("return type === 'display' && data.length > maxstringlength ?","maxstringlength", as.character(maxstringlength)) ,
+                    stringr::str_replace("'<span title=\"' + data + '\">' + data.substr(0, maxstringlength) + '...</span>' : data;","maxstringlength", as.character(maxstringlength)) ,
                     "}")
                 )),
                 scrollY = 1000,
-                scrollCollapse = TRUE,
-                tableTools = list(sSwfPath = copySWF())
+                scrollCollapse = TRUE
               ),
               callback = JS('table.page(3).draw(false);'))
   } else {
     datatable(df2,
               class =  'cell-border stripe',
               filter = 'bottom',
-              extensions = c("ColVis"),
               options = list(
                 dom = 'CRlfrtip',
                 columnDefs = list(list(
                   render = JS(
                     "function(data, type, row, meta) {",
-                    stringr::str_replace("return type === 'display' && data.length > maxstringlength ?","maxstringlength", maxstringlength) ,
-                    stringr::str_replace("'<span title=\"' + data + '\">' + data.substr(0, maxstringlength) + '...</span>' : data;","maxstringlength", maxstringlength) ,
+                    stringr::str_replace("return type === 'display' && data.length > maxstringlength ?","maxstringlength", as.character(maxstringlength)) ,
+                    stringr::str_replace("'<span title=\"' + data + '\">' + data.substr(0, maxstringlength) + '...</span>' : data;","maxstringlength", as.character(maxstringlength)) ,
                     "}")
                 ))
               ),
@@ -2917,10 +2951,52 @@ fdr_matrixEQTL <- function(p, N) {
 }
 
 
+round2 = function(x, n) {
+  # https://stackoverflow.com/questions/12688717/round-up-from-5
+  posneg = sign(x)
+  z = abs(x)*10^n
+  z = z + 0.5
+  z = trunc(z)
+  z = z/10^n
+  z*posneg
+}
+
 ##..................................................................................
 # Finalyzing RProfile
 ##..................................................................................
 
 
-message( "\n******************************\nSuccessfully loaded toolboxH version 0.1.25")
+message( "\n******************************\nSuccessfully loaded toolboxH version 0.1.26")
 # Inspired from http://gettinggeneticsdone.blogspot.com/2013/06/customize-rprofile.html
+
+testThePackage = function() {
+  message("Testing match_hk")
+  {test1 = data.table(a = 5:1, b = letters[5:1])
+    test1
+    test2 = data.table(a = c(1,1:2, NA), b = letters[c(1,1:3)])
+    test2
+    test3 = data.table(a = c(1,2:1, NA), b = letters[c(1,1:3)])
+    test3
+
+
+    toannot = data.table(x = c(1,NA, 1:2))
+    goodresult = c('a',NA, 'a', "b")
+    naivresult = c('a',NA, 'a', "a")
+    testthat::expect_equal(toannot[, y:= test1[match_hk(toannot$x, test1$a), b]][,y], goodresult)
+
+    testthat::expect_error(toannot[, y:= test2[match_hk(toannot$x, test2$a, showMessages = F), b]])
+
+    testthat::expect_error(toannot[, y:= test2[match_hk(toannot$x, test2$a, makeunique = T,importcol = 'b'), b]])
+    testthat::expect_equal(toannot[, y:= test2[match_hk(toannot$x, test2$a, makeunique = T,importcol = test2$b), b]][,y], goodresult)
+    testthat::expect_equal(toannot[, y:= test2[match_hk(toannot$x, test2$a, makeunique = T,importcol = test2$b), b]][,y], goodresult)
+    testthat::expect_equal(toannot[, y:= test2[match_hk(toannot$x, test2$a, testunique = F), b]][,y], goodresult)
+
+
+    testthat::expect_error(toannot[, y:= test3[match_hk(toannot$x, test3$a, showMessages = F), b]])
+    testthat::expect_equal(toannot[, y:= test3[match_hk(toannot$x, test3$a, testunique = F, showMessages = F), b]][,y], naivresult)
+
+    testthat::expect_error(toannot[, y:= test3[match_hk(toannot$x, test3$a, makeunique = T,importcol = test3$b, showMessages = F), b]])
+  }
+  message("DONE witout errors\n---------------------")
+
+}

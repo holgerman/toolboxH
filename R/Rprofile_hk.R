@@ -330,14 +330,32 @@ showNA <- function(x, showAllNoNA = T, returnAsDataTable = T) {
   ## 15.6.15 als data.frame
   ## 7.7.15 apply statt sapply damit auch mit matrix funzend
   ## 24.7.18 as data.table version
-  # is_data.table = data.table::is.data.table(x)
+
   data.table::setDT(x)
-  # resi = apply(x,2, function(y) sum(is.na(y)))
+
   resi = unlist(x[,lapply(.SD, function(y) sum(is.na(y)))])
   resi2 = data.table(var = names(resi), NAs = as.vector(resi), vals = nrow(x)-as.vector(resi))
   if(showAllNoNA) {
-    x[,myrownum123 := 1:.N]
-    rowsNoNA = x[,.(NoNA =  all(is.na(.SD)==F)), by = myrownum123][,sum(NoNA)]
+
+    # test = microbenchmark('matrixstat' = {rowsNoNA = x[,matrixStats::rowAnyNAs(as.matrix(.SD))]},
+    #                       'byvari' = {rowsNoNA = x[,all(is.na(unlist(.SD))==F), by= row.names(x)]},
+    #                       'apply' = {rowsNoNA = apply(x, 1, function(x) all(is.na(x)==F))},times = 100)
+    # test
+    #
+    # ggplot2::autoplot(test)
+
+    # >     test
+    # Unit: seconds
+    # expr       min        lq      mean    median        uq       max neval
+    # matrixstat 124.87354 124.87354 124.87354 124.87354 124.87354 124.87354     1
+    # byvari  20.97202  20.97202  20.97202  20.97202  20.97202  20.97202     1
+    # apply 136.37191 136.37191 136.37191 136.37191 136.37191 136.37191     1
+    # > dim(x)
+    # [1] 1500000      96
+
+
+    rowsNoNA = x[,all(is.na(unlist(.SD))==F), by= row.names(x)][,sum(V1)]
+
     resi2 = rbind(resi2, data.frame(var = 'ROWS_NO_NAs', NAs = nrow(x)-rowsNoNA, vals = rowsNoNA))
     }
 

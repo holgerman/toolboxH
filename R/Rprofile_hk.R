@@ -354,7 +354,7 @@ showNA <- function(x, showAllNoNA = T, returnAsDataTable = T) {
     # [1] 1500000      96
 
 
-    rowsNoNA = x[,all(is.na(unlist(.SD))==F), by= row.names(x)][,sum(V1)]
+    rowsNoNA = x[,all(is.na(unlist(.SD))==F), by= list(row.names(x))][,sum(V1)]
 
     resi2 = rbind(resi2, data.frame(var = 'ROWS_NO_NAs', NAs = nrow(x)-rowsNoNA, vals = rowsNoNA))
   }
@@ -569,7 +569,7 @@ fastermultipleEntries2multipleRows = function(dfori,idToSplit,separator) {
 
   tosplit = data.table(splitvar)
 
-  call3 = parse(text = paste0('referenz = tosplit[,list(splitted = unlist(strsplit(splitvar, split= "',separator,'"))), by = splitvar]'))
+  call3 = parse(text = paste0('referenz = tosplit[,list(splitted = unlist(strsplit(splitvar, split= "',separator,'"))), by = list(splitvar)]'))
   eval(call3)
 
   setnames(referenz, "splitvar", idToSplit)
@@ -1023,9 +1023,9 @@ addHierarchFDR <- function(pvalues, categs, fdr2control = 0.05, fdrmethod_level1
 
   data = data.table::data.table(p = pvalues, cats = categs)
 
-  data[,fdr_level1 := p.adjust(p,method =fdrmethod_level1), by = cats] #  &
+  data[,fdr_level1 := p.adjust(p,method =fdrmethod_level1), by = list(cats)] #  &
 
-  level2 = data[ ,.(min_level1 = min(fdr_level1)), by = cats]
+  level2 = data[ ,.(min_level1 = min(fdr_level1)), by = list(cats)]
   level2
 
   level2[,fdr_level2 := p.adjust(min_level1,method =fdrmethod_level2)]

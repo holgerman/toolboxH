@@ -326,12 +326,16 @@ xtabs_hk = function(...) xtabs(... , exclude = NULL, na.action= "na.pass") # 12.
 
 
 ### show NAs within a data.frame
-showNA <- function(x, showAllNoNA = T, returnAsDataTable = T) {
+showNA <- function(x, showAllNoNA = T, returnAsDataTable = F) {
   ## 15.6.15 als data.frame
   ## 7.7.15 apply statt sapply damit auch mit matrix funzend
   ## 24.7.18 as data.table version
+x_is_datatable = data.table::is.data.table(x)
+  if(x_is_datatable==F) {
+    x = data.table::copy(x)
+    setDT(x)
 
-  data.table::setDT(x)
+  }
 
   resi = unlist(x[,lapply(.SD, function(y) sum(is.na(y)))])
   resi2 = data.table(var = names(resi), NAs = as.vector(resi), vals = nrow(x)-as.vector(resi))
@@ -2983,7 +2987,7 @@ round2 = function(x, n) {
 ##..................................................................................
 
 
-message( "\n******************************\nSuccessfully loaded toolboxH version 0.1.26")
+
 # Inspired from http://gettinggeneticsdone.blogspot.com/2013/06/customize-rprofile.html
 
 testThePackage = function() {
@@ -3017,3 +3021,4 @@ testThePackage = function() {
   message("DONE witout errors\n---------------------")
 
 }
+message( "\n******************************\nSuccessfully loaded toolboxH version 0.1.27")

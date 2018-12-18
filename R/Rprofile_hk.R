@@ -2223,44 +2223,46 @@ venndiagram <- function(x=x, y=y, z=z, w=w, unique=T, title="Venn Diagram", labe
 }
 
 
-venn2 = function(x1,y1, mytitle="2-Way Venn Diagram", mylabels = NA, plotte =T)
+
+venn2 = function(x1,y1, mytitle="2-Way Venn Diagram", mylabels = NA, plotte =T, venntype = '2')
 {
   # 28/2/13 plotte par
   # 150119 vector check
   if(all(is.vector(x1) | is.factor(x1),is.vector(y1)|is.factor(y1))==F) stop("All input data must be vectors...")
   if(is.na(mylabels[1])) mylabels = c(deparse(substitute(x1)), deparse(substitute(y1)))
-  qlist <- venndiagram(x=x1, y=y1, unique=T, title=mytitle, labels= mylabels, plot=plotte, lines=c(2,3), lcol=c(2,3), tcol=c(1,1,1), lwd=3, cex=1.3, printsub=T, type="2")
+  qlist <- venndiagram(x=x1, y=y1, unique=T, title=mytitle, labels= mylabels, plot=plotte, lines=c(2,3), lcol=c(2,3), tcol=c(1,1,1), lwd=3, cex=1.3, printsub=T, type=venntype)
   qlist
 }
 
 
-venn3 = function(x1,y1,z1, mytitle="3-Way Venn Diagram", mylabels = NA,  plotte =T)
+venn3 = function(x1,y1,z1, mytitle="3-Way Venn Diagram", mylabels = NA,  plotte =T, venntype = '3')
 {
   # 28/2/13 plotte par
   # 150119 vector check
   if(all(is.vector(x1)|is.factor(x1),is.vector(y1)|is.factor(y1),is.vector(z1)|is.factor(z1))==F) stop("All input data must be vectors...")
 
   if(is.na(mylabels[1])) mylabels = c(deparse(substitute(x1)), deparse(substitute(y1)), deparse(substitute(z1)))
-  qlist <- venndiagram(x=x1, y=y1, z=z1, unique=T, title=mytitle, labels= mylabels, plot=plotte, lines=c(2,3,4), lcol=c(2,3,4), tcol=c(1,1,1,1,1,1,1), lwd=3, cex=1.3, printsub=T, type="3")
+  qlist <- venndiagram(x=x1, y=y1, z=z1, unique=T, title=mytitle, labels= mylabels, plot=plotte, lines=c(2,3,4), lcol=c(2,3,4), tcol=c(1,1,1,1,1,1,1), lwd=3, cex=1.3, printsub=T, type=venntype)
   qlist
 }
 
-venn4 = function(x1,y1,z1,w1, mytitle="4-Way Venn Diagram", mylabels = NA,  plotte =T)
+venn4 = function(x1,y1,z1,w1, mytitle="4-Way Venn Diagram", mylabels = NA,  plotte =T, venntype = '4el')
 {
   # 13/07/03
   # 150119 vector check
+  if(venntype=="4map") venntype = "4elmap"
   if(all(is.vector(x1)|is.factor(x1),is.vector(y1)|is.factor(y1),is.vector(z1)|is.factor(z1),is.vector(w1)|is.factor(w1))==F) stop("All input data must be vectors...")
 
   if(is.na(mylabels[1])) mylabels = c(deparse(substitute(x1)), deparse(substitute(y1)), deparse(substitute(z1)), deparse(substitute(w1)))
   qlist <- venndiagram(x=x1, y=y1, z=z1, w=w1, unique=T, title=mytitle, labels=mylabels,
-                       plot=plotte, lines=c(2,3,4,6), lcol=c(2,3,4,6), tcol=1, lwd=3, cex=1, printsub=T, type="4el")
+                       plot=plotte, lines=c(2,3,4,6), lcol=c(2,3,4,6), tcol=1, lwd=3, cex=1, printsub=T, type=venntype)
   qlist
 }
 
 ## noch bunte variante aus venn package, aber mit freierer wahl der labels
 
 venn = function (x, snames = "", ilabels = FALSE, counts = FALSE, ellipse = FALSE,
-                 zcolor = "bw", opacity = 0.3, size = 15, cexil = 0.6, cexsn = 0.85,
+                 zcolor = "style", opacity = 0.3, size = 15, cexil = 0.6, cexsn = 0.85,
                  ...) {
   require(venn)
   if (missing(x)) {
@@ -2984,6 +2986,17 @@ round2 = function(x, n) {
   z = trunc(z)
   z = z/10^n
   z*posneg
+}
+
+pFromBetaSE = function(beta, se, two.sided = T, returnXminIf0 = F) {
+  # beta = 0.5; se = 0.005;two.sided = T;returnXminIf0 = F
+  z = beta/se
+  if(two.sided==T) p = 2*pnorm(-abs(z)) else  p = pnorm(-abs(z))
+  if(returnXminIf0 ==T) p = ifelse(p>1,1, ifelse(p==0, .Machine$double.xmin, p)) else p = ifelse(p>1,1,p)
+
+  p
+
+
 }
 
 ##..................................................................................

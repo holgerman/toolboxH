@@ -948,40 +948,70 @@ hypertest2 <- function(besondere,gezogene,hintergrund, more=T, unique=T){   #bes
   #in diesem www-Beispiel sind die weissen Kugeln a+b und entsprechen allen Elemente der eingabe "besondere", z.b. allen eQTL SNPs
   #alle gezogenen Kugeln sind a+c und entsprechen der Eingabe "gezogene" und sind z.b. alle GWAS SNPs, egal ob eQTL oder nich eQTL
   #alle Elemente der Urne sind a+b+c+d und entsprechen dem Hintergrund "hintergrund", e.g. allen dbSNP eintraegen mit dem gleichen unspezifischen Filtern wie die Liste (e.g. alle dbSNP SNPs, die auf eQTL getestet wurden)
-  if(all(is.character(besondere),is.character(gezogene), is.character(hintergrund))==F) stop("input nicht vom typ chr")
-  if(all(besondere %in% hintergrund)==F) stop("nicht alle 'besondere' (alle weissen Kugeln) in 'hintergrund' (der Hintergrund)")
-  if(all(gezogene %in% hintergrund)==F) stop("nicht alle 'gezogene' (alle gezogenen Kugeln) in 'hintergrund' (der Hintergrund)")
-  if(any(is.na(besondere),is.na(besondere),is.na(besondere))==T) stop("NA in den daten versteckt!")
-  if(unique==T){
-    besondere <- unique(besondere)
-    gezogene <- unique(gezogene)
-    hintergrund <- unique(hintergrund)
+    # if (all(is.character(besondere), is.character(gezogene),
+            # is.character(hintergrund)) == F)
+      # warning("input nicht vom typ chr ",immediate. = F)
+
+    if (unique == T) {
+      besondere <- unique(besondere)
+      gezogene <- unique(gezogene)
+      hintergrund <- unique(hintergrund)
+    }
+
+    besondere_inbg = besondere[besondere %in% hintergrund]
+    message("Schraenke 'besondere' auf 'hintergrund' ein: Using ", length(besondere_inbg) , " instead of ", length(besondere))
+    besondere = besondere_inbg
+
+    gezogene_inbg = gezogene[gezogene %in% hintergrund]
+    message("Schraenke 'gezogene' auf 'hintergrund' ein: Using ", length(gezogene_inbg) , " instead of ", length(gezogene))
+    gezogene = gezogene_inbg
+
+
+    if (all(besondere %in% hintergrund) == F)
+      stop("nicht alle 'besondere' (alle weissen Kugeln) in 'hintergrund' (der Hintergrund)")
+    if (all(gezogene %in% hintergrund) == F)
+      stop("nicht alle 'gezogene' (alle gezogenen Kugeln) in 'hintergrund' (der Hintergrund)")
+    if (any(is.na(besondere), is.na(besondere), is.na(besondere)) ==
+        T)
+      stop("NA in den daten versteckt!")
+
+    aa <- sum(besondere %in% gezogene)
+    bb <- length(besondere) - aa
+    cc <- length(gezogene) - aa
+    dd <- length(hintergrund) - cc - bb - aa
+    pval = phyper(aa - 1, aa + bb, cc + dd, aa + cc, lower.tail = !more)
+    in_gezogen <- round((aa/(aa + cc)) * 100, 3)
+    in_bk <- round(((aa + bb)/(aa + bb + cc + dd)) * 100, 3)
+    enr <- round(in_gezogen/in_bk, 3)
+    mymatrix = matrix(c(aa, bb, cc, dd), nrow = 2)
+    or = fisher.test(mymatrix)
+    pvalfisher = or$p.value
+    message1 = paste(in_gezogen, "% vs. ", in_bk, "% Enrichment:",
+                     enr, "OR (95%CI) =", signif(or$estimate, 3), paste0("(",
+                                                                         signif(or$conf.int[1], 3), "-", signif(or$conf.int[2]),
+                                                                         ")"), sep = " ")
+    message2 = paste("p hypergeomtrisch=", signif(pval, 3),
+                     "p fisher", signif(pvalfisher, 3))
+    message3 = paste(aa, "in", aa + cc, "gezogenen vs.", aa +
+                       bb, "in", aa + bb + cc + dd, "(grundgesamtheit)", sep = " ")
+    message(message1)
+    message(message2)
+    message(message3)
+    res = list(in_gezogen = in_gezogen, in_bk = in_bk, enrichment = enr,
+               pval = pval, pval_fisher = pvalfisher, or = or$estimate,
+               or_lower = or$conf.int[1], or_upper = or$conf.int[2],
+               matrix = mymatrix, messages = c(message1, message2,
+                                               message3), compactresult = data.frame(in_gezogen = in_gezogen,
+                                                                                     in_bk = in_bk, enrichment = enr, pval = pval, pval_fisher = pvalfisher,
+                                                                                     or = or$estimate, or_lower = or$conf.int[1], or_upper = or$conf.int[2],
+                                                                                     Bes_Gez = mymatrix[1], Bes_nichtGez = mymatrix[3],
+                                                                                     nichtBes_Gez = mymatrix[2], nichtBes_nichtGez = mymatrix[4],
+                                                                                     matrix = paste(mymatrix, collapse = ", "), row.names = NULL))
+    res
   }
-  aa <- sum(besondere %in% gezogene) #alle weissen gezogenen
-  bb <- length(besondere) -aa # alle weissen nicht gezogenen
-  cc <- length(gezogene) - aa # alle schwarzen gezogenen
-  dd <- length(hintergrund) - cc - bb -aa ## alle schwarzen nicht gezogen
-  pval= phyper(aa-1,aa+bb,cc+dd,aa+cc,lower.tail=!more)
-  in_gezogen <- round((aa/(aa+cc))*100,3)
-  in_bk <-  round(((aa+bb)/(aa+bb+cc+dd))*100,3)
-  enr <- round(in_gezogen/in_bk,3)
-
-  mymatrix =  matrix(c(aa,bb,cc,dd),nrow = 2)
-  or = fisher.test(mymatrix)
-  pvalfisher  = or$p.value
-  message1 = paste(in_gezogen,"% vs. ", in_bk,"% Enrichment:",  enr ,"OR (95%CI) =", signif(or$estimate,3), paste0("(", signif(or$conf.int[1],3), "-", signif(or$conf.int[2]), ")"), sep=" ")
-  message2 = paste("p hypergeomtrisch=", signif(pval,3), 'p fisher', signif(pvalfisher,3))
-  message3 = paste(aa, "in", aa+cc, "gezogenen vs.", aa+bb, "in", aa+bb+cc+dd, "(grundgesamtheit)", sep=" ")
-  message(message1)
-  message(message2)
-  message(message3)
-  res = list(in_gezogen = in_gezogen, in_bk = in_bk, enrichment = enr, pval = pval, pval_fisher = pvalfisher, or = or$estimate, or_lower = or$conf.int[1], or_upper = or$conf.int[2], matrix = mymatrix, messages = c(message1, message2, message3), compactresult = data.frame(in_gezogen = in_gezogen, in_bk = in_bk, enrichment = enr, pval = pval, pval_fisher = pvalfisher, or = or$estimate, or_lower = or$conf.int[1], or_upper = or$conf.int[2], gezogen = mymatrix[1], nicht_gezogen = mymatrix[3],in_background = mymatrix[2], nicht_in_background = mymatrix[4], matrix = paste(mymatrix, collapse = ", ")))
-  res
-}
 
 
-
-### confidence intervalls to p values see http://www.bmj.com/content/343/bmj.d2304
+h### confidence intervalls to p values see http://www.bmj.com/content/343/bmj.d2304
 ci2p <- function (Est,u,l) {
   SE = (u - l)/(2*1.96)
   z = Est/SE
@@ -2868,7 +2898,13 @@ WriteXLS_hk = function(x, ExcelFileName = "R.xls", SheetNames = x, AutoFilter = 
   library(WriteXLS)
   WriteXLS( x=x, ExcelFileName = ExcelFileName, SheetNames = SheetNames, AutoFilter = AutoFilter, BoldHeaderRow = BoldHeaderRow, FreezeRow = FreezeRow, FreezeCol = FreezeCol, AdjWidth = AdjWidth,... )}
 
+### write with fwrite tabbed gz file
 
+fwriteGz = function(df, filename, gzip = T, delim = "\t", overwriteGz = T, ...) {
+  fwrite(df, filename, sep = delim, ...)
+  R.utils::gzip(filename,overwrite=overwriteGz)
+  message('wrote ', paste0(filename, ".gz"))
+}
 
 ### active waiting so that RStudio server does not initiate suspend mode (usefull for huge workspaces)
 wait4me = function() {

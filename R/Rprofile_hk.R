@@ -1,5 +1,5 @@
 #' @export
-initializeSkript <-  function(datatable_lines = 3,datatable_nrow_allshow = 10,datatable_colwidth = 40L, computer="amanMRO",add_libpath = T,  lib_location = "/net/ifs1/san_projekte/projekte/genstat/07_programme/rpackages/", myfilename =NULL){
+initializeSkript <-  function(datatable_lines = 3,datatable_nrow_allshow = 10,datatable_colwidth = 40L,datatable_cores = 10,  computer="amanMRO",add_libpath = T,  lib_location = "/net/ifs1/san_projekte/projekte/genstat/07_programme/rpackages/", myfilename =NULL){
   #clear memory cache
 
   gc()
@@ -30,8 +30,10 @@ initializeSkript <-  function(datatable_lines = 3,datatable_nrow_allshow = 10,da
 
   message('setting options for data.table( datatable.prettyprint.char = ',datatable_colwidth,'\n)',
           'setting options for data.table( datatable.print.topn = ',datatable_lines,'\n)',
-          'setting options for data.table( datatable.print.nrows = ',datatable_nrow_allshow,'\n)')
+          'setting options for data.table( datatable.print.nrows = ',datatable_nrow_allshow,'\n)',
+          'setting options for data.table::setDTthreads() = ',datatable_cores,'\n)')
 
+  data.table::setDTthreads(datatable_cores)
   options(datatable.prettyprint.char= datatable_colwidth )
   options(datatable.print.topn=datatable_lines)
   options(datatable.print.nrows =datatable_nrow_allshow)

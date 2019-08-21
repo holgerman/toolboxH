@@ -1,0 +1,14 @@
+### normality check
+norm_plot2 <- function(vektor,  x_lim=c(min(vektor)-min(vektor)*.5, max(vektor)+max(vektor)*.1), titelgroesse = 1, mybreaks = NULL,vektorname = NULL , ...) {
+  #27.8.15 parameter vektorname
+  par(mfrow=c(1,2))
+  if(is.null(mybreaks)) mybreaks = min(c(as.integer(length(vektor)/5), 20))
+  # print(mybreaks)
+  varname <- ifelse(length(vektorname)==0, deparse(substitute(vektor)),vektorname)
+  hist(vektor,freq=T, breaks=mybreaks, labels=T, col="antiquewhite", xlim=x_lim, main = paste0("Histogram of ", varname), cex.main = titelgroesse, ...)
+  mtext(paste0("ks-test pval = ", signif(ks.test(vektor,"pnorm", mean(vektor), sd(vektor))$p.value,3)))
+  qqnorm(vektor,main = paste0("QQ-plot of ", varname), cex.main = titelgroesse,...); qqline(vektor, col = 2)
+  if(length(vektor) >5000) shapvektor = sample(vektor, size=5000, replace=F) else shapvektor = vektor
+  mtext(paste0("shapiro wilk pval = ",signif(shapiro.test(shapvektor)$p.value,3) ))
+  par(mfrow = c(1,1))
+}

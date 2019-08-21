@@ -1,4 +1,26 @@
-#' @export
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param datatable_lines PARAM_DESCRIPTION, Default: 3
+#' @param datatable_nrow_allshow PARAM_DESCRIPTION, Default: 10
+#' @param datatable_colwidth PARAM_DESCRIPTION, Default: 40
+#' @param datatable_cores PARAM_DESCRIPTION, Default: 10
+#' @param computer PARAM_DESCRIPTION, Default: 'amanMRO'
+#' @param add_libpath PARAM_DESCRIPTION, Default: T
+#' @param lib_location PARAM_DESCRIPTION, Default: '/net/ifs1/san_projekte/projekte/genstat/07_programme/rpackages/'
+#' @param myfilename PARAM_DESCRIPTION, Default: NULL
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso 
+#'  
+#' @rdname initializeSkript
+#' @export 
+#' @import data.table
 initializeSkript <-  function(datatable_lines = 3,datatable_nrow_allshow = 10,datatable_colwidth = 40L,datatable_cores = 10,  computer="amanMRO",add_libpath = T,  lib_location = "/net/ifs1/san_projekte/projekte/genstat/07_programme/rpackages/", myfilename =NULL){
   #clear memory cache
 

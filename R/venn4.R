@@ -1,3 +1,23 @@
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param x1 PARAM_DESCRIPTION
+#' @param y1 PARAM_DESCRIPTION
+#' @param z1 PARAM_DESCRIPTION
+#' @param w1 PARAM_DESCRIPTION
+#' @param mytitle PARAM_DESCRIPTION, Default: '4-Way Venn Diagram'
+#' @param mylabels PARAM_DESCRIPTION, Default: NA
+#' @param plotte PARAM_DESCRIPTION, Default: T
+#' @param venntype PARAM_DESCRIPTION, Default: '4el'
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname venn4
+#' @export 
 venn4 = function(x1,y1,z1,w1, mytitle="4-Way Venn Diagram", mylabels = NA,  plotte =T, venntype = '4el')
 {
   # 13/07/03

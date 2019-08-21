@@ -1,4 +1,28 @@
 
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param x PARAM_DESCRIPTION
+#' @param y PARAM_DESCRIPTION
+#' @param group PARAM_DESCRIPTION, Default: NULL
+#' @param data PARAM_DESCRIPTION, Default: NULL
+#' @param lm_formula PARAM_DESCRIPTION, Default: y ~ x
+#' @param bw PARAM_DESCRIPTION, Default: 'nrd0'
+#' @param alpha PARAM_DESCRIPTION, Default: 1
+#' @param plot_legend PARAM_DESCRIPTION, Default: T
+#' @param ... PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso 
+#'  
+#' @rdname marginal_plot
+#' @export 
+#' @import scales
 marginal_plot = function(x, y, group = NULL, data = NULL, lm_formula = y ~ x, bw = "nrd0", alpha = 1, plot_legend = T, ...){
   # https://github.com/ChrKoenig/R_marginal_plot
   require(scales)

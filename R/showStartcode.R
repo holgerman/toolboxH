@@ -1,3 +1,18 @@
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param os PARAM_DESCRIPTION, Default: 'unix'
+#' @param pathwd PARAM_DESCRIPTION, Default: getwd()
+#' @param myfilename PARAM_DESCRIPTION, Default: filename
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname showStartcode
+#' @export 
 showStartcode = function(os = "unix", pathwd = getwd(), myfilename = filename){
 
   # create code for command - line start of the script:

@@ -1,3 +1,26 @@
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param pvalues PARAM_DESCRIPTION
+#' @param categs PARAM_DESCRIPTION
+#' @param fdr2control PARAM_DESCRIPTION, Default: 0.05
+#' @param fdrmethod_level1 PARAM_DESCRIPTION, Default: 'BH'
+#' @param fdrmethod_level2 PARAM_DESCRIPTION, Default: 'BH'
+#' @param correctionLevel1 PARAM_DESCRIPTION, Default: 'BB'
+#' @param quiet PARAM_DESCRIPTION, Default: FALSE
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso 
+#'  
+#' @rdname addHierarchFDR
+#' @export 
+#' @import data.table
+#' @import toolboxH
 addHierarchFDR <- function(pvalues, categs, fdr2control = 0.05, fdrmethod_level1 = "BH", fdrmethod_level2 = "BH", correctionLevel1 = "BB", quiet=FALSE ) {
 
   # correctionLevel1 == "BB" means  from http://bioinformatics.org/treeqtl/Peterson_GenEpi_2016.pdf citing  Benjamini and Bogomolov  [2014] doing  q2 × Number families with FDR level2 <= fdr2control / Number of all families ("appropriate adjustment for the selection bias introduced in Stage 1" page 5) or

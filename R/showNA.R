@@ -1,4 +1,22 @@
 ### show NAs within a data.frame
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param x PARAM_DESCRIPTION
+#' @param showAllNoNA PARAM_DESCRIPTION, Default: T
+#' @param returnAsDataTable PARAM_DESCRIPTION, Default: F
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso 
+#'  
+#' @rdname showNA
+#' @export 
+#' @import data.table
 showNA <- function(x, showAllNoNA = T, returnAsDataTable = F) {
   ## 15.6.15 als data.frame
   ## 7.7.15 apply statt sapply damit auch mit matrix funzend

@@ -1,3 +1,21 @@
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param x1 PARAM_DESCRIPTION
+#' @param y1 PARAM_DESCRIPTION
+#' @param mytitle PARAM_DESCRIPTION, Default: '2-Way Venn Diagram'
+#' @param mylabels PARAM_DESCRIPTION, Default: NA
+#' @param plotte PARAM_DESCRIPTION, Default: T
+#' @param venntype PARAM_DESCRIPTION, Default: '2'
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname venn2
+#' @export 
 venn2 = function(x1,y1, mytitle="2-Way Venn Diagram", mylabels = NA, plotte =T, venntype = '2')
 {
   # 28/2/13 plotte par

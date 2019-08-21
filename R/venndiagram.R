@@ -2,6 +2,33 @@
 ### http://faculty.ucr.edu/~tgirke/Documents/R_BioCond/My_R_Scripts/vennDia.R
 ### NOTE from t.girke: This script has been replaced by overLapper.R, which provides much more  powerful and scalable utilities. The new overLapper.R script is available at:   http://faculty.ucr.edu/~tgirke/Documents/R_BioCond/R_BioCondManual.html#R_graphics_venn
 ## Define venndiagram function and three wrappers
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param x PARAM_DESCRIPTION, Default: x
+#' @param y PARAM_DESCRIPTION, Default: y
+#' @param z PARAM_DESCRIPTION, Default: z
+#' @param w PARAM_DESCRIPTION, Default: w
+#' @param unique PARAM_DESCRIPTION, Default: T
+#' @param title PARAM_DESCRIPTION, Default: 'Venn Diagram'
+#' @param labels PARAM_DESCRIPTION, Default: c("x", "y", "z", "w")
+#' @param lines PARAM_DESCRIPTION, Default: 1
+#' @param lcol PARAM_DESCRIPTION, Default: 1
+#' @param tcol PARAM_DESCRIPTION, Default: 1
+#' @param diacol PARAM_DESCRIPTION, Default: 1
+#' @param plot PARAM_DESCRIPTION, Default: T
+#' @param type PARAM_DESCRIPTION, Default: '3'
+#' @param printsub PARAM_DESCRIPTION, Default: TRUE
+#' @param ... PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname venndiagram
+#' @export 
 venndiagram <- function(x=x, y=y, z=z, w=w, unique=T, title="Venn Diagram", labels=c("x", "y", "z", "w"), lines=1, lcol=1, tcol=1, diacol=1, plot=T, type="3", printsub=TRUE, ...) {
   ## Remove duplicates and NA fields in x, y, z and w
   if(unique==T) {

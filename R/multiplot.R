@@ -1,4 +1,20 @@
 ### Function for arranging ggplots. example:   multiplot(p1, p2, p3, p4, cols=2). It can take any number of plot objects as arguments, or if it can take a list of plot objects passed to plotlist.
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param ... PARAM_DESCRIPTION
+#' @param plotlist PARAM_DESCRIPTION, Default: NULL
+#' @param cols PARAM_DESCRIPTION, Default: 1
+#' @param layout PARAM_DESCRIPTION, Default: NULL
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname multiplot
+#' @export 
 multiplot <- function(..., plotlist=NULL,  cols=1, layout=NULL) {
   ## http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/
 

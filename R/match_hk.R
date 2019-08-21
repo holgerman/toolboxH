@@ -1,4 +1,23 @@
 ### matching und dabeiaufpassen, dass matchvariable unique ist
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param x PARAM_DESCRIPTION
+#' @param y PARAM_DESCRIPTION
+#' @param testunique PARAM_DESCRIPTION, Default: T
+#' @param makeunique PARAM_DESCRIPTION, Default: F
+#' @param importcol PARAM_DESCRIPTION, Default: NULL
+#' @param showMessages PARAM_DESCRIPTION, Default: T
+#' @param ... PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname match_hk
+#' @export 
 match_hk = function(x, y, testunique =T, makeunique = F,importcol = NULL,showMessages = T, ...) {
   ##150122 makeunique = F statt T, na.omit bei duplicated y, fehlenden ok fall includiert
   ##160328 check auf gleiche laenge x und improtcol

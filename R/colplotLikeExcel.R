@@ -1,6 +1,33 @@
 
 ## faerbe die zahlen einer gegebenen matrix nach ihrem oder einem externen WErt im 2 color schemewert
 
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param plotdat PARAM_DESCRIPTION
+#' @param mycolors PARAM_DESCRIPTION, Default: c("dodgerblue2", "white", "red")
+#' @param lowest_colorval PARAM_DESCRIPTION, Default: 'minimum'
+#' @param middle_colorval PARAM_DESCRIPTION, Default: 'median'
+#' @param highest_colorval PARAM_DESCRIPTION, Default: 'maximum'
+#' @param xlabel PARAM_DESCRIPTION, Default: ''
+#' @param ylabel PARAM_DESCRIPTION, Default: ''
+#' @param x_axis_pos PARAM_DESCRIPTION, Default: 'top'
+#' @param myround PARAM_DESCRIPTION, Default: 0
+#' @param userdefined_labels PARAM_DESCRIPTION, Default: NULL
+#' @param row_names PARAM_DESCRIPTION, Default: NULL
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso 
+#'  
+#' @rdname colplotLikeExcel
+#' @export 
+#' @import reshape2
+#' @import scales
 colplotLikeExcel = function(plotdat, mycolors = c("dodgerblue2", "white", "red"),lowest_colorval = "minimum", middle_colorval = "median", highest_colorval = "maximum", xlabel = "", ylabel = "", x_axis_pos = "top", myround = 0, userdefined_labels = NULL, row_names = NULL){
 
   # mycolors = c("dodgerblue2", "white", "red");lowest_colorval = "minimum"; middle_colorval = "median"; highest_colorval = "maximum"; xlabel = ""; ylabel = ""; x_axis_pos = "top"; myround = 0; userdefined_labels = NULL

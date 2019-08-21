@@ -1,5 +1,41 @@
 
 ## qq plot fuer minimum p
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param x PARAM_DESCRIPTION
+#' @param number_of_tests PARAM_DESCRIPTION, Default: 3
+#' @param xlab PARAM_DESCRIPTION, Default: expression(Expected ~ ~-log[10](italic(p[min])))
+#' @param ylab PARAM_DESCRIPTION, Default: expression(Observed ~ ~-log[10](italic(p[min])))
+#' @param main PARAM_DESCRIPTION, Default: deparse(substitute(x))
+#' @param las PARAM_DESCRIPTION, Default: par("las")
+#' @param subtitle PARAM_DESCRIPTION, Default: paste0("(Considering minimum of ", number_of_tests, " independent p-value-series)")
+#' @param envelope PARAM_DESCRIPTION, Default: 0.95
+#' @param col PARAM_DESCRIPTION, Default: palette()[1]
+#' @param col.lines PARAM_DESCRIPTION, Default: palette()[2]
+#' @param lwd PARAM_DESCRIPTION, Default: 2
+#' @param pch PARAM_DESCRIPTION, Default: 16
+#' @param cex PARAM_DESCRIPTION, Default: par("cex")
+#' @param labels PARAM_DESCRIPTION, Default: if (!is.null(names(x))) names(x) else seq(along = x)
+#' @param id.method PARAM_DESCRIPTION, Default: 'y'
+#' @param id.n PARAM_DESCRIPTION, Default: if (id.method[1] == "identify") Inf else 0
+#' @param id.cex PARAM_DESCRIPTION, Default: 1
+#' @param id.col PARAM_DESCRIPTION, Default: palette()[1]
+#' @param id.location PARAM_DESCRIPTION, Default: 'lr'
+#' @param grid PARAM_DESCRIPTION, Default: TRUE
+#' @param ... PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso 
+#'  
+#' @rdname qqPlotMinP
+#' @export 
+#' @import data.table
 qqPlotMinP = function (x, number_of_tests = 3, xlab = expression(Expected ~
                                                                    ~-log[10](italic(p[min]))), ylab = expression(Observed ~
                                                                                                                    ~-log[10](italic(p[min]))), main = deparse(substitute(x)),

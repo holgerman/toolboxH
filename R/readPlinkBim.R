@@ -1,3 +1,18 @@
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param x PARAM_DESCRIPTION
+#' @param useData.table PARAM_DESCRIPTION, Default: T
+#' @param clever PARAM_DESCRIPTION, Default: NULL
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname readPlinkBim
+#' @export 
 readPlinkBim = function(x, useData.table=T, clever = NULL)
 {
   #150303 datatable import bei plink 1.9

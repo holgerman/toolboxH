@@ -1,4 +1,20 @@
 ### remove duplicated columns
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param mydf PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso 
+#'  
+#' @rdname removeDuplicatedColumns
+#' @export 
+#' @import stringr
 removeDuplicatedColumns <- function (mydf) {
 
   namesdf= data.frame(original = names(mydf))

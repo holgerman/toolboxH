@@ -1,3 +1,17 @@
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param f PARAM_DESCRIPTION
+#' @param number_or_name PARAM_DESCRIPTION, Default: 1
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname load_obj
+#' @export 
 load_obj <- function(f, number_or_name = 1) ## load object number_or_name with numberin new environment to allow that it does not overwrite something with the same name
 {
   envextra <- new.env()

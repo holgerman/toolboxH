@@ -1,5 +1,18 @@
 ### quickly-find-class-of-dataframe
-}                         #http://gettinggeneticsdone.blogspot.com/2010/08/quickly-find-class-of-dataframe-vectors.html
+                        #http://gettinggeneticsdone.blogspot.com/2010/08/quickly-find-class-of-dataframe-vectors.html
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param x PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname showClassDF
+#' @export 
 showClassDF <- function(x) {
   ## 12.6.15 als data.frame
   ## 21.11. collapsing
@@ -13,4 +26,6 @@ showClassDF <- function(x) {
   resi$column = NULL
   resi
 
-}                         #http://gettinggeneticsdone.blogspot.com/2010/08/quickly-find-class-of-dataframe-vectors.html
+}
+
+#http://gettinggeneticsdone.blogspot.com/2010/08/quickly-find-class-of-dataframe-vectors.html

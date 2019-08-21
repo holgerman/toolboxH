@@ -3,6 +3,23 @@
 ##..................................................................................
 ### odds ratio
 # http://www.r-bloggers.com/computing-odds-ratios-in-r/
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param n00 PARAM_DESCRIPTION
+#' @param n01 PARAM_DESCRIPTION
+#' @param n10 PARAM_DESCRIPTION
+#' @param n11 PARAM_DESCRIPTION
+#' @param alpha PARAM_DESCRIPTION, Default: 0.05
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname oddsratioWald
+#' @export 
 oddsratioWald <- function(n00, n01, n10, n11, alpha = 0.05){
   #
   #  Compute the odds ratio between two binary variables, x and y,

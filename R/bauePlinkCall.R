@@ -1,3 +1,18 @@
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param on_server PARAM_DESCRIPTION, Default: as.character(Sys.info()["sysname"]) == "Linux"
+#' @param showMessage1 PARAM_DESCRIPTION, Default: T
+#' @param showMessage2 PARAM_DESCRIPTION, Default: T
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname bauePlinkCall
+#' @export 
 bauePlinkCall = function(on_server = as.character(Sys.info()['sysname']) =="Linux", showMessage1 = T, showMessage2 = T){
   if(on_server==F) {
     basicpath = "R:/genstat/"

@@ -1,5 +1,42 @@
 
 ### QQPLOT von j morrison
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param x PARAM_DESCRIPTION
+#' @param df PARAM_DESCRIPTION, Default: 1
+#' @param x.max PARAM_DESCRIPTION, Default: 'auto'
+#' @param main PARAM_DESCRIPTION, Default: 'QQ plot'
+#' @param plotType PARAM_DESCRIPTION, Default: 'pval'
+#' @param sub PARAM_DESCRIPTION, Default: paste("")
+#' @param xlab PARAM_DESCRIPTION, Default: 'Expected'
+#' @param ylab PARAM_DESCRIPTION, Default: 'Observed'
+#' @param conc PARAM_DESCRIPTION, Default: c(0.025, 0.975)
+#' @param overdisp PARAM_DESCRIPTION, Default: FALSE
+#' @param trim PARAM_DESCRIPTION, Default: 0.5
+#' @param slope.one PARAM_DESCRIPTION, Default: T
+#' @param slope.lambda PARAM_DESCRIPTION, Default: FALSE
+#' @param thin PARAM_DESCRIPTION, Default: c(0.25, 100)
+#' @param oor.pch PARAM_DESCRIPTION, Default: 24
+#' @param col.shade PARAM_DESCRIPTION, Default: 'gray'
+#' @param ofname PARAM_DESCRIPTION, Default: 'qqchi.pdf'
+#' @param h PARAM_DESCRIPTION, Default: 6
+#' @param w PARAM_DESCRIPTION, Default: 6
+#' @param printpdf PARAM_DESCRIPTION, Default: F
+#' @param myxlim PARAM_DESCRIPTION, Default: 'auto'
+#' @param point_cex PARAM_DESCRIPTION, Default: 0.5
+#' @param point_col PARAM_DESCRIPTION, Default: 1
+#' @param point_pch PARAM_DESCRIPTION, Default: 1
+#' @param ... PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname qq_conf
+#' @export 
 qq_conf = function(x, df=1, x.max = "auto",
                    main="QQ plot",plotType="pval",
                    sub=paste(""),

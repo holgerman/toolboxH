@@ -1,3 +1,25 @@
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param fn PARAM_DESCRIPTION
+#' @param sheet PARAM_DESCRIPTION, Default: 1
+#' @param skip PARAM_DESCRIPTION, Default: 0
+#' @param na PARAM_DESCRIPTION, Default: ''
+#' @param ... PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso 
+#'  
+#' @rdname read_excel2
+#' @export 
+#' @import readxl
+#' @import stringr
+#' @import data.table
 read_excel2 = function(fn, sheet = 1, skip =0, na = "", ...) {
   ## inspired by the idea of data.table::fread to automatically switch to text if a column is not as expected to be numeric, logical etc.
 

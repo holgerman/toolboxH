@@ -1,3 +1,20 @@
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param name PARAM_DESCRIPTION
+#' @param path PARAM_DESCRIPTION
+#' @param myenvir PARAM_DESCRIPTION, Default: .GlobalEnv
+#' @param number_or_name PARAM_DESCRIPTION, Default: NULL
+#' @param ... PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname cleverLoadinGlobalEnv
+#' @export 
 cleverLoadinGlobalEnv = function(name, path, myenvir = .GlobalEnv, number_or_name = NULL,...) {
 
   if(is.null(number_or_name)) {

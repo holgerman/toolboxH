@@ -1,3 +1,19 @@
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso 
+#'  
+#' @rdname testThePackage
+#' @export 
+#' @import testthat
 testThePackage = function() {
   message("Testing match_hk")
   {test1 = data.table(a = 5:1, b = letters[5:1])

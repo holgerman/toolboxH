@@ -1,3 +1,25 @@
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param xx PARAM_DESCRIPTION
+#' @param yy PARAM_DESCRIPTION
+#' @param tooltip PARAM_DESCRIPTION
+#' @param mycolor PARAM_DESCRIPTION, Default: ''
+#' @param mysize PARAM_DESCRIPTION, Default: 5
+#' @param tooltipprefix PARAM_DESCRIPTION, Default: ''
+#' @param ... PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso 
+#'  
+#' @rdname scatterplot_tooltip
+#' @export 
+#' @import stringr
 scatterplot_tooltip = function(xx,yy,tooltip, mycolor = "",mysize=5,  tooltipprefix ="", ...)
 {
   #   xx = 1:1000

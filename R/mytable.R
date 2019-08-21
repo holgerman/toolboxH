@@ -1,3 +1,22 @@
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param x PARAM_DESCRIPTION
+#' @param mydigits PARAM_DESCRIPTION, Default: 1
+#' @param doprint PARAM_DESCRIPTION, Default: T
+#' @param do_science_output PARAM_DESCRIPTION, Default: F
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso 
+#'  
+#' @rdname mytable
+#' @export 
+#' @import stringr
 mytable = function (x, mydigits = 1, doprint = T, do_science_output = F) {
   res = c()
   res$num <- table(x, useNA="always")

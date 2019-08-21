@@ -1,3 +1,21 @@
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param proc PARAM_DESCRIPTION, Default: 3
+#' @param on_server PARAM_DESCRIPTION, Default: Sys.info()["sysname"] == "Linux"
+#' @param mkl_threads PARAM_DESCRIPTION, Default: 1
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso 
+#'  
+#' @rdname parallelisiere
+#' @export 
+#' @import RevoUtilsMath
 parallelisiere = function(proc=3, on_server = Sys.info()['sysname']=="Linux", mkl_threads = 1) {
   # mkl_threads: Revolution R aka MRO uses internal multithreading via Intel Math Kernel Libraries. This sometimes seames to conflict with parallizing by foreach
   if(on_server ==T) {

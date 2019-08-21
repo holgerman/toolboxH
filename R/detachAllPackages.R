@@ -1,3 +1,17 @@
+
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname detachAllPackages
+#' @export 
 detachAllPackages <- function() {
   message("not yet the desired replace for restarting R for fully solving related problems of incompatible packages frequently found on computeservers... in work")
 

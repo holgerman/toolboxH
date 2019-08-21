@@ -1,4 +1,23 @@
 ### normality check
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param vektor PARAM_DESCRIPTION
+#' @param x_lim PARAM_DESCRIPTION, Default: c(min(vektor) - min(vektor) * 0.5, max(vektor) + max(vektor) * 
+#'    0.1)
+#' @param titelgroesse PARAM_DESCRIPTION, Default: 1
+#' @param mybreaks PARAM_DESCRIPTION, Default: NULL
+#' @param vektorname PARAM_DESCRIPTION, Default: NULL
+#' @param ... PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname norm_plot2
+#' @export 
 norm_plot2 <- function(vektor,  x_lim=c(min(vektor)-min(vektor)*.5, max(vektor)+max(vektor)*.1), titelgroesse = 1, mybreaks = NULL,vektorname = NULL , ...) {
   #27.8.15 parameter vektorname
   par(mfrow=c(1,2))

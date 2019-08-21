@@ -1,5 +1,28 @@
 ## noch bunte variante aus venn package, aber mit freierer wahl der labels
 
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param x PARAM_DESCRIPTION
+#' @param snames PARAM_DESCRIPTION, Default: ''
+#' @param ilabels PARAM_DESCRIPTION, Default: FALSE
+#' @param counts PARAM_DESCRIPTION, Default: FALSE
+#' @param ellipse PARAM_DESCRIPTION, Default: FALSE
+#' @param zcolor PARAM_DESCRIPTION, Default: 'style'
+#' @param opacity PARAM_DESCRIPTION, Default: 0.3
+#' @param size PARAM_DESCRIPTION, Default: 15
+#' @param cexil PARAM_DESCRIPTION, Default: 0.6
+#' @param cexsn PARAM_DESCRIPTION, Default: 0.85
+#' @param ... PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname venn
+#' @export 
 venn = function (x, snames = "", ilabels = FALSE, counts = FALSE, ellipse = FALSE,
                  zcolor = "style", opacity = 0.3, size = 15, cexil = 0.6, cexsn = 0.85,
                  ...) {

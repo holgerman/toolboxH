@@ -1,4 +1,20 @@
 ### end up a skript
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param myfilename PARAM_DESCRIPTION, Default: filename
+#' @param saveTheImage PARAM_DESCRIPTION, Default: F
+#' @param dostr PARAM_DESCRIPTION, Default: F
+#' @param mypathwd PARAM_DESCRIPTION, Default: pathwd
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname finalizeSkript
+#' @export 
 finalizeSkript <- function(myfilename=filename, saveTheImage=F, dostr=F,mypathwd=pathwd){
   # 130418 variante do pdf entfernt, da man compile notebook in RStudio machen kann
   if(exists('myfilename') ==F) myfilename = "string_myfilenme_not_defined"

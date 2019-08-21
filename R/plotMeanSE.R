@@ -1,5 +1,21 @@
 
 ### plotte mean und se oder sd df im long format als boesen dynamite plot
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param categs PARAM_DESCRIPTION
+#' @param werte PARAM_DESCRIPTION
+#' @param plotteSD PARAM_DESCRIPTION, Default: F
+#' @param ... PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname plotMeanSE
+#' @export 
 plotMeanSE= function(categs, werte, plotteSD=F, ...) {
   library(sciplot)
   if(plotteSD==F) bargraph.CI(x.factor = categs, response = werte,...)

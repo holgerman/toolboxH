@@ -1,6 +1,61 @@
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param df PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname countLeadTrailSpaces
+#' @export 
 countLeadTrailSpaces = function(df) sapply(df,function(x) sum(grepl("^ | $", x)))
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param df PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname countNonalphanum
+#' @export 
 countNonalphanum = function(df) sapply(df,function(x) sum(grepl("[[:punct:] ]", na.omit(x))))
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param df PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname gridNonalphanum
+#' @export 
 gridNonalphanum = function(df) sapply(df,function(x) grepl("[[:punct:] ]", x)==F & is.na(x))
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param df PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso 
+#'  
+#' @rdname doBasicCheck
+#' @export 
+#' @import stringr
 doBasicCheck = function(df) {
   ## 181013 update laenge beispiel
   ## 14/01/14 laenge abhaengig von klasse

@@ -2,6 +2,25 @@
 
 
 ## interaction test see http://www.bmj.com/content/326/7382/219.long
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param mean1 PARAM_DESCRIPTION
+#' @param se1 PARAM_DESCRIPTION
+#' @param mean2 PARAM_DESCRIPTION
+#' @param se2 PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso 
+#'  
+#' @rdname interactionTest
+#' @export 
+#' @import data.table
 interactionTest  = function(mean1, se1, mean2, se2) {
   meandiff_se = sqrt(se1^2 + se2^2)
   meandiff = mean2 - mean1

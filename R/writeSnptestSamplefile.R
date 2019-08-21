@@ -1,5 +1,20 @@
 ### write so that snptest accepts the file
 ###
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param filename PARAM_DESCRIPTION
+#' @param samplefile PARAM_DESCRIPTION
+#' @param vartypes PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname writeSnptestSamplefile
+#' @export 
 writeSnptestSamplefile <- function (filename, samplefile, vartypes) {
   stopifnot(dim(samplefile)[2] == length(vartypes))
   stopifnot(identical(as.character(vartypes[1:3]),as.character(c(0,0,0))))

@@ -1,3 +1,52 @@
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param x PARAM_DESCRIPTION
+#' @param y PARAM_DESCRIPTION
+#' @param ... PARAM_DESCRIPTION
+#' @param type PARAM_DESCRIPTION, Default: 'p'
+#' @param hlines PARAM_DESCRIPTION, Default: NULL
+#' @param hlines.col PARAM_DESCRIPTION, Default: 'white'
+#' @param hlines.lty PARAM_DESCRIPTION, Default: 1
+#' @param hlines.lwd PARAM_DESCRIPTION, Default: 1
+#' @param vlines PARAM_DESCRIPTION, Default: NULL
+#' @param vlines.col PARAM_DESCRIPTION, Default: 'white'
+#' @param vlines.lty PARAM_DESCRIPTION, Default: 1
+#' @param vlines.lwd PARAM_DESCRIPTION, Default: 1
+#' @param xat PARAM_DESCRIPTION, Default: NULL
+#' @param yat PARAM_DESCRIPTION, Default: NULL
+#' @param bgcolor PARAM_DESCRIPTION, Default: 'gray90'
+#' @param xaxt PARAM_DESCRIPTION, Default: 'n'
+#' @param yaxt PARAM_DESCRIPTION, Default: 'n'
+#' @param col.lab PARAM_DESCRIPTION, Default: par("col.lab")
+#' @param xlim PARAM_DESCRIPTION, Default: NULL
+#' @param ylim PARAM_DESCRIPTION, Default: NULL
+#' @param xlab PARAM_DESCRIPTION, Default: NULL
+#' @param ylab PARAM_DESCRIPTION, Default: NULL
+#' @param xname PARAM_DESCRIPTION
+#' @param yname PARAM_DESCRIPTION
+#' @param xaxs PARAM_DESCRIPTION, Default: 'i'
+#' @param yaxs PARAM_DESCRIPTION, Default: 'i'
+#' @param pch PARAM_DESCRIPTION, Default: 21
+#' @param bg PARAM_DESCRIPTION, Default: 'lightblue'
+#' @param col PARAM_DESCRIPTION, Default: 'black'
+#' @param las PARAM_DESCRIPTION, Default: 1
+#' @param mgp.x PARAM_DESCRIPTION, Default: c(2.6, 0.5, 0)
+#' @param mgp.y PARAM_DESCRIPTION, Default: c(2.6, 0.5, 0)
+#' @param force PARAM_DESCRIPTION, Default: c("none", "x", "y", "both")
+#' @param v_over_h PARAM_DESCRIPTION, Default: FALSE
+#' @param na.width PARAM_DESCRIPTION, Default: 0.06
+#' @param na.gap PARAM_DESCRIPTION, Default: 0.01
+#' @param main PARAM_DESCRIPTION, Default: ''
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname hidegrayplot_na
+#' @export 
     hidegrayplot_na <-
       function(x, y, ..., type="p",
                hlines=NULL, hlines.col="white", hlines.lty=1, hlines.lwd=1,

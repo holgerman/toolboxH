@@ -1,4 +1,21 @@
 ## scatterplot mit tooltip via ggvis (nicht interactive in knitr, aber in RStudio / R)
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param mtc PARAM_DESCRIPTION
+#' @param xcol PARAM_DESCRIPTION
+#' @param ycol PARAM_DESCRIPTION
+#' @param tooltipcols PARAM_DESCRIPTION
+#' @param on_click PARAM_DESCRIPTION, Default: T
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname ggvis_tooltip
+#' @export 
 ggvis_tooltip <- function (mtc,xcol, ycol, tooltipcols, on_click = T) {
   library(ggvis)
   ## example

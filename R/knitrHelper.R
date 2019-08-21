@@ -1,4 +1,19 @@
 ### wrapper, um ein RMD file von commandline aus zu starten
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param myfilename PARAM_DESCRIPTION, Default: filename
+#' @param mypathwd PARAM_DESCRIPTION, Default: pathwd
+#' @param computer PARAM_DESCRIPTION, Default: 'amanMRO'
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname knitrHelper
+#' @export 
 knitrHelper <- function(myfilename=filename, mypathwd=pathwd, computer = "amanMRO"){
   #version 25/6/12  6/8/12  7/8/12 21/8  15/01/19
 

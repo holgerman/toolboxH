@@ -1,5 +1,20 @@
 
 ### Aus mehrfacheintraegen einzelne zeilen machen
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param dfori PARAM_DESCRIPTION
+#' @param idToSplit PARAM_DESCRIPTION
+#' @param separator PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname fastermultipleEntries2multipleRows
+#' @export 
 fastermultipleEntries2multipleRows = function(dfori,idToSplit,separator) {
   #15/1/14 grundlegender umbau, um clasen der felder zu erhalten. das hatte bis dahin logicals zerschossen...., weil es vor dies bei textumwandlung leerzeichen einfuegt. allerdings war wahrsheinlich fastmultipleEntries2multipleRows richtig
   # 5/2/15 eigene Methode fuer data.tabel gebaut und insgesamt the data.table way gebaut

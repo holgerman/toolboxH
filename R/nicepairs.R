@@ -1,4 +1,26 @@
 
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param x PARAM_DESCRIPTION
+#' @param punktcol PARAM_DESCRIPTION, Default: rgb(0, 0, 0, 0.3)
+#' @param punktform PARAM_DESCRIPTION, Default: 4
+#' @param cortype PARAM_DESCRIPTION, Default: 'spearman'
+#' @param smoothness PARAM_DESCRIPTION, Default: 0.95
+#' @param ... PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso 
+#'  
+#' @rdname nicepairs
+#' @export 
+#' @import RColorBrewer
+#' @import stats
 nicepairs = function (x, punktcol = rgb(0, 0, 0, 0.3), punktform = 4, cortype = "spearman",smoothness = 0.95, ...)
 {
   #24.7.18 can handle single values with lots NA

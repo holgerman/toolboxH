@@ -3,153 +3,34 @@
 ##..................................................................................
 ### grayplot na
 #  grayplot_na
-#'
-#' Scatterplot with missing values indicated
-#'
-#' Scatterplot with a gray background and with points with missing
-#' values shown in separate panels near the margins.
-#'
-#' @md
-#'
-#' @param x Coordinates of points in the plot
-#'
-#' @param y Coordinates of points in the plot (optional)
-#'
-#' @param type Plot type (points, lines, etc.)
-#'
-#' @param bgcolor Background color
-#'
-#' @param v_over_h If `TRUE`, place vertical grid lines on top of
-#' the horizontal ones.
-#'
-#' @param pch point type
-#' @param bg Background color in points
-#' @param col Color of outer circle in points
-#'
-#' @param force Indicates whether to force the NA box (on the x-axis,
-#' y-axis, or both) even when there are no missing values.
-#'
-#' @param ... Optional graphics arguments
-#'
-#' @details
-#' Calls [graphics::plot()] with `type="n", then
-#' [graphics::rect()] to get the background, and then
-#' [graphics::points()].
-#'
-#' There are a bunch of hidden graphical arguments you can include:
-#' `na.width` controls the proportional width devoted to the NA boxes,
-#' and `na.gap` the proportion for the gap between the NA boxes and
-#' the main plot region. `mgp.x` and `mgp.y` (like `mgp`, for
-#' controlling parameters of axis labels, but separate for x- and
-#' y-axis). Also `hlines` to indicate locations of of horizontal
-#' gridlines, and `hlines.col`, `hlines.lwd`, and `hlines.lty` to set
-#' their color, width, and type. `hlines=NA` suppresses the grid
-#' lines. Similarly `vlines`, `vlines.col`, `vlines.lwd`, and
-#' `vlines.lty`. `xat` and `yat` are for specifying the locations of
-#' x- and y-axis labels, respectively. `xat=NA` and `yat=NA` indicate
-#' no labels.
-#'
-#'
-#' @export
-#' @importFrom graphics plot title rect axis abline points
-#'
-#' @return
-#' None.
-#'
-#' @examples
-#' \dontshow{set.seed(97536917)}
-#' n <- 100
-#' x <- rnorm(n)
-#' y <- x+rnorm(n, 0, 0.7)
-#' x[sample(n, 10)] <- NA
-#'
-#' grayplot_na(x, y)
-#'
-#' grayplot_na(x, y, force="y")
-#'
-#' y[sample(n, 10)] <- NA
-#' grayplot_na(x, y)
-#'
-#' @seealso [grayplot()], [dotplot()]
-#'
-#' @keywords
-#' graphics
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param x PARAM_DESCRIPTION
+#' @param y PARAM_DESCRIPTION, Default: NULL
+#' @param type PARAM_DESCRIPTION, Default: 'p'
+#' @param bgcolor PARAM_DESCRIPTION, Default: 'gray90'
+#' @param v_over_h PARAM_DESCRIPTION, Default: FALSE
+#' @param pch PARAM_DESCRIPTION, Default: 21
+#' @param bg PARAM_DESCRIPTION, Default: 'lightblue'
+#' @param col PARAM_DESCRIPTION, Default: 'black'
+#' @param force PARAM_DESCRIPTION, Default: c("none", "x", "y", "both")
+#' @param ... PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname grayplot_na
+#' @export 
 grayplot_na <-
   function(x, y=NULL, type="p", bgcolor="gray90", v_over_h=FALSE,
            pch=21, bg="lightblue", col="black",
            force=c("none", "x", "y", "both"), ...)
   {
     # from https://github.com/kbroman/broman/blob/master/R/grayplot_na.R
-    #' Scatterplot with missing values indicated
-    #'
-    #' Scatterplot with a gray background and with points with missing
-    #' values shown in separate panels near the margins.
-    #'
-    #' @md
-    #'
-    #' @param x Coordinates of points in the plot
-    #'
-    #' @param y Coordinates of points in the plot (optional)
-    #'
-    #' @param type Plot type (points, lines, etc.)
-    #'
-    #' @param bgcolor Background color
-    #'
-    #' @param v_over_h If `TRUE`, place vertical grid lines on top of
-    #' the horizontal ones.
-    #'
-    #' @param pch point type
-    #' @param bg Background color in points
-    #' @param col Color of outer circle in points
-    #'
-    #' @param force Indicates whether to force the NA box (on the x-axis,
-    #' y-axis, or both) even when there are no missing values.
-    #'
-    #' @param ... Optional graphics arguments
-    #'
-    #' @details
-    #' Calls [graphics::plot()] with `type="n", then
-    #' [graphics::rect()] to get the background, and then
-    #' [graphics::points()].
-    #'
-    #' There are a bunch of hidden graphical arguments you can include:
-    #' `na.width` controls the proportional width devoted to the NA boxes,
-    #' and `na.gap` the proportion for the gap between the NA boxes and
-    #' the main plot region. `mgp.x` and `mgp.y` (like `mgp`, for
-    #' controlling parameters of axis labels, but separate for x- and
-    #' y-axis). Also `hlines` to indicate locations of of horizontal
-    #' gridlines, and `hlines.col`, `hlines.lwd`, and `hlines.lty` to set
-    #' their color, width, and type. `hlines=NA` suppresses the grid
-    #' lines. Similarly `vlines`, `vlines.col`, `vlines.lwd`, and
-    #' `vlines.lty`. `xat` and `yat` are for specifying the locations of
-    #' x- and y-axis labels, respectively. `xat=NA` and `yat=NA` indicate
-    #' no labels.
-    #'
-    #'
-    #' @export
-    #' @importFrom graphics plot title rect axis abline points
-    #'
-    #' @return
-    #' None.
-    #'
-    #' @examples
-    #' \dontshow{set.seed(97536917)}
-    #' n <- 100
-    #' x <- rnorm(n)
-    #' y <- x+rnorm(n, 0, 0.7)
-    #' x[sample(n, 10)] <- NA
-    #'
-    #' grayplot_na(x, y)
-    #'
-    #' grayplot_na(x, y, force="y")
-    #'
-    #' y[sample(n, 10)] <- NA
-    #' grayplot_na(x, y)
-    #'
-    #' @seealso [grayplot()], [dotplot()]
-    #'
-    #' @keywords
-    #' graphics
 
     if(missing(x) || is.null(x)) stop("x unspecified")
     force <- match.arg(force)

@@ -1,3 +1,22 @@
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param center PARAM_DESCRIPTION, Default: c(1, 1)
+#' @param radius PARAM_DESCRIPTION, Default: c(1, 2)
+#' @param rotate PARAM_DESCRIPTION, Default: 1
+#' @param segments PARAM_DESCRIPTION, Default: 360
+#' @param xlab PARAM_DESCRIPTION, Default: ''
+#' @param ylab PARAM_DESCRIPTION, Default: ''
+#' @param ... PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname plotellipse
+#' @export 
       plotellipse <- function (center=c(1,1), radius=c(1,2), rotate=1, segments=360, xlab="", ylab="", ...) {
         angles <- (0:segments) * 2 * pi/segments
         rotate <- rotate*pi/180

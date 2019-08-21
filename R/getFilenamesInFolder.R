@@ -1,4 +1,22 @@
 ### read all files from dir
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param erkennungsstring PARAM_DESCRIPTION, Default: '\.txt$'
+#' @param on_server PARAM_DESCRIPTION, Default: Sys.info()["sysname"] == "Linux"
+#' @param wd PARAM_DESCRIPTION, Default: getwd()
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso 
+#'  
+#' @rdname getFilenamesInFolder
+#' @export 
+#' @import stringr
 getFilenamesInFolder <- function (erkennungsstring = "\\.txt$", on_server = Sys.info()['sysname']=="Linux", wd = getwd()) {
   # 10.6 zerhacken bei unix bei tab
 

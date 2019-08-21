@@ -1,4 +1,21 @@
 ### hypergeometric enrichment testing
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param besondere PARAM_DESCRIPTION
+#' @param gezogene PARAM_DESCRIPTION
+#' @param hintergrund PARAM_DESCRIPTION
+#' @param more PARAM_DESCRIPTION, Default: T
+#' @param unique PARAM_DESCRIPTION, Default: T
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname hypertest2
+#' @export 
 hypertest2 <- function(besondere,gezogene,hintergrund, more=T, unique=T){   #besondere  zu testen auf anreicherung(more=T) oder abreicherung (more=F) in gezogene bei gegebenem Hintergrund hintergrund. besondere,gezogene und hintergrund koennen die laengen der listen sein oder die listen selber
   #http://r.789695.n4.nabble.com/hypergeometric-vs-fisher-test-tt2324223.html
   #in diesem www-Beispiel sind die weissen Kugeln a+b und entsprechen allen Elemente der eingabe "besondere", z.b. allen eQTL SNPs

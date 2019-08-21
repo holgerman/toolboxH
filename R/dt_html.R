@@ -1,4 +1,22 @@
 ### schlaue html table
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param df2 PARAM_DESCRIPTION
+#' @param zeileninitial PARAM_DESCRIPTION, Default: 20
+#' @param maxstringlength PARAM_DESCRIPTION, Default: 25
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso 
+#'  
+#' @rdname dt_html
+#' @export 
+#' @import stringr
 dt_html <- function (df2, zeileninitial=20, maxstringlength = 25) {
   library(DT)
 

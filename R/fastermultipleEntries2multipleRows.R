@@ -7,14 +7,14 @@
 #' @param separator PARAM_DESCRIPTION
 #' @return OUTPUT_DESCRIPTION
 #' @details DETAILS
-#' @examples 
+#' @examples
 #' \dontrun{
 #' if(interactive()){
 #'  #EXAMPLE1
 #'  }
 #' }
 #' @rdname fastermultipleEntries2multipleRows
-#' @export 
+#' @export
 fastermultipleEntries2multipleRows = function(dfori,idToSplit,separator) {
   #15/1/14 grundlegender umbau, um clasen der felder zu erhalten. das hatte bis dahin logicals zerschossen...., weil es vor dies bei textumwandlung leerzeichen einfuegt. allerdings war wahrsheinlich fastmultipleEntries2multipleRows richtig
   # 5/2/15 eigene Methode fuer data.tabel gebaut und insgesamt the data.table way gebaut
@@ -22,10 +22,7 @@ fastermultipleEntries2multipleRows = function(dfori,idToSplit,separator) {
 
   stopifnot(classfound %in% c("data.table", "data.frame"))
 
-  library(data.table)
-  library(reshape2)
-
-  if( "data.table" %nin% classfound) dfori = data.table(dfori)
+  if( "data.table" %nin% classfound) dfori = data.table::data.table(dfori)
 
   #aufteilen auf 2 table, je nachdem ob Felder den separator enthalten
   time1 = Sys.time()
@@ -49,15 +46,15 @@ fastermultipleEntries2multipleRows = function(dfori,idToSplit,separator) {
 
   message("\nsplitte ", nrow(df1), " eintraege (entsprechen ", length(splitvar)," unique Eintraegen) ...")
 
-  tosplit = data.table(splitvar)
+  tosplit = data.table::data.table(splitvar)
 
   call3 = parse(text = paste0('referenz = tosplit[,list(splitted = unlist(strsplit(splitvar, split= "',separator,'"))), by = list(splitvar)]'))
   eval(call3)
 
-  setnames(referenz, "splitvar", idToSplit)
-  setkeyv(referenz, idToSplit)
+  data.table::setnames(referenz, "splitvar", idToSplit)
+  data.table::setkeyv(referenz, idToSplit)
 
-  setkeyv(df1,idToSplit)
+  data.table::setkeyv(df1,idToSplit)
 
   df1 = referenz[df1,allow.cartesian=TRUE]
 
@@ -68,13 +65,13 @@ fastermultipleEntries2multipleRows = function(dfori,idToSplit,separator) {
   time1 = Sys.time()
   message("\ncombiniere eintraege...")
 
-  setnames(df1,  idToSplit, "loesche")
+  data.table::setnames(df1,  idToSplit, "loesche")
   df1$loesche = NULL
 
-  setnames(df1, "splitted", idToSplit)
+  data.table::setnames(df1, "splitted", idToSplit)
 
-  setcolorder(df1, names(df0))
-  if(nrow(df0) >0) df2 = rbindlist(list(df0, df1)) else df2 = df1
+  data.table::setcolorder(df1, names(df0))
+  if(nrow(df0) >0) df2 = data.table::rbindlist(list(df0, df1)) else df2 = df1
 
   time1 = Sys.time() - time1
   message("done in ", time1, attr(time1, which="units"))

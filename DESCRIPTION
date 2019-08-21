@@ -1,7 +1,7 @@
 Package: toolboxH
 Type: Package
 Title: Helperfunctions for R
-Version: 0.2.1
+Version: 0.2.2
 Author: Holger Kirsten
 Maintainer: Holger Kirste <holgerkirsten@web.de>
 Description: Helperfunctions making my life easier
@@ -10,3 +10,4 @@ Encoding: UTF-8
 LazyData: true
 Depends:
     data.table
+RoxygenNote: 6.1.1

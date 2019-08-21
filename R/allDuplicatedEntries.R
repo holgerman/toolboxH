@@ -4,23 +4,23 @@
 #' @param vektor PARAM_DESCRIPTION
 #' @return OUTPUT_DESCRIPTION
 #' @details DETAILS
-#' @examples 
+#' @examples
 #' \dontrun{
 #' if(interactive()){
 #'  #EXAMPLE1
 #'  }
 #' }
 #' @rdname allDuplicatedEntries
-#' @export 
+#' @export
 allDuplicatedEntries <- function (vektor) {
   ## 150303 umgestellt auf datatable
   if(length(vektor)==0) return(0)
-  library(data.table)
-  #   library(reshape2)
-  vektab = data.table(myvektor = vektor, num = 1:length(vektor))
+
+
+  vektab = data.table::data.table(myvektor = vektor, num = 1:length(vektor))
   duplicated_vals = vektab[duplicated(myvektor),myvektor]
   duplicated_entries = vektab[ myvektor %in% duplicated_vals]
-  setkey(duplicated_entries, myvektor)
+  data.table::setkey(duplicated_entries, myvektor)
   duplicated_entries$num
 
 }

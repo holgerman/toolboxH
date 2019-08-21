@@ -35,7 +35,7 @@ oddsratioWald <- function(n00, n01, n10, n11, alpha = 0.05){
   #  Compute the Wald confidence intervals (1-alpha)%CI):
   #
   siglog <- sqrt((1/n00) + (1/n01) + (1/n10) + (1/n11))
-  zalph <- qnorm(1 - alpha/2)
+  zalph <- stats::qnorm(1 - alpha/2)
   logOR <- log(OR)
   loglo <- logOR - zalph * siglog
   loghi <- logOR + zalph * siglog

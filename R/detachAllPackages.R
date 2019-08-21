@@ -23,16 +23,16 @@ detachAllPackages <- function() {
 
   if (length(package.list)>0)  for (package in package.list) detach(package, character.only=TRUE)
 
-  a = sessionInfo()
+  a = utils::sessionInfo()
   loadedonly = setdiff(names(a[["loadedOnly"]]), c('compiler', 'tools',    'yaml', 'grid'))
 
   while(length(loadedonly)>0) {
     message("Packages attached via namespace still to unload : ", length(loadedonly))
     try(unloadNamespace(sample(loadedonly, 1)),silent = T)
-    a = sessionInfo()
+    a = utils::sessionInfo()
     loadedonly = setdiff(names(a[["loadedOnly"]]), c('compiler' ,'tools',    'yaml', 'grid'))
   }
 
-  print(sessionInfo())
+  print(utils::sessionInfo())
 
 }

@@ -11,4 +11,4 @@
 #' }
 #' @rdname ccr
 #' @export 
-ccr <- function(x)write.table(x, "clipboard",sep="\t",row.names=T)
+ccr <- function(x)utils::write.table(x, "clipboard",sep="\t",row.names=T)

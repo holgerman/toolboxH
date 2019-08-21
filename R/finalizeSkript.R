@@ -28,7 +28,7 @@ finalizeSkript <- function(myfilename=filename, saveTheImage=F, dostr=F,mypathwd
   message("==================================================================================")
   message("\n\nSession Info::\n\n")
 
-  print(sessionInfo())
+  print(utils::sessionInfo())
 
   if(dostr==T) {
     message("==================================================================================")
@@ -38,7 +38,7 @@ finalizeSkript <- function(myfilename=filename, saveTheImage=F, dostr=F,mypathwd
       if(mode(get(i)) != "function"){
         print("_________________________________")
         print(i)
-        str(get(i))
+        utils::str(get(i))
       }
 
     }

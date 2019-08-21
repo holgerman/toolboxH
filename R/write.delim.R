@@ -18,5 +18,5 @@ write.delim = function(x, y, writeColnames=T,writeRownames = F, createDir = F, .
 
   }
 
-  write.table(x, y, quote=F, col.names=writeColnames, row.names= writeRownames, sep="\t")
+  utils::write.table(x, y, quote=F, col.names=writeColnames, row.names= writeRownames, sep="\t")
 }

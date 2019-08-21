@@ -16,14 +16,14 @@
 #' @import testthat
 testThePackage = function() {
   message("Testing match_hk")
-  {test1 = data.table(a = 5:1, b = letters[5:1])
+  {test1 = data.table::data.table(a = 5:1, b = letters[5:1])
     test1
-    test2 = data.table(a = c(1,1:2, NA), b = letters[c(1,1:3)])
+    test2 = data.table::data.table(a = c(1,1:2, NA), b = letters[c(1,1:3)])
     test2
-    test3 = data.table(a = c(1,2:1, NA), b = letters[c(1,1:3)])
+    test3 = data.table::data.table(a = c(1,2:1, NA), b = letters[c(1,1:3)])
     test3
 
-    toannot = data.table(x = c(1,NA, 1:2))
+    toannot = data.table::data.table(x = c(1,NA, 1:2))
     goodresult = c('a',NA, 'a', "b")
     naivresult = c('a',NA, 'a', "a")
     testthat::expect_equal(toannot[, y:= test1[match_hk(toannot$x, test1$a), b]][,y], goodresult)

@@ -12,17 +12,16 @@
 #' @param use_ids PARAM_DESCRIPTION, Default: 'id2'
 #' @return OUTPUT_DESCRIPTION
 #' @details DETAILS
-#' @examples 
+#' @examples
 #' \dontrun{
 #' if(interactive()){
 #'  #EXAMPLE1
 #'  }
 #' }
-#' @seealso 
-#'  
+#' @seealso
+#'
 #' @rdname getDosematrixFromImpute
-#' @export 
-#' @import toolboxH
+#' @export
 #' @import data.table
 #' @import stringr
 getDosematrixFromImpute = function(snps,chr,  geno_fn, sample_fn, n_threads = 1, createPlinkCommandOnly = F, additionallyTransposeFile = T, outfile = tempfile(),   snps_fn = tempfile(), use_ids = 'id2') {
@@ -43,8 +42,8 @@ getDosematrixFromImpute = function(snps,chr,  geno_fn, sample_fn, n_threads = 1,
 
   stopifnot(use_ids %in% c('id2', 'id1', 'id1_2'))
 
-  toolboxH::write.delim(snps, snps_fn,writeColnames = F)
-  if(exists('callPlink20')==F) toolboxH::bauePlinkCall(showMessage1 = F)
+  write.delim(snps, snps_fn,writeColnames = F)
+  if(exists('callPlink20')==F) bauePlinkCall(showMessage1 = F)
 
   ## checke .sample sex column to be if existent type 'D'.
   samples = data.table::fread(sample_fn, colClasses = "character")
@@ -53,8 +52,8 @@ getDosematrixFromImpute = function(snps,chr,  geno_fn, sample_fn, n_threads = 1,
   if(all(c("ID_1", "ID_2") %nin% names(samples)) & all(c("ID1", "ID2") %in% names(samples))) {
     sample_fntemp = tempfile()
     myvartypes = unlist(samples[1])
-    setnames(samples, names(samples)[1:2], c("ID_1", "ID_2"))
-    toolboxH::writeSnptestSamplefile(filename = sample_fntemp,
+    data.table::setnames(samples, names(samples)[1:2], c("ID_1", "ID_2"))
+    writeSnptestSamplefile(filename = sample_fntemp,
                                      samplefile = samples[-1], vartypes = myvartypes)
     sample_fn = sample_fntemp
 
@@ -67,7 +66,7 @@ getDosematrixFromImpute = function(snps,chr,  geno_fn, sample_fn, n_threads = 1,
       sample_fntemp = tempfile()
       myvartypes = unlist(samples[1])
       myvartypes["sex"] = "D"
-      toolboxH::writeSnptestSamplefile(filename = sample_fntemp, samplefile = samples[-1], vartypes = myvartypes)
+      writeSnptestSamplefile(filename = sample_fntemp, samplefile = samples[-1], vartypes = myvartypes)
       sample_fn = sample_fntemp
 
     }
@@ -81,18 +80,18 @@ getDosematrixFromImpute = function(snps,chr,  geno_fn, sample_fn, n_threads = 1,
 
   syscall = system(mycall)
 
-  additiveFile = fread(paste0(outfile, ".traw"), colClasses=list(character=c("COUNTED","ALT")))
+  additiveFile = data.table::fread(paste0(outfile, ".traw"), colClasses=list(character=c("COUNTED","ALT")))
   # hh(additiveFile,11)
 
-  ids = data.table(id_combined = names(additiveFile)[-1:-6])
+  ids = data.table::data.table(id_combined = names(additiveFile)[-1:-6])
   ids[,id1 := sapply(stringr::str_split(id_combined, "_"), "[", 1)]
   ids[,id2 := stringr::str_replace(id_combined, paste0("^",id1,"_"), "")]
 
-  if(use_ids=="id2") setnames(additiveFile, ids$id_combined, ids$id2)
-  if(use_ids=="id1") setnames(additiveFile, ids$id_combined, ids$id1)
+  if(use_ids=="id2") data.table::setnames(additiveFile, ids$id_combined, ids$id2)
+  if(use_ids=="id1") data.table::setnames(additiveFile, ids$id_combined, ids$id1)
 
   if(additionallyTransposeFile == T) {
-    additiveFile_t = data.table(id = names(additiveFile)[-1:-6], data.table::transpose(additiveFile[,-c("CHR","SNP", "(C)M", "POS", "COUNTED", "ALT"), with = F]))
+    additiveFile_t = data.table::data.table(id = names(additiveFile)[-1:-6], data.table::transpose(additiveFile[,-c("CHR","SNP", "(C)M", "POS", "COUNTED", "ALT"), with = F]))
     names(additiveFile_t) = c("id", additiveFile$SNP)
     # hh(additiveFile_t)
   } else additiveFile_t = NULL

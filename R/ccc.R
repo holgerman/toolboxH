@@ -15,4 +15,4 @@
 #' }
 #' @rdname ccc
 #' @export 
-ccc <- function(x)write.table(x, "clipboard",sep="\t",row.names=F)
+ccc <- function(x)utils::write.table(x, "clipboard",sep="\t",row.names=F)

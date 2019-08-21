@@ -4,14 +4,14 @@
 #' @param N PARAM_DESCRIPTION
 #' @return OUTPUT_DESCRIPTION
 #' @details DETAILS
-#' @examples 
+#' @examples
 #' \dontrun{
 #' if(interactive()){
 #'  #EXAMPLE1
 #'  }
 #' }
 #' @rdname fdr_matrixEQTL
-#' @export 
+#' @export
 fdr_matrixEQTL <- function(p, N) {
   K = length(p)
   # https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3348564/   section 3.6 False discovery rate
@@ -19,10 +19,10 @@ fdr_matrixEQTL <- function(p, N) {
 
   # K
   if(any(is.na(p))) stop("NAs in p values not allowed...")
-  library(data.table)
-  dt = data.table(p = p)
+
+  dt = data.table::data.table(p = p)
   dt[,initialorder := 1:.N]
-  setorder(dt, p)
+  data.table::setorder(dt, p)
   fdr = dt[,p*N/(1:K)]
   fdr[fdr>1]=1
 
@@ -31,6 +31,6 @@ fdr_matrixEQTL <- function(p, N) {
 
   }
   dt[,fdr := fdr]
-  setorder(dt, initialorder)
+  data.table::setorder(dt, initialorder)
   dt[,fdr]
 }

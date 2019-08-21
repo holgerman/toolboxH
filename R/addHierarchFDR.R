@@ -9,18 +9,18 @@
 #' @param quiet PARAM_DESCRIPTION, Default: FALSE
 #' @return OUTPUT_DESCRIPTION
 #' @details DETAILS
-#' @examples 
+#' @examples
 #' \dontrun{
 #' if(interactive()){
 #'  #EXAMPLE1
 #'  }
 #' }
-#' @seealso 
-#'  
+#' @seealso
+#'
 #' @rdname addHierarchFDR
-#' @export 
+#' @export
 #' @import data.table
-#' @import toolboxH
+
 addHierarchFDR <- function(pvalues, categs, fdr2control = 0.05, fdrmethod_level1 = "BH", fdrmethod_level2 = "BH", correctionLevel1 = "BB", quiet=FALSE ) {
 
   # correctionLevel1 == "BB" means  from http://bioinformatics.org/treeqtl/Peterson_GenEpi_2016.pdf citing  Benjamini and Bogomolov  [2014] doing  q2 × Number families with FDR level2 <= fdr2control / Number of all families ("appropriate adjustment for the selection bias introduced in Stage 1" page 5) or
@@ -38,22 +38,22 @@ addHierarchFDR <- function(pvalues, categs, fdr2control = 0.05, fdrmethod_level1
 
   data = data.table::data.table(p = pvalues, cats = categs)
 
-  data[,fdr_level1 := p.adjust(p,method =fdrmethod_level1), by = list(cats)] #  &
+  data[,fdr_level1 := stats::p.adjust(p,method =fdrmethod_level1), by = list(cats)] #  &
 
   level2 = data[ ,.(min_level1 = min(fdr_level1)), by = list(cats)]
   level2
 
-  level2[,fdr_level2 := p.adjust(min_level1,method =fdrmethod_level2)]
+  level2[,fdr_level2 := stats::p.adjust(min_level1,method =fdrmethod_level2)]
   level2
 
-  data[,fdr_level2 := level2[toolboxH::match_hk(data$cats, level2$cats),fdr_level2]]
+  data[,fdr_level2 := level2[match_hk(data$cats, level2$cats),fdr_level2]]
 
   global_fdr5_level_table = level2[fdr_level2 <= fdr2control]
 
   if(nrow(global_fdr5_level_table)==0)  {
     hierarch_fdrspalte_name = paste0('hierarch_fdr', 100*fdr2control, "proz")
     data[,(hierarch_fdrspalte_name):=FALSE]
-    setnames(data, "cats", "category")
+    data.table::setnames(data, "cats", "category")
     stopifnot(identical(data$p, pvalues))
     stopifnot(identical(data$category, categs))
     return(data)
@@ -62,8 +62,8 @@ addHierarchFDR <- function(pvalues, categs, fdr2control = 0.05, fdrmethod_level1
 
     if( correctionLevel1 == "BB") {
       if(quiet==F) message("using for level 1 ",fdrmethod_level1,"; using for level 2 ",fdrmethod_level2, "; adjustment of multiple testing level of intersection hypotheses acc. to n Benjamini and Bogomolov [2014]...")
-      n_families_surviving_multipletesting = global_fdr5_level_table[,uniqueN(cats)]
-      n_families_all = data[,uniqueN(cats)]
+      n_families_surviving_multipletesting = global_fdr5_level_table[,data.table::uniqueN(cats)]
+      n_families_all = data[,data.table::uniqueN(cats)]
       global_fdr5_level = fdr2control * n_families_surviving_multipletesting/n_families_all
       global_fdr5_level
 
@@ -100,8 +100,8 @@ addHierarchFDR <- function(pvalues, categs, fdr2control = 0.05, fdrmethod_level1
     ## fertigmachen
     hierarch_fdrspalte_name = paste0('hierarch_fdr', 100*fdr2control, "proz")
 
-    setnames(data, "fdr5proz", hierarch_fdrspalte_name)
-    setnames(data, "cats", "category")
+    data.table::setnames(data, "fdr5proz", hierarch_fdrspalte_name)
+    data.table::setnames(data, "cats", "category")
     stopifnot(identical(data$p, pvalues))
     stopifnot(identical(data$category, categs))
     return(data)

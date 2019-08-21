@@ -5,17 +5,17 @@
 #' @param makeBinaryOutcomeNumeric12 PARAM_DESCRIPTION, Default: T
 #' @return OUTPUT_DESCRIPTION
 #' @details DETAILS
-#' @examples 
+#' @examples
 #' \dontrun{
 #' if(interactive()){
 #'  #EXAMPLE1
 #'  }
 #' }
 #' @rdname readSNPTESTsamplefileASdata.table
-#' @export 
+#' @export
 readSNPTESTsamplefileASdata.table <- function (snptest_sample_fn, makeBinaryOutcomeNumeric12 = T) {
-  library(data.table)
-  samplefile = fread(snptest_sample_fn)
+
+  samplefile = data.table::fread(snptest_sample_fn)
 
   samplefile_types = unlist(samplefile[1])
   samplefile_types
@@ -34,7 +34,7 @@ readSNPTESTsamplefileASdata.table <- function (snptest_sample_fn, makeBinaryOutc
   if(makeBinaryOutcomeNumeric12 == T) {for(i in names(samplefile_types[samplefile_types %in% c("B")])) {
 
     samplefile[,(i) := as.numeric(factor(get(i)))]
-    samplefile[,if(any(na.omit(get(i)) %nin% c(1,2))) stop(paste0("Case/control phenotype " ,i, " is not encoded in exactly two levels...")) ]
+    samplefile[,if(any(stats::na.omit(get(i)) %nin% c(1,2))) stop(paste0("Case/control phenotype " ,i, " is not encoded in exactly two levels...")) ]
 
   }}
 

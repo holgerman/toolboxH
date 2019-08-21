@@ -52,12 +52,12 @@ hypertest2 <- function(besondere,gezogene,hintergrund, more=T, unique=T){   #bes
     bb <- length(besondere) - aa
     cc <- length(gezogene) - aa
     dd <- length(hintergrund) - cc - bb - aa
-    pval = phyper(aa - 1, aa + bb, cc + dd, aa + cc, lower.tail = !more)
+    pval = stats::phyper(aa - 1, aa + bb, cc + dd, aa + cc, lower.tail = !more)
     in_gezogen <- round((aa/(aa + cc)) * 100, 3)
     in_bk <- round(((aa + bb)/(aa + bb + cc + dd)) * 100, 3)
     enr <- round(in_gezogen/in_bk, 3)
     mymatrix = matrix(c(aa, bb, cc, dd), nrow = 2)
-    or = fisher.test(mymatrix)
+    or = stats::fisher.test(mymatrix)
     pvalfisher = or$p.value
     message1 = paste(in_gezogen, "% vs. ", in_bk, "% Enrichment:",
                      enr, "OR (95%CI) =", signif(or$estimate, 3), paste0("(",

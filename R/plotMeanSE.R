@@ -8,19 +8,19 @@
 #' @param ... PARAM_DESCRIPTION
 #' @return OUTPUT_DESCRIPTION
 #' @details DETAILS
-#' @examples 
+#' @examples
 #' \dontrun{
 #' if(interactive()){
 #'  #EXAMPLE1
 #'  }
 #' }
 #' @rdname plotMeanSE
-#' @export 
+#' @export
 plotMeanSE= function(categs, werte, plotteSD=F, ...) {
-  library(sciplot)
-  if(plotteSD==F) bargraph.CI(x.factor = categs, response = werte,...)
-  if(plotteSD==T) bargraph.CI(x.factor = categs, response = werte, ci.fun = function(x) {
+
+  if(plotteSD==F) sciplot::bargraph.CI(x.factor = categs, response = werte,...)
+  if(plotteSD==T) sciplot::bargraph.CI(x.factor = categs, response = werte, ci.fun = function(x) {
     fun = function(x) mean(x, na.rm=TRUE)
-    c(fun(x)-sd(x), fun(x)+sd(x))
+    c(fun(x)-stats::sd(x), fun(x)+stats::sd(x))
   },...)
 }

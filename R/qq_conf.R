@@ -29,14 +29,14 @@
 #' @param ... PARAM_DESCRIPTION
 #' @return OUTPUT_DESCRIPTION
 #' @details DETAILS
-#' @examples 
+#' @examples
 #' \dontrun{
 #' if(interactive()){
 #'  #EXAMPLE1
 #'  }
 #' }
 #' @rdname qq_conf
-#' @export 
+#' @export
 qq_conf = function(x, df=1, x.max = "auto",
                    main="QQ plot",plotType="pval",
                    sub=paste(""),
@@ -91,11 +91,11 @@ qq_conf = function(x, df=1, x.max = "auto",
   # Function to shade concentration band
 
   # Sort values and see how many out of range  #hk ergaenzt um mit zu sortierende attribute mitzufuehren
-  library(data.table)
-  daten = data.table(x = x, point_cex = point_cex, point_col = point_col, point_pch = point_pch)
+
+  daten = data.table::data.table(x = x, point_cex = point_cex, point_col = point_col, point_pch = point_pch)
   daten = daten[is.na(x)==F]
   #   print(head(daten,9))
-  setorder(daten, x)
+  data.table::setorder(daten, x)
   # print(head(daten,19))
   point_cex = if(length(point_cex)==1) point_cex else daten$point_cex
   point_col = if(length(point_col)==1) point_col else daten$point_col
@@ -121,20 +121,20 @@ qq_conf = function(x, df=1, x.max = "auto",
     expctd <- 2*cumsum(1/(N:1))
   }
   else {
-    expctd <- qchisq(p=(1:N)/(N+1), df=df)
+    expctd <- stats::qchisq(p=(1:N)/(N+1), df=df)
   }
 
   # Concentration bands
 
   if (!is.null(conc)) {
     if(conc[1]>0) {
-      e.low <- qchisq(p=qbeta(conc[1], 1:N, N:1), df=df)
+      e.low <- stats::qchisq(p=stats::qbeta(conc[1], 1:N, N:1), df=df)
     }
     else {
       e.low <- rep(0, N)
     }
     if (conc[2]<1) {
-      e.high <- qchisq(p=qbeta(conc[2], 1:N, N:1), df=df)
+      e.high <- stats::qchisq(p=stats::qbeta(conc[2], 1:N, N:1), df=df)
     }
     else {
       e.high <- 1.1*rep(max(x),N)
@@ -149,8 +149,8 @@ qq_conf = function(x, df=1, x.max = "auto",
     top <- obsvd[N]
   right <- expctd[N]
   if(myxlim=="auto") myxlim = ceiling(log10(N))+0.5
-  if (printpdf) {pdf(ofname,h,w)}
-  plot(c(0, right*scale), c(0, top*scale), type="n", xlab=xlab, ylab=ylab, bty="l",
+  if (printpdf) {grDevices::pdf(ofname,h,w)}
+  graphics::plot(c(0, right*scale), c(0, top*scale), type="n", xlab=xlab, ylab=ylab, bty="l",
        # main=main, sub=sub, cex.lab=1.25, # 27.1.15 sub raus
        main=main,  cex.lab=1.25,
        cex.axis=1.1,ylim=c(0,x.max*scale), xlim=c(0,myxlim))
@@ -166,7 +166,7 @@ qq_conf = function(x, df=1, x.max = "auto",
   }
   else {
     space <- right*thin[1]/floor(thin[2])
-    iat <- round((N+1)*pchisq(q=(1:floor(thin[2]))*space, df=df))
+    iat <- round((N+1)*stats::pchisq(q=(1:floor(thin[2]))*space, df=df))
     if (max(iat)>thin[2])
       show <- unique(c(iat, (1+max(iat)):Np))
     else
@@ -175,7 +175,7 @@ qq_conf = function(x, df=1, x.max = "auto",
   Nu <- floor(trim*N)
   #    Nl <- floor(0.3*N)
   if (Nu>0)
-    lambda <- median(obsvd[1:Nu])/median(expctd[1:Nu])
+    lambda <- stats::median(obsvd[1:Nu])/stats::median(expctd[1:Nu])
   #      lambda <- mean(obsvd[Nl:Nu])/mean(expctd[Nl:Nu])
   if (!is.null(conc)) {
     if (Np<N)
@@ -191,11 +191,11 @@ qq_conf = function(x, df=1, x.max = "auto",
   point_cex = if(length(point_cex)==1) point_cex else point_cex[show]
   point_col = if(length(point_col)==1) point_col else point_col[show]
   point_pch = if(length(point_pch)==1) point_pch else point_pch[show]
-  points(expctd[show]*scale, obsvd[show]*scale,cex=point_cex,col = point_col, pch = point_pch, ...)
+  graphics::points(expctd[show]*scale, obsvd[show]*scale,cex=point_cex,col = point_col, pch = point_pch, ...)
   # Overflow
   if (Np<N) {
     over <- (Np+1):N
-    points(expctd[over]*scale, rep(x.max, N-Np)*scale, pch=oor.pch)
+    graphics::points(expctd[over]*scale, rep(x.max, N-Np)*scale, pch=oor.pch)
   }
   # Lines
   line.types <- c("solid", "dashed", "dotted")
@@ -204,7 +204,7 @@ qq_conf = function(x, df=1, x.max = "auto",
   if (slope.one) {
     key <- c(key, line.types[1])
     txt <- c(txt, "y = x")
-    abline(a=0, b=1, lty=line.types[1])
+    graphics::abline(a=0, b=1, lty=line.types[1])
   }
   if (slope.lambda && Nu>0) {
     key <- c(key, line.types[2])
@@ -215,9 +215,9 @@ qq_conf = function(x, df=1, x.max = "auto",
       else
         vert <- show
     }
-    abline(a=0, b=lambda, lty=line.types[2])
+    graphics::abline(a=0, b=lambda, lty=line.types[2])
   }
-  if (printpdf) {dev.off()}
+  if (printpdf) {grDevices::dev.off()}
   # Returned value
 
   #    if (!is.null(key))
@@ -225,9 +225,9 @@ qq_conf = function(x, df=1, x.max = "auto",
 
   lambda_coxlab = lambda
 
-  chisq_blog <- qchisq(1-x_ori,1) # http://genometoolbox.blogspot.de/2014/08/how-to-calculate-genomic-inflation.html
+  chisq_blog <- stats::qchisq(1-x_ori,1) # http://genometoolbox.blogspot.de/2014/08/how-to-calculate-genomic-inflation.html
 
-  lambda_blog = median(chisq_blog)/qchisq(0.5,1)
+  lambda_blog = stats::median(chisq_blog)/stats::qchisq(0.5,1)
   lambda_blog
 
   data.frame(N=N, omitted=N-Np, lambda=lambda_blog, lambda_coxlab=lambda_coxlab)

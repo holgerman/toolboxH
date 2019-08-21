@@ -17,15 +17,15 @@
 getHaeufigkeit = function(var){
 
   require(data.table)
-  dt = data.table( var = var, key = "var")
+  dt = data.table::data.table( var = var, key = "var")
 
   dt[,oldorder := 1:nrow(dt)]
 
   tabled = dt[,table(var)]
 
-  tabled = data.table(num = as.numeric(tabled), var = names(tabled), key = 'var')
+  tabled = data.table::data.table(num = as.numeric(tabled), var = names(tabled), key = 'var')
   dt = tabled[dt]
-  setorder(dt, oldorder)
+  data.table::setorder(dt, oldorder)
   #   print(dt)
   #   print(dt[,num])
 

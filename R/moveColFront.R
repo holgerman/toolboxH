@@ -20,7 +20,7 @@ moveColFront <- function ( d = dataframe , colname = "colname" ) {
   index <- match ( colname , names ( d ))
   old_order <- 1:ncol(d)
   new_order <- c(index, old_order[old_order %nin% index])
-  if(is.data.table(d)) setcolorder(d, new_order)
-  if(is.data.table(d)==F)  d= d[,new_order]
+  if(data.table::is.data.table(d)) data.table::setcolorder(d, new_order)
+  if(data.table::is.data.table(d)==F)  d= d[,new_order]
   return(d)
 }

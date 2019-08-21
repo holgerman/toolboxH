@@ -45,7 +45,7 @@ venn = function (x, snames = "", ilabels = FALSE, counts = FALSE, ellipse = FALS
   if (!identical(zcolor, "bw") & !identical(zcolor, "style")) {
     zcolor <- unlist(strsplit(gsub("[[:space:]]", "", zcolor),
                               split = ","))
-    testcolor <- tryCatch(col2rgb(zcolor), error = function(e) e)
+    testcolor <- tryCatch(grDevices::col2rgb(zcolor), error = function(e) e)
     if (!is.matrix(testcolor)) {
       cat("\n")
       stop("Invalid color(s) in \"zcolor\".\n\n", call. = FALSE)
@@ -107,13 +107,13 @@ venn = function (x, snames = "", ilabels = FALSE, counts = FALSE, ellipse = FALS
       }
     }
     individual <- length(opacity) == nrow(tt)
-    ints <- read.csv(file.path(system.file("data", package = "venn"),
+    ints <- utils::read.csv(file.path(system.file("data", package = "venn"),
                                "ints.csv.gz"))
     openPlot(size)
     if (individual) {
       for (i in seq(nrow(tt))) {
         if (tt$OUT[i] != "?") {
-          color <- adjustcolor(ttcolors[tt$OUT[i]],
+          color <- grDevices::adjustcolor(ttcolors[tt$OUT[i]],
                                alpha.f = as.numeric(opacity[i]))
           if (i == 1) {
             zeroset <- matrix(c(0, 1000, 1000, 0, 0,
@@ -122,10 +122,10 @@ venn = function (x, snames = "", ilabels = FALSE, counts = FALSE, ellipse = FALS
             polygons <- rbind(zeroset, rep(NA, 2), getZones(0,
                                                             nofsets, ellipse)[[1]])
             polygons <- polygons[-nrow(polygons), ]
-            polypath(polygons, rule = "evenodd", col = color,
+            graphics::polypath(polygons, rule = "evenodd", col = color,
                      border = NA)
           }          else {
-            polygon(ints[ints$s == nofsets & ints$v ==
+            graphics::polygon(ints[ints$s == nofsets & ints$v ==
                            as.numeric(ellipse) & ints$i == i, c("x",
                                                                 "y")], col = color)
           }
@@ -143,11 +143,11 @@ venn = function (x, snames = "", ilabels = FALSE, counts = FALSE, ellipse = FALS
             polygons <- rbind(zeroset, rep(NA, 2), getZones(0,
                                                             nofsets, ellipse)[[1]])
             polygons <- polygons[-nrow(polygons), ]
-            polypath(polygons, rule = "evenodd", col = ttcolors[i],
+            graphics::polypath(polygons, rule = "evenodd", col = ttcolors[i],
                      border = NA)
             zones <- zones[-1]
           }
-          polygon(ints[ints$s == nofsets & ints$v ==
+          graphics::polygon(ints[ints$s == nofsets & ints$v ==
                          as.numeric(ellipse) & ints$i %in% zones,
                        c("x", "y")], col = ttcolors[i])
         }
@@ -302,7 +302,7 @@ venn = function (x, snames = "", ilabels = FALSE, counts = FALSE, ellipse = FALS
                                                                                                                                                                                                                                                 165, 30, 140, 955, 980, 780, 200, 15, 120, 690, 670,
                                                                                                                                                                                                                                                 850, 850, 670))
   if (ilabels | counts & !is.null(cts)) {
-    icoords <- read.csv(file.path(system.file("data", package = "venn"),
+    icoords <- utils::read.csv(file.path(system.file("data", package = "venn"),
                                   "icoords.csv.gz"))
     ilabels <- icoords$l[icoords$s == nofsets & icoords$v ==
                            as.numeric(ellipse)]
@@ -310,15 +310,15 @@ venn = function (x, snames = "", ilabels = FALSE, counts = FALSE, ellipse = FALS
       cts[cts == 0] <- ""
       ilabels <- cts
     }
-    text(icoords[icoords$s == nofsets & icoords$v == as.numeric(ellipse),
+    graphics::text(icoords[icoords$s == nofsets & icoords$v == as.numeric(ellipse),
                  c("x", "y")], labels = ilabels, cex = cexil)
   }
-  text(scoords[scoords$s == nofsets & scoords$v == as.numeric(ellipse),
+  graphics::text(scoords[scoords$s == nofsets & scoords$v == as.numeric(ellipse),
                c("x", "y")], labels = snames, cex = cexsn)
   if (ttqca) {
-    points(seq(10, 340, length.out = 4), rep(-25, 4), pch = 22,
+    graphics::points(seq(10, 340, length.out = 4), rep(-25, 4), pch = 22,
            bg = ttcolors, cex = 1.75)
-    text(seq(40, 370, length.out = 4), rep(-26, 4), names(ttcolors),
+    graphics::text(seq(40, 370, length.out = 4), rep(-26, 4), names(ttcolors),
          cex = 0.85)
   }
   if (listx) {

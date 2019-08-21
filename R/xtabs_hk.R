@@ -11,4 +11,4 @@
 #' }
 #' @rdname xtabs_hk
 #' @export 
-xtabs_hk = function(...) xtabs(... , exclude = NULL, na.action= "na.pass") # 12.6.15 zweites komma weggemacht, in .env verschoben
+xtabs_hk = function(...) stats::xtabs(... , exclude = NULL, na.action= "na.pass") # 12.6.15 zweites komma weggemacht, in .env verschoben

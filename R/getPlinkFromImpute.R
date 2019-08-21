@@ -11,17 +11,16 @@
 #' @param use_ids PARAM_DESCRIPTION, Default: 'id2'
 #' @return OUTPUT_DESCRIPTION
 #' @details DETAILS
-#' @examples 
+#' @examples
 #' \dontrun{
 #' if(interactive()){
 #'  #EXAMPLE1
 #'  }
 #' }
-#' @seealso 
-#'  
+#' @seealso
+#'
 #' @rdname getPlinkFromImpute
-#' @export 
-#' @import toolboxH
+#' @export
 #' @import data.table
 getPlinkFromImpute = function (snps, chr, geno_fn, sample_fn, outfile, n_threads = 1, createPlinkCommandOnly = F,  snps_fn = tempfile(),use_ids = "id2")
 {
@@ -42,17 +41,17 @@ getPlinkFromImpute = function (snps, chr, geno_fn, sample_fn, outfile, n_threads
   stopifnot(chr %in% 1:25)
   snps = unique(snps)
   stopifnot(use_ids %in% c("id2", "id1", "id1_2"))
-  toolboxH::write.delim(snps, snps_fn, writeColnames = F)
+  write.delim(snps, snps_fn, writeColnames = F)
   if (exists("callPlink20") == F)
-    toolboxH::bauePlinkCall(showMessage1 = F) else message("Using plink ", callPlink20)
+    bauePlinkCall(showMessage1 = F) else message("Using plink ", callPlink20)
   samples = data.table::fread(sample_fn, colClasses = "character")
   samples
 
   if(all(c("ID_1", "ID_2") %nin% names(samples)) & all(c("ID1", "ID2") %in% names(samples))) {
     sample_fntemp = tempfile()
     myvartypes = unlist(samples[1])
-    setnames(samples, names(samples)[1:2], c("ID_1", "ID_2"))
-    toolboxH::writeSnptestSamplefile(filename = sample_fntemp,
+    data.table::setnames(samples, names(samples)[1:2], c("ID_1", "ID_2"))
+    writeSnptestSamplefile(filename = sample_fntemp,
                                      samplefile = samples[-1], vartypes = myvartypes)
     sample_fn = sample_fntemp
 
@@ -65,7 +64,7 @@ getPlinkFromImpute = function (snps, chr, geno_fn, sample_fn, outfile, n_threads
       sample_fntemp = tempfile()
       myvartypes = unlist(samples[1])
       myvartypes["sex"] = "D"
-      toolboxH::writeSnptestSamplefile(filename = sample_fntemp,
+      writeSnptestSamplefile(filename = sample_fntemp,
                                        samplefile = samples[-1], vartypes = myvartypes)
       sample_fn = sample_fntemp
     }

@@ -24,12 +24,12 @@ showNA <- function(x, showAllNoNA = T, returnAsDataTable = F) {
 x_is_datatable = data.table::is.data.table(x)
   if(x_is_datatable==F) {
     x = data.table::copy(x)
-    setDT(x)
+    data.table::setDT(x)
 
   }
 
   resi = unlist(x[,lapply(.SD, function(y) sum(is.na(y)))])
-  resi2 = data.table(var = names(resi), NAs = as.vector(resi), vals = nrow(x)-as.vector(resi))
+  resi2 = data.table::data.table(var = names(resi), NAs = as.vector(resi), vals = nrow(x)-as.vector(resi))
   if(showAllNoNA) {
 
     # test = microbenchmark('matrixstat' = {rowsNoNA = x[,matrixStats::rowAnyNAs(as.matrix(.SD))]},

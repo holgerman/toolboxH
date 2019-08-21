@@ -25,7 +25,7 @@ countLeadTrailSpaces = function(df) sapply(df,function(x) sum(grepl("^ | $", x))
 #' }
 #' @rdname countNonalphanum
 #' @export 
-countNonalphanum = function(df) sapply(df,function(x) sum(grepl("[[:punct:] ]", na.omit(x))))
+countNonalphanum = function(df) sapply(df,function(x) sum(grepl("[[:punct:] ]", stats::na.omit(x))))
 #' @title FUNCTION_TITLE
 #' @description FUNCTION_DESCRIPTION
 #' @param df PARAM_DESCRIPTION
@@ -102,8 +102,8 @@ doBasicCheck = function(df) {
   non_alphanum = non_alphanum[names(klassen)]
   non_alphanum_proz = non_alphanum_proz[names(klassen)]
 
-  firstentry = unlist(apply(df,2,function(xx) if(all(is.na(xx))) NA else na.omit(xx)[1]))
-  lastentry = unlist(apply(df,2,function(xx) if(all(is.na(xx))) NA else na.omit(xx)[length(na.omit(xx))]))
+  firstentry = unlist(apply(df,2,function(xx) if(all(is.na(xx))) NA else stats::na.omit(xx)[1]))
+  lastentry = unlist(apply(df,2,function(xx) if(all(is.na(xx))) NA else stats::na.omit(xx)[length(stats::na.omit(xx))]))
 
   res = data.frame(colname = names(klassen),Vals, Vals_proz, NAs, NAs_proz, lt_spaces, lt_spaces_proz, non_alphanum, non_alphanum_proz, klassen, minn, maxx, firstentry, lastentry)
 

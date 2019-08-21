@@ -8,16 +8,16 @@
 #' @param on_click PARAM_DESCRIPTION, Default: T
 #' @return OUTPUT_DESCRIPTION
 #' @details DETAILS
-#' @examples 
+#' @examples
 #' \dontrun{
 #' if(interactive()){
 #'  #EXAMPLE1
 #'  }
 #' }
 #' @rdname ggvis_tooltip
-#' @export 
+#' @export
 ggvis_tooltip <- function (mtc,xcol, ycol, tooltipcols, on_click = T) {
-  library(ggvis)
+
   ## example
   # mtc <- mtcars
   # ggvis_tooltip(mtc, 'mpg', 'wt', tooltipcols= c("am", "gear"), on_click = F)
@@ -26,8 +26,8 @@ ggvis_tooltip <- function (mtc,xcol, ycol, tooltipcols, on_click = T) {
   mtc$id225847815 <- 1:nrow(mtc)
 
   if("data.table" %in% class(mtc)) {
-    library(data.table)
-    setDF(mtc)
+
+    data.table::setDF(mtc)
   }
 
 

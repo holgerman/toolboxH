@@ -18,11 +18,11 @@ qq.ggd = function ( pvector ,maxx = NULL, maxy = NULL, ... ) {
 
   o = - log10 ( sort ( pvector , decreasing = F ))
   #e = -log10( 1:length(o)/length(o) )
-  e = - log10 ( ppoints ( length ( pvector ) ))
+  e = - log10 ( stats::ppoints ( length ( pvector ) ))
 
   if(is.null(maxx)) maxx = max ( e )
   if(is.null(maxy)) maxy =  max ( o )
 
-  plot ( e , o , pch = 19 , cex = 1 , xlab = expression ( Expected~~ - log [ 10 ]( italic ( p ))), ylab = expression ( Observed~~ - log [ 10 ]( italic ( p ))), xlim = c ( 0 , maxx), ylim = c ( 0 ,maxy), ... )
-  abline ( 0 , 1 , col = "red" )
+  graphics::plot ( e , o , pch = 19 , cex = 1 , xlab = expression ( Expected~~ - log [ 10 ]( crayon::italic ( p ))), ylab = expression ( Observed~~ - log [ 10 ]( crayon::italic ( p ))), xlim = c ( 0 , maxx), ylim = c ( 0 ,maxy), ... )
+  graphics::abline ( 0 , 1 , col = "red" )
 }

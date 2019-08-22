@@ -1,7 +1,7 @@
 Package: toolboxH
 Type: Package
 Title: Helperfunctions for R
-Version: 0.2.2
+Version: 0.2.3
 Author: Holger Kirsten
 Maintainer: Holger Kirste <holgerkirsten@web.de>
 Description: Helperfunctions making my life easier

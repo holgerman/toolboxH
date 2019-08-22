@@ -7,19 +7,22 @@
 #' @param ... PARAM_DESCRIPTION
 #' @return OUTPUT_DESCRIPTION
 #' @details DETAILS
-#' @examples 
+#' @examples
 #' \dontrun{
 #' if(interactive()){
 #'  #EXAMPLE1
 #'  }
 #' }
-#' @seealso 
-#'  
+#' @seealso
+#'
 #' @rdname read_excel2
-#' @export 
+#' @export
 #' @import readxl
 #' @import stringr
 #' @import data.table
+#'
+#'
+
 read_excel2 = function(fn, sheet = 1, skip =0, na = "", ...) {
   ## inspired by the idea of data.table::fread to automatically switch to text if a column is not as expected to be numeric, logical etc.
 
@@ -29,6 +32,16 @@ read_excel2 = function(fn, sheet = 1, skip =0, na = "", ...) {
 
   # myfile_list = tryCatch(read_excel(fn,sheet = sheet, ...),warning=function(w) return(list(read_excel(fn,sheet = sheet, ...),w))) ## leider nur eine warning, bruache aber alle
   ## better this: https://stackoverflow.com/questions/3903157/how-can-i-check-whether-a-function-call-results-in-a-warning
+
+  withWarnings <- function(fn,sheet = sheet) {
+    myWarnings <- NULL
+    wHandler <- function(w) {
+      myWarnings <<- c(myWarnings, list(w))
+      invokeRestart("muffleWarning")
+    }
+    val <- withCallingHandlers(readxl::read_excel(fn,sheet , skip =skip, na = na,...), warning = wHandler)
+    list(value = val, warnings = myWarnings)
+  }
 
   myfile_list = withWarnings(fn, sheet)
 
@@ -46,7 +59,7 @@ read_excel2 = function(fn, sheet = 1, skip =0, na = "", ...) {
     # print(names(myfile))
     col_types[cols2text] <- 'text'
     # print(col_types)
-    myfile = readxl::read_excel(fn,sheet = sheet, col_type=col_types,skip =skip, na = na, ...)
+    myfile = readxl::read_excel(fn,sheet = sheet, col_types=col_types,skip =skip, na = na, ...)
   } else myfile = myfile_list$value
   data.table::setDT(myfile)
 

@@ -5,8 +5,8 @@
 \title{FUNCTION_TITLE}
 \usage{
 qqPlotMinP(x, number_of_tests = 3, xlab = expression(Expected ~
-  ~-log[10](crayon::italic(p[min]))), ylab = expression(Observed ~
-  ~-log[10](crayon::italic(p[min]))), main = deparse(substitute(x)),
+  ~-log[10](grDevices::italic(p[min]))), ylab = expression(Observed ~
+  ~-log[10](grDevices::italic(p[min]))), main = deparse(substitute(x)),
   las = graphics::par("las"),
   subtitle = paste0("(Considering minimum of ", number_of_tests,
   " independent p-value-series)"), envelope = 0.95,

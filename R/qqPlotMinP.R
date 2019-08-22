@@ -25,20 +25,20 @@
 #' @param ... PARAM_DESCRIPTION
 #' @return OUTPUT_DESCRIPTION
 #' @details DETAILS
-#' @examples 
+#' @examples
 #' \dontrun{
 #' if(interactive()){
 #'  #EXAMPLE1
 #'  }
 #' }
-#' @seealso 
-#'  
+#' @seealso
+#'
 #' @rdname qqPlotMinP
-#' @export 
+#' @export
 #' @import data.table
 qqPlotMinP = function (x, number_of_tests = 3, xlab = expression(Expected ~
-                                                                   ~-log[10](crayon::italic(p[min]))), ylab = expression(Observed ~
-                                                                                                                   ~-log[10](crayon::italic(p[min]))), main = deparse(substitute(x)),
+                                                                   ~-log[10](grDevices::italic(p[min]))), ylab = expression(Observed ~
+                                                                                                                   ~-log[10](grDevices::italic(p[min]))), main = deparse(substitute(x)),
                        las = graphics::par("las"), subtitle = paste0("(Considering minimum of ",
                                                            number_of_tests, " independent p-value-series)"), envelope = 0.95,
                        col = grDevices::palette()[1], col.lines = grDevices::palette()[2], lwd = 2, pch = 16,

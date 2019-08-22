@@ -1,4 +1,25 @@
-### write delimeted tab
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param x PARAM_DESCRIPTION
+#' @param y PARAM_DESCRIPTION
+#' @param writeColnames PARAM_DESCRIPTION, Default: T
+#' @param writeRownames PARAM_DESCRIPTION, Default: F
+#' @param createDir PARAM_DESCRIPTION, Default: F
+#' @param ... PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso 
+#'  
+#' @rdname write.delim
+#' @export 
+#' @import stringr
+#' @import utils
 write.delim = function(x, y, writeColnames=T,writeRownames = F, createDir = F, ...) {
   ## create Dir option hinyugefuegt
   # 8.2. rownameparameter hinzugefuegt

@@ -10,19 +10,20 @@
 #' @param ... PARAM_DESCRIPTION
 #' @return OUTPUT_DESCRIPTION
 #' @details DETAILS
-#' @examples 
+#' @examples
 #' \dontrun{
 #' if(interactive()){
 #'  #EXAMPLE1
 #'  }
 #' }
-#' @seealso 
-#'  
+#' @seealso
+#'
 #' @rdname fwriteGz
-#' @export 
+#' @export
 #' @import R.utils
 fwriteGz = function(df, filename, gzip = T, delim = "\t", overwriteGz = T, ...) {
   data.table::fwrite(df, filename, sep = delim, ...)
-  R.utils::gzip(filename,overwrite=overwriteGz)
+  message('Now creating gz from file ,' ,filename )
+  if(gzip ==T) R.utils::gzip(filename,overwrite=overwriteGz)
   message('wrote ', paste0(filename, ".gz"))
 }

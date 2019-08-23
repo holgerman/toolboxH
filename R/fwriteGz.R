@@ -1,15 +1,15 @@
 ### write with fwrite tabbed gz file
 
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
-#' @param df PARAM_DESCRIPTION
-#' @param filename PARAM_DESCRIPTION
-#' @param gzip PARAM_DESCRIPTION, Default: T
-#' @param delim PARAM_DESCRIPTION, Default: '	'
-#' @param overwriteGz PARAM_DESCRIPTION, Default: T
-#' @param ... PARAM_DESCRIPTION
-#' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
+#' @title Combining fwrite() with gz
+#' @description Wrapper for fwrite and gz from R.utils
+#' @param df Dataframe or data.table to save
+#' @param filename Filename without gz suffix
+#' @param gzip Whether to gz after writing, Default: T
+#' @param delim Delimiter, Default is tab: `\t`
+#' @param overwriteGz Overwrite an existing gz file Default: T
+#' @param ... passed to fwrite()
+#' @return The written and gz compressed file
+#' @details Should work on Linux and Windows
 #' @examples
 #' \dontrun{
 #' if(interactive()){

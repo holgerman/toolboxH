@@ -2,31 +2,31 @@
 % Please edit documentation in R/fwriteGz.R
 \name{fwriteGz}
 \alias{fwriteGz}
-\title{FUNCTION_TITLE}
+\title{Combining fwrite() with gz}
 \usage{
 fwriteGz(df, filename, gzip = T, delim = "\\t", overwriteGz = T, ...)
 }
 \arguments{
-\item{df}{PARAM_DESCRIPTION}
+\item{df}{Dataframe or data.table to save}
 
-\item{filename}{PARAM_DESCRIPTION}
+\item{filename}{Filename without gz suffix}
 
-\item{gzip}{PARAM_DESCRIPTION, Default: T}
+\item{gzip}{Whether to gz after writing, Default: T}
 
-\item{delim}{PARAM_DESCRIPTION, Default: '    '}
+\item{delim}{Delimiter, Default is tab: `\t`}
 
-\item{overwriteGz}{PARAM_DESCRIPTION, Default: T}
+\item{overwriteGz}{Overwrite an existing gz file Default: T}
 
-\item{...}{PARAM_DESCRIPTION}
+\item{...}{passed to fwrite()}
 }
 \value{
-OUTPUT_DESCRIPTION
+The written and gz compressed file
 }
 \description{
-FUNCTION_DESCRIPTION
+Wrapper for fwrite and gz from R.utils
 }
 \details{
-DETAILS
+Should work on Linux and Windows
 }
 \examples{
 \dontrun{

@@ -89,6 +89,10 @@ qq_conf = function(x, df=1, x.max = "auto",
   }
 
   # Function to shade concentration band
+  shade <- function(x1, y1, x2, y2, color=col.shade) {
+    n <- length(x2)
+    graphics::polygon(c(x1, x2[n:1]), c(y1, y2[n:1]), border=NA, col=color)
+  }
 
   # Sort values and see how many out of range  #hk ergaenzt um mit zu sortierende attribute mitzufuehren
 

@@ -13,7 +13,7 @@ fwriteGz(df, filename, gzip = T, delim = "\\t", overwriteGz = T, ...)
 
 \item{gzip}{Whether to gz after writing, Default: T}
 
-\item{delim}{Delimiter, Default is tab: `\t`}
+\item{delim}{Delimiter, Default is tab}
 
 \item{overwriteGz}{Overwrite an existing gz file Default: T}
 

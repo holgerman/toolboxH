@@ -5,7 +5,7 @@
 #' @param df Dataframe or data.table to save
 #' @param filename Filename without gz suffix
 #' @param gzip Whether to gz after writing, Default: T
-#' @param delim Delimiter, Default is tab: `\t`
+#' @param delim Delimiter, Default is tab
 #' @param overwriteGz Overwrite an existing gz file Default: T
 #' @param ... passed to fwrite()
 #' @return The written and gz compressed file

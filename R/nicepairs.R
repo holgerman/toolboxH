@@ -22,7 +22,7 @@
 #' @export
 #' @import RColorBrewer
 #' @import stats
-nicepairs2 = function (x, punktcol = grDevices::rgb(0, 0, 0, 0.3), punktform = 4, punktgroesse = NULL,
+nicepairs = function (x, punktcol = grDevices::rgb(0, 0, 0, 0.3), punktform = 4, punktgroesse = NULL,
                        cortype = "spearman", smoothness = 0.95, ...)
 {
   panel.cor = function(x, y, digits = 2, prefix = "") {

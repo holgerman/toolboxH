@@ -31,7 +31,7 @@ readPlinkBim = function(x, useData.table=T, clever = NULL)
     return(file.bim)
   }
 
-  file.bim <- utils::read.delim(x, header = F)
+  file.bim <- read.delim(x, header = F)
   names(file.bim) <- c("chr", "snp", "lod", "pos", "a1", "a2")
   return(file.bim)
 

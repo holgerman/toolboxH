@@ -15,14 +15,14 @@
 #' @param ... PARAM_DESCRIPTION
 #' @return OUTPUT_DESCRIPTION
 #' @details DETAILS
-#' @examples 
+#' @examples
 #' \dontrun{
 #' if(interactive()){
 #'  #EXAMPLE1
 #'  }
 #' }
 #' @rdname venn
-#' @export 
+#' @export
 venn = function (x, snames = "", ilabels = FALSE, counts = FALSE, ellipse = FALSE,
                  zcolor = "style", opacity = 0.3, size = 15, cexil = 0.6, cexsn = 0.85,
                  ...) {
@@ -107,7 +107,7 @@ venn = function (x, snames = "", ilabels = FALSE, counts = FALSE, ellipse = FALS
       }
     }
     individual <- length(opacity) == nrow(tt)
-    ints <- utils::read.csv(file.path(system.file("data", package = "venn"),
+    ints <- read.csv(file.path(system.file("data", package = "venn"),
                                "ints.csv.gz"))
     openPlot(size)
     if (individual) {
@@ -302,7 +302,7 @@ venn = function (x, snames = "", ilabels = FALSE, counts = FALSE, ellipse = FALS
                                                                                                                                                                                                                                                 165, 30, 140, 955, 980, 780, 200, 15, 120, 690, 670,
                                                                                                                                                                                                                                                 850, 850, 670))
   if (ilabels | counts & !is.null(cts)) {
-    icoords <- utils::read.csv(file.path(system.file("data", package = "venn"),
+    icoords <- read.csv(file.path(system.file("data", package = "venn"),
                                   "icoords.csv.gz"))
     ilabels <- icoords$l[icoords$s == nofsets & icoords$v ==
                            as.numeric(ellipse)]

@@ -10,14 +10,14 @@
 #' @param ... PARAM_DESCRIPTION
 #' @return OUTPUT_DESCRIPTION
 #' @details DETAILS
-#' @examples 
+#' @examples
 #' \dontrun{
 #' if(interactive()){
 #'  #EXAMPLE1
 #'  }
 #' }
 #' @rdname match_hk
-#' @export 
+#' @export
 match_hk = function(x, y, testunique =T, makeunique = F,importcol = NULL,showMessages = T, ...) {
   ##150122 makeunique = F statt T, na.omit bei duplicated y, fehlenden ok fall includiert
   ##160328 check auf gleiche laenge x und improtcol
@@ -44,7 +44,7 @@ match_hk = function(x, y, testunique =T, makeunique = F,importcol = NULL,showMes
       if(is.null(importcol)) stop("When asking for make unique, please provide vector with values to be imported")
       if(length(importcol) != length(y)) stop("When asking for make unique, please provide vector with values to be imported")
 
-      datatable_da = "data.table" %in%  rownames(utils::installed.packages())
+      datatable_da = "data.table" %in%  rownames(installed.packages())
       datatable_da
       if(datatable_da) {
         matcher = unique(data.table::data.table(index = y, importcol = importcol))

@@ -23,7 +23,7 @@ parallelisiere = function(proc=3, on_server = Sys.info()['sysname']=="Linux", mk
     }
 
     doMC::registerDoMC(cores=proc)
-    if("RevoUtilsMath" %in% utils::installed.packages()) {
+    if("RevoUtilsMath" %in% installed.packages()) {
       RevoUtilsMath::setMKLthreads(1)
       message("MKL threads set to ", RevoUtilsMath::getMKLthreads())
     }
@@ -36,7 +36,7 @@ parallelisiere = function(proc=3, on_server = Sys.info()['sysname']=="Linux", mk
     }
 
     registerDoSNOW(snow::makeCluster(proc, type = "SOCK"))
-    if("RevoUtilsMath" %in% utils::installed.packages()) {
+    if("RevoUtilsMath" %in% installed.packages()) {
       RevoUtilsMath::setMKLthreads(1)
       message("MKL threads set to ", RevoUtilsMath::getMKLthreads())
     }

@@ -6,16 +6,16 @@
 #' @param do_science_output PARAM_DESCRIPTION, Default: F
 #' @return OUTPUT_DESCRIPTION
 #' @details DETAILS
-#' @examples 
+#' @examples
 #' \dontrun{
 #' if(interactive()){
 #'  #EXAMPLE1
 #'  }
 #' }
-#' @seealso 
-#'  
+#' @seealso
+#'
 #' @rdname mytable
-#' @export 
+#' @export
 #' @import stringr
 mytable = function (x, mydigits = 1, doprint = T, do_science_output = F) {
   res = c()
@@ -25,7 +25,7 @@ mytable = function (x, mydigits = 1, doprint = T, do_science_output = F) {
   res$output$percent = res$num /sum(res$num)
   res$output$observed = paste0(format(res$output$freq, big.mark=",", scientific=do_science_output), " (", round(res$output$percent*100,mydigits), "%)")
 
-  if('stringr' %in% utils::installed.packages()[,"Package"]) res$output$observed = stringr::str_trim(res$output$observed)
+  if('stringr' %in% installed.packages()[,"Package"]) res$output$observed = stringr::str_trim(res$output$observed)
   zeilennamen = as.character(res$output$category)
   zeilennamen[is.na(zeilennamen)] = "NA"
   rownames(res$output) = zeilennamen

@@ -7,14 +7,14 @@
 #' @param mypathwd PARAM_DESCRIPTION, Default: pathwd
 #' @return OUTPUT_DESCRIPTION
 #' @details DETAILS
-#' @examples 
+#' @examples
 #' \dontrun{
 #' if(interactive()){
 #'  #EXAMPLE1
 #'  }
 #' }
 #' @rdname finalizeSkript
-#' @export 
+#' @export
 finalizeSkript <- function(myfilename=filename, saveTheImage=F, dostr=F,mypathwd=pathwd){
   # 130418 variante do pdf entfernt, da man compile notebook in RStudio machen kann
   if(exists('myfilename') ==F) myfilename = "string_myfilenme_not_defined"
@@ -28,7 +28,7 @@ finalizeSkript <- function(myfilename=filename, saveTheImage=F, dostr=F,mypathwd
   message("==================================================================================")
   message("\n\nSession Info::\n\n")
 
-  print(utils::sessionInfo())
+  print(sessionInfo())
 
   if(dostr==T) {
     message("==================================================================================")
@@ -38,7 +38,7 @@ finalizeSkript <- function(myfilename=filename, saveTheImage=F, dostr=F,mypathwd
       if(mode(get(i)) != "function"){
         print("_________________________________")
         print(i)
-        utils::str(get(i))
+        str(get(i))
       }
 
     }

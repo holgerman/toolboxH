@@ -8,18 +8,18 @@
 #' @param ... PARAM_DESCRIPTION
 #' @return OUTPUT_DESCRIPTION
 #' @details DETAILS
-#' @examples 
+#' @examples
 #' \dontrun{
 #' if(interactive()){
 #'  #EXAMPLE1
 #'  }
 #' }
-#' @seealso 
-#'  
+#' @seealso
+#'
 #' @rdname write.delim
-#' @export 
+#' @export
 #' @import stringr
-#' @import utils
+
 write.delim = function(x, y, writeColnames=T,writeRownames = F, createDir = F, ...) {
   ## create Dir option hinyugefuegt
   # 8.2. rownameparameter hinzugefuegt
@@ -39,5 +39,5 @@ write.delim = function(x, y, writeColnames=T,writeRownames = F, createDir = F, .
 
   }
 
-  utils::write.table(x, y, quote=F, col.names=writeColnames, row.names= writeRownames, sep="\t")
+write.table(x, y, quote=F, col.names=writeColnames, row.names= writeRownames, sep="\t")
 }

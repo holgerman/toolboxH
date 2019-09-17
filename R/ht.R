@@ -5,17 +5,17 @@
 #' @param myrows PARAM_DESCRIPTION, Default: 10
 #' @return OUTPUT_DESCRIPTION
 #' @details DETAILS
-#' @examples 
+#' @examples
 #' \dontrun{
 #' if(interactive()){
 #'  #EXAMPLE1
 #'  }
 #' }
 #' @rdname ht
-#' @export 
+#' @export
 ht <- function ( d, myrows=10 )
 { ## updated 11.3. to show all if dim 1 smaller than myrows*2
   rows2show = min(dim(d)[1],myrows)
   if(dim(d)[1] <= 2*rows2show) return(d)
-  rbind ( utils::head ( d ,  rows2show ), utils::tail ( d ,  rows2show ))
+  rbind ( head ( d ,  rows2show ), tail ( d ,  rows2show ))
 }

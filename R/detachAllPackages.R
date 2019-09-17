@@ -4,14 +4,14 @@
 
 #' @return OUTPUT_DESCRIPTION
 #' @details DETAILS
-#' @examples 
+#' @examples
 #' \dontrun{
 #' if(interactive()){
 #'  #EXAMPLE1
 #'  }
 #' }
 #' @rdname detachAllPackages
-#' @export 
+#' @export
 detachAllPackages <- function() {
   message("not yet the desired replace for restarting R for fully solving related problems of incompatible packages frequently found on computeservers... in work")
 
@@ -23,16 +23,16 @@ detachAllPackages <- function() {
 
   if (length(package.list)>0)  for (package in package.list) detach(package, character.only=TRUE)
 
-  a = utils::sessionInfo()
+  a = sessionInfo()
   loadedonly = setdiff(names(a[["loadedOnly"]]), c('compiler', 'tools',    'yaml', 'grid'))
 
   while(length(loadedonly)>0) {
     message("Packages attached via namespace still to unload : ", length(loadedonly))
     try(unloadNamespace(sample(loadedonly, 1)),silent = T)
-    a = utils::sessionInfo()
+    a = sessionInfo()
     loadedonly = setdiff(names(a[["loadedOnly"]]), c('compiler' ,'tools',    'yaml', 'grid'))
   }
 
-  print(utils::sessionInfo())
+  print(sessionInfo())
 
 }

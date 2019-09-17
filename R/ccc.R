@@ -7,12 +7,12 @@
 #' @param x PARAM_DESCRIPTION
 #' @return OUTPUT_DESCRIPTION
 #' @details DETAILS
-#' @examples 
+#' @examples
 #' \dontrun{
 #' if(interactive()){
 #'  #EXAMPLE1
 #'  }
 #' }
 #' @rdname ccc
-#' @export 
-ccc <- function(x)utils::write.table(x, "clipboard",sep="\t",row.names=F)
+#' @export
+ccc <- function(x)write.table(x, "clipboard",sep="\t",row.names=F)

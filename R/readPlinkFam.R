@@ -3,17 +3,17 @@
 #' @param x PARAM_DESCRIPTION
 #' @return OUTPUT_DESCRIPTION
 #' @details DETAILS
-#' @examples 
+#' @examples
 #' \dontrun{
 #' if(interactive()){
 #'  #EXAMPLE1
 #'  }
 #' }
 #' @rdname readPlinkFam
-#' @export 
+#' @export
 readPlinkFam = function(x)
 {
-  file.fam <- utils::read.table(x, sep="")
+  file.fam <- read.table(x, sep="")
   names(file.fam) <- c("pid", "id", "fid", "mid" , "sex", "disease")
   file.fam
 }

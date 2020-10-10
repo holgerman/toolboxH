@@ -1,7 +1,7 @@
 Package: toolboxH
 Type: Package
 Title: Helperfunctions for R
-Version: 0.2.11
+Version: 0.2.12
 Author: Holger Kirsten
 Maintainer: Holger Kirste <holgerkirsten@web.de>
 Description: Helperfunctions making my life easier
@@ -10,4 +10,6 @@ Encoding: UTF-8
 LazyData: true
 Depends:
     data.table
+    R.utils
+    fdrtools
 RoxygenNote: 6.1.1

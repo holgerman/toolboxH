@@ -11,5 +11,5 @@ LazyData: true
 Depends:
     data.table,
     R.utils,
-    fdrtools
+    fdrtool
 RoxygenNote: 6.1.1

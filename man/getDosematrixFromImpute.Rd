@@ -4,9 +4,18 @@
 \alias{getDosematrixFromImpute}
 \title{FUNCTION_TITLE}
 \usage{
-getDosematrixFromImpute(snps, chr, geno_fn, sample_fn, n_threads = 1,
-  createPlinkCommandOnly = F, additionallyTransposeFile = T,
-  outfile = tempfile(), snps_fn = tempfile(), use_ids = "id2")
+getDosematrixFromImpute(
+  snps,
+  chr,
+  geno_fn,
+  sample_fn,
+  n_threads = 1,
+  createPlinkCommandOnly = F,
+  additionallyTransposeFile = T,
+  outfile = tempfile(),
+  snps_fn = tempfile(),
+  use_ids = "id2"
+)
 }
 \arguments{
 \item{snps}{PARAM_DESCRIPTION}

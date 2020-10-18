@@ -4,9 +4,19 @@
 \alias{venn}
 \title{FUNCTION_TITLE}
 \usage{
-venn(x, snames = "", ilabels = FALSE, counts = FALSE,
-  ellipse = FALSE, zcolor = "style", opacity = 0.3, size = 15,
-  cexil = 0.6, cexsn = 0.85, ...)
+venn(
+  x,
+  snames = "",
+  ilabels = FALSE,
+  counts = FALSE,
+  ellipse = FALSE,
+  zcolor = "style",
+  opacity = 0.3,
+  size = 15,
+  cexil = 0.6,
+  cexsn = 0.85,
+  ...
+)
 }
 \arguments{
 \item{x}{PARAM_DESCRIPTION}

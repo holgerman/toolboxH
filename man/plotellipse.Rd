@@ -4,8 +4,15 @@
 \alias{plotellipse}
 \title{FUNCTION_TITLE}
 \usage{
-plotellipse(center = c(1, 1), radius = c(1, 2), rotate = 1,
-  segments = 360, xlab = "", ylab = "", ...)
+plotellipse(
+  center = c(1, 1),
+  radius = c(1, 2),
+  rotate = 1,
+  segments = 360,
+  xlab = "",
+  ylab = "",
+  ...
+)
 }
 \arguments{
 \item{center}{PARAM_DESCRIPTION, Default: c(1, 1)}

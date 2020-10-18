@@ -4,8 +4,10 @@
 \alias{readSNPTESTsamplefileASdata.table}
 \title{FUNCTION_TITLE}
 \usage{
-readSNPTESTsamplefileASdata.table(snptest_sample_fn,
-  makeBinaryOutcomeNumeric12 = T)
+readSNPTESTsamplefileASdata.table(
+  snptest_sample_fn,
+  makeBinaryOutcomeNumeric12 = T
+)
 }
 \arguments{
 \item{snptest_sample_fn}{PARAM_DESCRIPTION}

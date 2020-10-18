@@ -4,10 +4,23 @@
 \alias{venndiagram}
 \title{FUNCTION_TITLE}
 \usage{
-venndiagram(x = x, y = y, z = z, w = w, unique = T,
-  title = "Venn Diagram", labels = c("x", "y", "z", "w"), lines = 1,
-  lcol = 1, tcol = 1, diacol = 1, plot = T, type = "3",
-  printsub = TRUE, ...)
+venndiagram(
+  x = x,
+  y = y,
+  z = z,
+  w = w,
+  unique = T,
+  title = "Venn Diagram",
+  labels = c("x", "y", "z", "w"),
+  lines = 1,
+  lcol = 1,
+  tcol = 1,
+  diacol = 1,
+  plot = T,
+  type = "3",
+  printsub = TRUE,
+  ...
+)
 }
 \arguments{
 \item{x}{PARAM_DESCRIPTION, Default: x}

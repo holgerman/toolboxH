@@ -4,8 +4,17 @@
 \alias{marginal_plot}
 \title{FUNCTION_TITLE}
 \usage{
-marginal_plot(x, y, group = NULL, data = NULL, lm_formula = y ~ x,
-  bw = "nrd0", alpha = 1, plot_legend = T, ...)
+marginal_plot(
+  x,
+  y,
+  group = NULL,
+  data = NULL,
+  lm_formula = y ~ x,
+  bw = "nrd0",
+  alpha = 1,
+  plot_legend = T,
+  ...
+)
 }
 \arguments{
 \item{x}{PARAM_DESCRIPTION}

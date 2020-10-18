@@ -4,8 +4,11 @@
 \alias{parallelisiere}
 \title{FUNCTION_TITLE}
 \usage{
-parallelisiere(proc = 3, on_server = Sys.info()["sysname"] == "Linux",
-  mkl_threads = 1)
+parallelisiere(
+  proc = 3,
+  on_server = Sys.info()["sysname"] == "Linux",
+  mkl_threads = 1
+)
 }
 \arguments{
 \item{proc}{PARAM_DESCRIPTION, Default: 3}

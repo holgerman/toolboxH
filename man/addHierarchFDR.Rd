@@ -4,9 +4,15 @@
 \alias{addHierarchFDR}
 \title{FUNCTION_TITLE}
 \usage{
-addHierarchFDR(pvalues, categs, fdr2control = 0.05,
-  fdrmethod_level1 = "BH", fdrmethod_level2 = "BH",
-  correctionLevel1 = "BB", quiet = FALSE)
+addHierarchFDR(
+  pvalues,
+  categs,
+  fdr2control = 0.05,
+  fdrmethod_level1 = "BH",
+  fdrmethod_level2 = "BH",
+  correctionLevel1 = "BB",
+  quiet = FALSE
+)
 }
 \arguments{
 \item{pvalues}{PARAM_DESCRIPTION}

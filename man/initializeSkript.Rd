@@ -4,11 +4,16 @@
 \alias{initializeSkript}
 \title{FUNCTION_TITLE}
 \usage{
-initializeSkript(datatable_lines = 3, datatable_nrow_allshow = 10,
-  datatable_colwidth = 40L, datatable_cores = 10,
-  computer = "amanMRO", add_libpath = T,
+initializeSkript(
+  datatable_lines = 3,
+  datatable_nrow_allshow = 10,
+  datatable_colwidth = 40L,
+  datatable_cores = 10,
+  computer = "amanMRO",
+  add_libpath = T,
   lib_location = "/net/ifs1/san_projekte/projekte/genstat/07_programme/rpackages/",
-  myfilename = NULL)
+  myfilename = NULL
+)
 }
 \arguments{
 \item{datatable_lines}{PARAM_DESCRIPTION, Default: 3}

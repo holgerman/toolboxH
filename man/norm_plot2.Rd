@@ -4,9 +4,14 @@
 \alias{norm_plot2}
 \title{FUNCTION_TITLE}
 \usage{
-norm_plot2(vektor, x_lim = c(min(vektor) - min(vektor) * 0.5, max(vektor)
-  + max(vektor) * 0.1), titelgroesse = 1, mybreaks = NULL,
-  vektorname = NULL, ...)
+norm_plot2(
+  vektor,
+  x_lim = c(min(vektor) - min(vektor) * 0.5, max(vektor) + max(vektor) * 0.1),
+  titelgroesse = 1,
+  mybreaks = NULL,
+  vektorname = NULL,
+  ...
+)
 }
 \arguments{
 \item{vektor}{PARAM_DESCRIPTION}

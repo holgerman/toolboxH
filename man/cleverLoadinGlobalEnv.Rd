@@ -4,8 +4,13 @@
 \alias{cleverLoadinGlobalEnv}
 \title{FUNCTION_TITLE}
 \usage{
-cleverLoadinGlobalEnv(name, path, myenvir = .GlobalEnv,
-  number_or_name = NULL, ...)
+cleverLoadinGlobalEnv(
+  name,
+  path,
+  myenvir = .GlobalEnv,
+  number_or_name = NULL,
+  ...
+)
 }
 \arguments{
 \item{name}{PARAM_DESCRIPTION}

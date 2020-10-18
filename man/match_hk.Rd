@@ -4,8 +4,15 @@
 \alias{match_hk}
 \title{FUNCTION_TITLE}
 \usage{
-match_hk(x, y, testunique = T, makeunique = F, importcol = NULL,
-  showMessages = T, ...)
+match_hk(
+  x,
+  y,
+  testunique = T,
+  makeunique = F,
+  importcol = NULL,
+  showMessages = T,
+  ...
+)
 }
 \arguments{
 \item{x}{PARAM_DESCRIPTION}

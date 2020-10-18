@@ -4,8 +4,17 @@
 \alias{ellipseVenn}
 \title{FUNCTION_TITLE}
 \usage{
-ellipseVenn(lines = lines, olDF, title = title, labels = labels,
-  sub = mysub, main, lcol = lcol, tcex = 1.3, ...)
+ellipseVenn(
+  lines = lines,
+  olDF,
+  title = title,
+  labels = labels,
+  sub = mysub,
+  main,
+  lcol = lcol,
+  tcex = 1.3,
+  ...
+)
 }
 \arguments{
 \item{lines}{PARAM_DESCRIPTION, Default: lines}

@@ -10,10 +10,6 @@ theme_peter(beschriftungszahlengroesse = 20, relfak = 2)
 \item{beschriftungszahlengroesse}{PARAM_DESCRIPTION, Default: 20}
 
 \item{relfak}{PARAM_DESCRIPTION, Default: 2}
-
-\item{beschriftungszahlengroesse}{PARAM_DESCRIPTION, Default: 20}
-
-\item{relfak}{PARAM_DESCRIPTION, Default: 2}
 }
 \value{
 OUTPUT_DESCRIPTION

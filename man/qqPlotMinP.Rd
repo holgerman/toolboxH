@@ -4,18 +4,30 @@
 \alias{qqPlotMinP}
 \title{FUNCTION_TITLE}
 \usage{
-qqPlotMinP(x, number_of_tests = 3, xlab = expression(Expected ~
-  ~-log[10](grDevices::italic(p[min]))), ylab = expression(Observed ~
-  ~-log[10](grDevices::italic(p[min]))), main = deparse(substitute(x)),
+qqPlotMinP(
+  x,
+  number_of_tests = 3,
+  xlab = expression(Expected ~ ~-log[10](grDevices::italic(p[min]))),
+  ylab = expression(Observed ~ ~-log[10](grDevices::italic(p[min]))),
+  main = deparse(substitute(x)),
   las = graphics::par("las"),
   subtitle = paste0("(Considering minimum of ", number_of_tests,
-  " independent p-value-series)"), envelope = 0.95,
-  col = grDevices::palette()[1], col.lines = grDevices::palette()[2],
-  lwd = 2, pch = 16, cex = graphics::par("cex"), labels = if
-  (!is.null(names(x))) names(x) else seq(along = x), id.method = "y",
-  id.n = if (id.method[1] == "identify") Inf else 0, id.cex = 1,
-  id.col = grDevices::palette()[1], id.location = "lr", grid = TRUE,
-  ...)
+    " independent p-value-series)"),
+  envelope = 0.95,
+  col = grDevices::palette()[1],
+  col.lines = grDevices::palette()[2],
+  lwd = 2,
+  pch = 16,
+  cex = graphics::par("cex"),
+  labels = if (!is.null(names(x))) names(x) else seq(along = x),
+  id.method = "y",
+  id.n = if (id.method[1] == "identify") Inf else 0,
+  id.cex = 1,
+  id.col = grDevices::palette()[1],
+  id.location = "lr",
+  grid = TRUE,
+  ...
+)
 }
 \arguments{
 \item{x}{PARAM_DESCRIPTION}

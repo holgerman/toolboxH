@@ -4,8 +4,7 @@
 \alias{knitrHelper}
 \title{FUNCTION_TITLE}
 \usage{
-knitrHelper(myfilename = filename, mypathwd = pathwd,
-  computer = "amanMRO")
+knitrHelper(myfilename = filename, mypathwd = pathwd, computer = "amanMRO")
 }
 \arguments{
 \item{myfilename}{PARAM_DESCRIPTION, Default: filename}

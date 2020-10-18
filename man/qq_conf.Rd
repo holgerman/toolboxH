@@ -4,13 +4,33 @@
 \alias{qq_conf}
 \title{FUNCTION_TITLE}
 \usage{
-qq_conf(x, df = 1, x.max = "auto", main = "QQ plot",
-  plotType = "pval", sub = paste(""), xlab = "Expected",
-  ylab = "Observed", conc = c(0.025, 0.975), overdisp = FALSE,
-  trim = 0.5, slope.one = T, slope.lambda = FALSE, thin = c(0.25,
-  100), oor.pch = 24, col.shade = "gray", ofname = "qqchi.pdf",
-  h = 6, w = 6, printpdf = F, myxlim = "auto", point_cex = 0.5,
-  point_col = 1, point_pch = 1, ...)
+qq_conf(
+  x,
+  df = 1,
+  x.max = "auto",
+  main = "QQ plot",
+  plotType = "pval",
+  sub = paste(""),
+  xlab = "Expected",
+  ylab = "Observed",
+  conc = c(0.025, 0.975),
+  overdisp = FALSE,
+  trim = 0.5,
+  slope.one = T,
+  slope.lambda = FALSE,
+  thin = c(0.25, 100),
+  oor.pch = 24,
+  col.shade = "gray",
+  ofname = "qqchi.pdf",
+  h = 6,
+  w = 6,
+  printpdf = F,
+  myxlim = "auto",
+  point_cex = 0.5,
+  point_col = 1,
+  point_pch = 1,
+  ...
+)
 }
 \arguments{
 \item{x}{PARAM_DESCRIPTION}

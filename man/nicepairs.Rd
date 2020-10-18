@@ -4,8 +4,15 @@
 \alias{nicepairs}
 \title{FUNCTION_TITLE}
 \usage{
-nicepairs(x, punktcol = grDevices::rgb(0, 0, 0, 0.3), punktform = 4,
-  punktgroesse = NULL, cortype = "spearman", smoothness = 0.95, ...)
+nicepairs(
+  x,
+  punktcol = grDevices::rgb(0, 0, 0, 0.3),
+  punktform = 4,
+  punktgroesse = NULL,
+  cortype = "spearman",
+  smoothness = 0.95,
+  ...
+)
 }
 \arguments{
 \item{x}{PARAM_DESCRIPTION}

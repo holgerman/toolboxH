@@ -4,8 +4,7 @@
 \alias{write.delim}
 \title{FUNCTION_TITLE}
 \usage{
-write.delim(x, y, writeColnames = T, writeRownames = F,
-  createDir = F, ...)
+write.delim(x, y, writeColnames = T, writeRownames = F, createDir = F, ...)
 }
 \arguments{
 \item{x}{PARAM_DESCRIPTION}

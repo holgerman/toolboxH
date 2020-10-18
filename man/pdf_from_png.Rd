@@ -4,9 +4,17 @@
 \alias{pdf_from_png}
 \title{FUNCTION_TITLE}
 \usage{
-pdf_from_png(code2parseOrPlot, pdf_filename, temp_pngfile = tempfile(),
-  resolution = 300, weite = 13, laenge = 13, einheiten = "cm",
-  as1file = T, ...)
+pdf_from_png(
+  code2parseOrPlot,
+  pdf_filename,
+  temp_pngfile = tempfile(),
+  resolution = 300,
+  weite = 13,
+  laenge = 13,
+  einheiten = "cm",
+  as1file = T,
+  ...
+)
 }
 \arguments{
 \item{code2parseOrPlot}{PARAM_DESCRIPTION}

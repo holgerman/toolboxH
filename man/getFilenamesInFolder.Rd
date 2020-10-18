@@ -4,8 +4,11 @@
 \alias{getFilenamesInFolder}
 \title{FUNCTION_TITLE}
 \usage{
-getFilenamesInFolder(erkennungsstring = "\\\\.txt$",
-  on_server = Sys.info()["sysname"] == "Linux", wd = getwd())
+getFilenamesInFolder(
+  erkennungsstring = "\\\\.txt$",
+  on_server = Sys.info()["sysname"] == "Linux",
+  wd = getwd()
+)
 }
 \arguments{
 \item{erkennungsstring}{PARAM_DESCRIPTION, Default: '\.txt$'}

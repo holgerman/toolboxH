@@ -4,9 +4,18 @@
 \alias{barplot_hk}
 \title{FUNCTION_TITLE}
 \usage{
-barplot_hk(x, shift = "calc", srt = 0, dotable = T, cext = 1,
-  textrotate = 0, myround = 3, showproz = T, colplot = "darkred",
-  ...)
+barplot_hk(
+  x,
+  shift = "calc",
+  srt = 0,
+  dotable = T,
+  cext = 1,
+  textrotate = 0,
+  myround = 3,
+  showproz = T,
+  colplot = "darkred",
+  ...
+)
 }
 \arguments{
 \item{x}{PARAM_DESCRIPTION}

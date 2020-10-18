@@ -4,8 +4,17 @@
 \alias{getPlinkFromImpute}
 \title{FUNCTION_TITLE}
 \usage{
-getPlinkFromImpute(snps, chr, geno_fn, sample_fn, outfile, n_threads = 1,
-  createPlinkCommandOnly = F, snps_fn = tempfile(), use_ids = "id2")
+getPlinkFromImpute(
+  snps,
+  chr,
+  geno_fn,
+  sample_fn,
+  outfile,
+  n_threads = 1,
+  createPlinkCommandOnly = F,
+  snps_fn = tempfile(),
+  use_ids = "id2"
+)
 }
 \arguments{
 \item{snps}{PARAM_DESCRIPTION}

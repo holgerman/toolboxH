@@ -4,9 +4,18 @@
 \alias{grayplot_na}
 \title{FUNCTION_TITLE}
 \usage{
-grayplot_na(x, y = NULL, type = "p", bgcolor = "gray90",
-  v_over_h = FALSE, pch = 21, bg = "lightblue", col = "black",
-  force = c("none", "x", "y", "both"), ...)
+grayplot_na(
+  x,
+  y = NULL,
+  type = "p",
+  bgcolor = "gray90",
+  v_over_h = FALSE,
+  pch = 21,
+  bg = "lightblue",
+  col = "black",
+  force = c("none", "x", "y", "both"),
+  ...
+)
 }
 \arguments{
 \item{x}{PARAM_DESCRIPTION}

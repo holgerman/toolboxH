@@ -4,9 +4,17 @@
 \alias{WriteXLS_hk}
 \title{FUNCTION_TITLE}
 \usage{
-WriteXLS_hk(x, ExcelFileName = "R.xls", SheetNames = x,
-  AutoFilter = T, BoldHeaderRow = T, FreezeRow = 1, FreezeCol = 1,
-  AdjWidth = F, ...)
+WriteXLS_hk(
+  x,
+  ExcelFileName = "R.xls",
+  SheetNames = x,
+  AutoFilter = T,
+  BoldHeaderRow = T,
+  FreezeRow = 1,
+  FreezeCol = 1,
+  AdjWidth = F,
+  ...
+)
 }
 \arguments{
 \item{x}{PARAM_DESCRIPTION}

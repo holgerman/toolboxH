@@ -4,8 +4,12 @@
 \alias{finalizeSkript}
 \title{FUNCTION_TITLE}
 \usage{
-finalizeSkript(myfilename = filename, saveTheImage = F, dostr = F,
-  mypathwd = pathwd)
+finalizeSkript(
+  myfilename = filename,
+  saveTheImage = F,
+  dostr = F,
+  mypathwd = pathwd
+)
 }
 \arguments{
 \item{myfilename}{PARAM_DESCRIPTION, Default: filename}

@@ -4,9 +4,15 @@
 \alias{plotCorMatrix}
 \title{FUNCTION_TITLE}
 \usage{
-plotCorMatrix(m_psy, relaxissize = 2, rellabelsize = 15,
-  textangle = 30, maxcolor = "darkred", mincolor = "white",
-  rundestellen = 2)
+plotCorMatrix(
+  m_psy,
+  relaxissize = 2,
+  rellabelsize = 15,
+  textangle = 30,
+  maxcolor = "darkred",
+  mincolor = "white",
+  rundestellen = 2
+)
 }
 \arguments{
 \item{m_psy}{PARAM_DESCRIPTION}

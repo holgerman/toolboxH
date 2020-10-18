@@ -4,11 +4,19 @@
 \alias{colplotLikeExcel}
 \title{FUNCTION_TITLE}
 \usage{
-colplotLikeExcel(plotdat, mycolors = c("dodgerblue2", "white", "red"),
-  lowest_colorval = "minimum", middle_colorval = "median",
-  highest_colorval = "maximum", xlabel = "", ylabel = "",
-  x_axis_pos = "top", myround = 0, userdefined_labels = NULL,
-  row_names = NULL)
+colplotLikeExcel(
+  plotdat,
+  mycolors = c("dodgerblue2", "white", "red"),
+  lowest_colorval = "minimum",
+  middle_colorval = "median",
+  highest_colorval = "maximum",
+  xlabel = "",
+  ylabel = "",
+  x_axis_pos = "top",
+  myround = 0,
+  userdefined_labels = NULL,
+  row_names = NULL
+)
 }
 \arguments{
 \item{plotdat}{PARAM_DESCRIPTION}

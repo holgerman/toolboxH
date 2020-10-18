@@ -4,16 +4,45 @@
 \alias{hidegrayplot_na}
 \title{FUNCTION_TITLE}
 \usage{
-hidegrayplot_na(x, y, ..., type = "p", hlines = NULL,
-  hlines.col = "white", hlines.lty = 1, hlines.lwd = 1,
-  vlines = NULL, vlines.col = "white", vlines.lty = 1,
-  vlines.lwd = 1, xat = NULL, yat = NULL, bgcolor = "gray90",
-  xaxt = "n", yaxt = "n", col.lab = graphics::par("col.lab"),
-  xlim = NULL, ylim = NULL, xlab = NULL, ylab = NULL, xname, yname,
-  xaxs = "i", yaxs = "i", pch = 21, bg = "lightblue",
-  col = "black", las = 1, mgp.x = c(2.6, 0.5, 0), mgp.y = c(2.6,
-  0.5, 0), force = c("none", "x", "y", "both"), v_over_h = FALSE,
-  na.width = 0.06, na.gap = 0.01, main = "")
+hidegrayplot_na(
+  x,
+  y,
+  ...,
+  type = "p",
+  hlines = NULL,
+  hlines.col = "white",
+  hlines.lty = 1,
+  hlines.lwd = 1,
+  vlines = NULL,
+  vlines.col = "white",
+  vlines.lty = 1,
+  vlines.lwd = 1,
+  xat = NULL,
+  yat = NULL,
+  bgcolor = "gray90",
+  xaxt = "n",
+  yaxt = "n",
+  col.lab = graphics::par("col.lab"),
+  xlim = NULL,
+  ylim = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  xname,
+  yname,
+  xaxs = "i",
+  yaxs = "i",
+  pch = 21,
+  bg = "lightblue",
+  col = "black",
+  las = 1,
+  mgp.x = c(2.6, 0.5, 0),
+  mgp.y = c(2.6, 0.5, 0),
+  force = c("none", "x", "y", "both"),
+  v_over_h = FALSE,
+  na.width = 0.06,
+  na.gap = 0.01,
+  main = ""
+)
 }
 \arguments{
 \item{x}{PARAM_DESCRIPTION}

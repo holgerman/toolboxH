@@ -4,8 +4,11 @@
 \alias{bauePlinkCall}
 \title{FUNCTION_TITLE}
 \usage{
-bauePlinkCall(on_server = as.character(Sys.info()["sysname"]) == "Linux",
-  showMessage1 = T, showMessage2 = T)
+bauePlinkCall(
+  on_server = as.character(Sys.info()["sysname"]) == "Linux",
+  showMessage1 = T,
+  showMessage2 = T
+)
 }
 \arguments{
 \item{on_server}{PARAM_DESCRIPTION, Default: as.character(Sys.info()["sysname"]) == "Linux"}

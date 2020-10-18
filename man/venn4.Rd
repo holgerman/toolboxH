@@ -4,8 +4,16 @@
 \alias{venn4}
 \title{FUNCTION_TITLE}
 \usage{
-venn4(x1, y1, z1, w1, mytitle = "4-Way Venn Diagram", mylabels = NA,
-  plotte = T, venntype = "4el")
+venn4(
+  x1,
+  y1,
+  z1,
+  w1,
+  mytitle = "4-Way Venn Diagram",
+  mylabels = NA,
+  plotte = T,
+  venntype = "4el"
+)
 }
 \arguments{
 \item{x1}{PARAM_DESCRIPTION}

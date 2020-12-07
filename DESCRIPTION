@@ -1,7 +1,7 @@
 Package: toolboxH
 Type: Package
 Title: Helperfunctions for R
-Version: 0.2.13
+Version: 0.2.14
 Author: Holger Kirsten
 Maintainer: Holger Kirste <holgerkirsten@web.de>
 Description: Helperfunctions making my life easier
@@ -13,5 +13,5 @@ Depends:
     R.utils,
     fdrtool,
     png,
-    RColorBrewer, readxl, scales, stringr, testthat
+    RColorBrewer, readxl, scales, stringr, testthat, eulerr
 RoxygenNote: 7.1.1

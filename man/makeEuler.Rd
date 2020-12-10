@@ -23,7 +23,7 @@ makeEuler(
 
 \item{titletext}{Plot Title, Default: ''}
 
-\item{legendtext}{Plot legend, must have length 2, Default: NULL}
+\item{legendtext}{Plot legend, default is the names of the input tables, if set must be acharacter vector of length 2, Default: NULL}
 
 \item{plotteIntermediates}{for debug only, plot intermediate venn plots, Default: F}
 
@@ -39,13 +39,12 @@ makeEuler(
 Returns a plot and the code to generate the plot
 }
 \description{
-Create a Proportional Euler Diagram
+Create a 2-way Proportional Euler Diagram
 }
 \details{
 DETAILS
 }
 \examples{
-if(interactive()){
  #EXAMPLE1
  library(eulerr)
 library(toolboxH)
@@ -56,5 +55,5 @@ tab2 = data.table(object = letters[5:25], direction = rnorm(21))
 tab2
 
 plottext = makeEuler(tab1 , tab2 , titletext = "Yes, we can Make a Title great again")
- }
+# savePlotInMultiFormats("exampleplot", 4, 3, plotecode = plottext)
 }

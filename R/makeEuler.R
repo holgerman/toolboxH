@@ -1,9 +1,9 @@
 #' @title Create a Proportional Euler Diagram
-#' @description Create a Proportional Euler Diagram
+#' @description Create a 2-way Proportional Euler Diagram
 #' @param mytab1 First table with objects and effect sizes to compare
 #' @param mytab2 Secib table with objects and effect sizes to compare
 #' @param titletext Plot Title, Default: ''
-#' @param legendtext Plot legend, must have length 2, Default: NULL
+#' @param legendtext Plot legend, default is the names of the input tables, if set must be acharacter vector of length 2, Default: NULL
 #' @param plotteIntermediates for debug only, plot intermediate venn plots, Default: F
 #' @param createSimplifiedLabels show only Number of objects with identical direction in label of the intersect , Default: F
 #' @param object_colname Column name in table mytab1 with the objects to compare, Default: 'object'
@@ -12,7 +12,6 @@
 #' @return Returns a plot and the code to generate the plot
 #' @details DETAILS
 #' @examples
-#' if(interactive()){
 #'  #EXAMPLE1
 #'  library(eulerr)
 #'library(toolboxH)
@@ -23,7 +22,7 @@
 #'tab2
 #'
 #'plottext = makeEuler(tab1 , tab2 , titletext = "Yes, we can Make a Title great again")
-#'  }
+#' # savePlotInMultiFormats("exampleplot", 4, 3, plotecode = plottext)
 #' @rdname makeEuler
 #' @export
 #'
@@ -45,7 +44,12 @@ makeEuler  = function(mytab1,
   mytab2 = copy(mytab2)
 
   mytab1[, object := get(object_colname)]
+  mytab1[, direction := get(direction_colname)]
+
+  mytab2[, object := get(object_colname)]
   mytab2[, direction := get(direction_colname)]
+
+
 
   tab1_all = mytab1[,object]
 

@@ -6,3 +6,9 @@
 
 # toolboxH 0.2.15
 * Fixing function makeEuler()
+
+
+# toolboxH 0.2.16
+* 21-02-28 Adding function plotSankey()
+
+

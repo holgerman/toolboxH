@@ -1,3 +1,6 @@
+# toolboxH 0.2.17
+* 21-06-23 Improving function colplotLikeExcel()
+
 # toolboxH 0.2.14
 
 * Added a `NEWS.md` file to track changes to the package.

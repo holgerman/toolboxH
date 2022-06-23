@@ -27,7 +27,7 @@
 #' @rdname colplotLikeExcel
 #' @export
 #' @import scales
-colplotLikeExcel = function(plotdat, mycolors = c("dodgerblue2", "white", "red"),lowest_colorval = "minimum", middle_colorval = "median", highest_colorval = "maximum", xlabel = "", ylabel = "", x_axis_pos = "top", myround = 0, userdefined_labels = NULL, row_names = NULL){
+colplotLikeExcel = function(plotdat, mycolors = c("dodgerblue2", "white", "red"),lowest_colorval = "minimum", middle_colorval = "median", highest_colorval = "maximum", xlabel = "", ylabel = "", x_axis_pos = "top", myround = 0, userdefined_labels = NULL, row_names = NULL, sort_via_value = T){
   plotdat_m = reshape2::melt(plotdat) %>% data.table()
   var1name = names(plotdat_m)[1]
   var2name = names(plotdat_m)[2]
